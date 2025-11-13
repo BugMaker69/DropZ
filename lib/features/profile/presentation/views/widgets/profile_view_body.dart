@@ -6,6 +6,7 @@ import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
+import 'package:drop_z_ecommerce_app/features/profile/data/models/get_user_data_success.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/repos/user_profile_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/profile/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class ProfileViewBody extends StatelessWidget {
-  const ProfileViewBody({super.key});
+  ProfileViewBody({super.key});
+
+  static final firstNameController = TextEditingController();
+  static final lastNameController = TextEditingController();
+  static final emailController = TextEditingController();
+  static final phoneController = TextEditingController();
+
+  static final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,100 +30,129 @@ class ProfileViewBody extends StatelessWidget {
       child: BlocConsumer<UserProfileCubit, UserProfileState>(
         listener: (context, state) {
           if (state is UserProfileFailure) {
-            customSnakeBar(context, state.errMessage);
+            return customSnakeBar(context, state.errMessage);
           }
           if (state is AuthLoggedOut) {
-            context.go(AppRouter.kloginView);
+            print("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+            return context.go(AppRouter.kloginView);
+          }
+          if (state is UserProfileSuccess) {
+            firstNameController.text = state.getUserDataSuccess.firstName ?? '';
+            lastNameController.text = state.getUserDataSuccess.lastName ?? '';
+            emailController.text = state.getUserDataSuccess.email ?? '';
+            phoneController.text = state.getUserDataSuccess.phoneNumber ?? '';
+            print("firstNameController.text ${firstNameController.text}");
           }
         },
         builder: (context, state) {
+          print("firstNameController.text inside ${firstNameController.text}");
+
           if (state is UserProfileLoading) {
-            CustomLoadingIndicator();
+            return const CustomLoadingIndicator();
           }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Edit Your Profile", style: Styles.textStyle45Bold),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: CustomTextEdit(
-                      labelText: "First name",
-                      textController: TextEditingController(),
-                      validator: Validators.validateFirstName,
+          return Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Edit Your Profile", style: Styles.textStyle45Bold),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: CustomTextEdit(
+                        labelText: "First name",
+                        textController: firstNameController,
+                        validator: Validators.validateFirstName,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: CustomTextEdit(
-                      labelText: "Last name",
-                      textController: TextEditingController(),
-                      validator: Validators.validateLastName,
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: CustomTextEdit(
+                        labelText: "Last name",
+                        textController: lastNameController,
+                        validator: Validators.validateLastName,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomTextEdit(
-                      labelText: "Email address",
-                      textController: TextEditingController(),
-                      validator: Validators.validateEmail,
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextEdit(
+                        labelText: "Email address",
+                        textController: emailController,
+                        validator: Validators.validateEmail,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: CustomTextEdit(
-                      labelText: "Phone Number",
-                      textController: TextEditingController(),
-                      validator: Validators.validatePhoneNumber,
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: CustomTextEdit(
+                        labelText: "Phone Number",
+                        textController: phoneController,
+                        validator: Validators.validatePhoneNumber,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
+                  ],
+                ),
+                const SizedBox(height: 16),
 
-              Text(
-                "Password Changes",
-                style: Styles.textStyle45Bold.copyWith(fontSize: 40),
-              ),
-              const SizedBox(height: 16),
+                Text(
+                  "Password Changes",
+                  style: Styles.textStyle45Bold.copyWith(fontSize: 40),
+                ),
+                const SizedBox(height: 16),
 
-              CustomTextEdit(
-                labelText: "Current Password",
-                isPassword: true,
-                textController: TextEditingController(),
-                validator: Validators.validatePassword,
-              ),
-              const SizedBox(height: 16),
+                CustomTextEdit(
+                  labelText: "Current Password",
+                  isPassword: true,
+                  textController: TextEditingController(),
+                  // validator: Validators.validatePassword,
+                ),
+                const SizedBox(height: 16),
 
-              CustomTextEdit(
-                labelText: "New Password",
-                isPassword: true,
-                textController: TextEditingController(),
-                validator: Validators.validatePassword,
-              ),
+                CustomTextEdit(
+                  labelText: "New Password",
+                  isPassword: true,
+                  textController: TextEditingController(),
+                  // validator: Validators.validatePassword,
+                ),
 
-              const SizedBox(height: 16),
-              CustomTextEdit(
-                labelText: "Confirm New Password",
-                isPassword: true,
-                textController: TextEditingController(),
-                validator: (value) {},
-              ),
-              const SizedBox(height: 16),
-              CustomButton(text: "Save Changes", onPressed: () {}),
-              CustomButton(
-                text: "Log Out",
-                onPressed: () {
-                  context.read<UserProfileCubit>().logOut();
-                },
-              ),
-            ],
+                const SizedBox(height: 16),
+                CustomTextEdit(
+                  labelText: "Confirm New Password",
+                  isPassword: true,
+                  textController: TextEditingController(),
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                CustomButton(
+                  text: "Save Changes",
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      context.read<UserProfileCubit>().updateUserData(
+                        GetUserDataSuccess(
+                          email: emailController.text,
+                          firstName: firstNameController.text,
+                          lastName: lastNameController.text,
+                          phoneNumber: phoneController.text,
+                        ),
+                      );
+                    }
+                  },
+                ),
+                CustomButton(
+                  text: "Log Out",
+                  onPressed: () {
+                    context.read<UserProfileCubit>().logOut();
+                  },
+                ),
+              ],
+            ),
           );
         },
       ),

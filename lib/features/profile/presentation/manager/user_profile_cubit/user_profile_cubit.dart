@@ -3,7 +3,6 @@ import 'package:drop_z_ecommerce_app/features/profile/data/models/get_user_data_
 import 'package:drop_z_ecommerce_app/features/profile/data/models/logout_message.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/repos/user_profile_repo.dart';
 import 'package:equatable/equatable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'user_profile_state.dart';
 

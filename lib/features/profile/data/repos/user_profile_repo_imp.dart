@@ -4,7 +4,6 @@ import 'package:drop_z_ecommerce_app/core/errors/failure.dart';
 import 'package:drop_z_ecommerce_app/core/utils/api_service.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/models/get_user_data_success.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/models/logout_message.dart';
-import 'package:drop_z_ecommerce_app/features/profile/data/models/update_user_data.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/repos/user_profile_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +19,7 @@ class UserProfileRepoImp extends UserProfileRepo {
   ) async {
     try {
       var data = await apiService.get(
-        preferences.getString("accessToken")!,
+        token: preferences.getString("accessToken")!,
         endPoint: '/accounts/users/me/',
       );
 
@@ -43,7 +42,7 @@ class UserProfileRepoImp extends UserProfileRepo {
     try {
       var data = await apiService.patch(
         data: updateUserData.toUpdateJson(),
-        preferences.getString("accessToken")!,
+        token: preferences.getString("accessToken")!,
         endPoint: '/accounts/users/me/',
       );
 
@@ -70,18 +69,24 @@ class UserProfileRepoImp extends UserProfileRepo {
       print(
         "accessToken Before Delete ${preferences.getString("accessToken")!}",
       );
-      final accessToken = preferences.getString("accessToken")!;
+      final accessToken = await preferences.getString("accessToken")!;
+      final refreshToken = await preferences.getString("refreshToken")!;
 
       var data = await apiService.post(
         endPoint: '/auth/logout/',
         token: accessToken,
+        refreshToken: refreshToken,
         // data: {"refresh": preferences.getString("refreshToken")!},
       );
 
       // await Future.delayed(const Duration(seconds: 2));
 
+      print("Logout DATA $data");
+
       await preferences.remove('accessToken');
       await preferences.remove('refreshToken');
+      await preferences.remove('userId');
+      await preferences.remove('userRole');
 
       LogoutMessage logoutMessage = LogoutMessage.fromJson(data);
 

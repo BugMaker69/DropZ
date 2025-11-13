@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:drop_z_ecommerce_app/core/errors/failure.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/models/get_user_data_success.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/models/logout_message.dart';
-import 'package:drop_z_ecommerce_app/features/profile/data/models/update_user_data.dart';
 
 abstract class UserProfileRepo {
   Future<Either<Failure, GetUserDataSuccess>> getUserData(
