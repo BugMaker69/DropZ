@@ -1,39 +1,30 @@
 import 'package:bloc/bloc.dart';
+import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/product_item_data_model.dart';
+import 'package:drop_z_ecommerce_app/features/search/data/repos/search_repo.dart';
 import 'package:equatable/equatable.dart';
 
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit() : super(SearchInitial());
+  final SearchRepo searchRepo;
 
-  final List<String> allItems = [
-    "Apple",
-    "Banana",
-    "Orange",
-    "Mango",
-    "Pineapple",
-    "Car",
-    "Bike",
-    "Bus",
-    "Flutter",
-    "Dart",
-  ];
+  SearchCubit(this.searchRepo) : super(SearchInitial());
 
-  void search(String query) async {
-    if (query.isEmpty) {
+  Future<void> search(String query) async {
+    final trimmedQuery = query.trim();
+
+    if (trimmedQuery.isEmpty) {
       emit(SearchInitial());
       return;
     }
 
     emit(SearchLoading());
 
-    // simulate delay (زي لما تستدعي API)
-    await Future.delayed(const Duration(milliseconds: 500));
+    final result = await searchRepo.searchProducts(trimmedQuery);
 
-    final filtered = allItems
-        .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-
-    emit(SearchLoaded(filtered));
+    result.fold(
+      (failure) => emit(SearchFailure(failure.errMessage)),
+      (data) => emit(SearchSuccess(data)),
+    );
   }
 }
