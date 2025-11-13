@@ -2,7 +2,7 @@ name: drop_z_ecommerce_app
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -40,10 +40,22 @@ dependencies:
   go_router: ^11.0.0
   google_fonts: ^6.0.1
   url_launcher: ^6.0.2
+  # device_preview: ^1.0.0-alpha.15
   device_preview: ^1.3.1
   bloc: ^9.0.0
   flutter_bloc: ^9.1.1
   shared_preferences: ^2.5.3
+  flutter_rating_bar: ^4.0.1
+  provider: ^6.0.5
+  # flutter_onboard: ^2.0.0
+  smooth_page_indicator: ^1.2.0
+  image_picker: ^1.2.0
+  path_provider: ^2.1.4
+  jwt_decode: ^0.3.1
+  collection: ^1.18.0
+  flutter_localizations:
+    sdk: flutter
+  #flutter_localizations: ^0.3.3
 
   flutter:
     sdk: flutter
@@ -66,7 +78,6 @@ flutter_icons:
   adaptive_icon_foreground: "assets/images/dropz_logo.png" # اللوجو الشفاف
   image_path: "assets/images/dropz_logo.png"
 
-
 flutter_native_splash:
   color: "#083947"
   image: assets/images/dropz_logo.png
@@ -85,12 +96,11 @@ flutter_native_splash:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  generate: true
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/

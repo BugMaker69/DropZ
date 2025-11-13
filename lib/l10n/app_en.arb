@@ -1,0 +1,18 @@
+{
+  "appName": "DropZ",
+  "home": "Home",
+  "search": "Search",
+  "profile": "Profile",
+  "cart": "Cart",
+  "notifications": "Notifications",
+  "myStore": "My Store",
+  "adminDashboard": "Admin Dashboard",
+  "addProduct": "Add Product",
+  "noProducts": "No products in this category",
+  "refresh": "Refresh",
+  "explore": "Explore",
+  "selectLanguage": "Select Language",
+  "@appName": {
+    "description": "The name of the application"
+  }
+}

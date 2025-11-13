@@ -11,6 +11,8 @@ class CustomTextEdit extends StatelessWidget {
     required this.textController,
     this.keyboardType = TextInputType.text,
     this.showText = true,
+    this.maxLines = 1,
+    this.isEditing = true,
   });
 
   final String labelText;
@@ -20,16 +22,23 @@ class CustomTextEdit extends StatelessWidget {
   final TextEditingController textController;
   TextInputType keyboardType;
   bool showText;
+  int? maxLines;
+  final bool isEditing;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: isEditing,
+      readOnly: !isEditing,
       obscureText: !showText,
       validator: validator,
       controller: textController,
       keyboardType: keyboardType,
-      maxLines: 1,
-      style: Styles.textStyle18Regular,
+      maxLines: maxLines,
+      style: Styles.textStyle18Regular.copyWith(
+        color: Colors.white,
+        fontWeight: isEditing ? FontWeight.normal : FontWeight.w500,
+      ),
       onChanged: onChanged,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       cursorColor: Colors.white,
@@ -51,9 +60,14 @@ class CustomTextEdit extends StatelessWidget {
         alignLabelWithHint: false,
         labelText: labelText,
         floatingLabelStyle: const TextStyle(color: Colors.white),
-        labelStyle: Styles.textStyle18Regular,
+        labelStyle: Styles.textStyle18Regular.copyWith(color: Colors.white),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white),
+          borderSide: BorderSide(
+            color: isEditing
+                ? Colors.white
+                : Colors.transparent, // 🟡 بدون إطار وقت العرض
+            width: isEditing ? 1.5 : 0,
+          ),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
@@ -67,6 +81,11 @@ class CustomTextEdit extends StatelessWidget {
           borderSide: const BorderSide(color: Colors.white),
           borderRadius: BorderRadius.circular(8),
         ),
+        errorStyle: const TextStyle(height: 0.8),
+        fillColor: isEditing
+            ? Colors.transparent
+            : Colors.white.withOpacity(0.1),
+        filled: true,
       ),
     );
   }
