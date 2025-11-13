@@ -1,0 +1,420 @@
+import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
+import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
+import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
+import 'package:drop_z_ecommerce_app/features/cart/data/model/edit_quantity.dart';
+import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
+import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/result.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go_router/go_router.dart';
+
+class ProductItemDetails extends StatelessWidget {
+  const ProductItemDetails({super.key, required this.filteredProduct});
+
+  final Result filteredProduct;
+
+  @override
+  Widget build(BuildContext context) {
+    // final quantityNotifier = ValueNotifier<int>(1); // 👈 تبدأ بـ 1
+
+    final cartCubit = context.read<CartCubit>();
+
+    CartItemsModel? existingCartItem;
+
+    if (cartCubit.state is CartSuccess) {
+      final cartItems = (cartCubit.state as CartSuccess).cartItemsModel;
+      try {
+        existingCartItem = cartItems.firstWhere(
+          (item) => item.product!.id == filteredProduct.id,
+        );
+      } catch (e) {
+        existingCartItem = null; // 👈 لو مش موجود
+      }
+    } else {
+      existingCartItem = null;
+    }
+
+    // ✅ نبدأ بالكمية الصح
+    final quantityNotifier = ValueNotifier<int>(
+      existingCartItem != null ? existingCartItem.quantity! : 1,
+    );
+
+    // ✅ نحاول نجيب المنتج لو موجود في الكارت
+    // final existingCartItem = cartCubit.state is CartSuccess
+    //     ? (cartCubit.state as CartSuccess).cartItemsModel.firstWhere(
+    //         (item) => item.product!.id == filteredProduct.id,
+    //         orElse: () => null,
+    //       )
+    //     : null;
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Image.network(
+                  height: 300,
+                  filteredProduct.image ?? "",
+                  fit: BoxFit.scaleDown,
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                    Icons.broken_image,
+                    size: 48,
+                    color: Colors.grey,
+                  ),
+                  loadingBuilder: (context, child, progress) {
+                    if (progress == null) return child;
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                ),
+              ),
+              const SizedBox(width: 20),
+
+              Text(
+                "${filteredProduct.title}",
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              FittedBox(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    RatingBar.builder(
+                      initialRating: filteredProduct.averageRating!.toDouble(),
+                      minRating: 0,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemBuilder: (context, _) =>
+                          const Icon(Icons.star, color: Colors.amber),
+                      onRatingUpdate: (rating) {},
+                    ),
+                    Text(
+                      "(${filteredProduct.reviewCount} Reviews)",
+                      style: Styles.textStyle16Medium.copyWith(
+                        color: Color(0xff7F7F7F),
+                      ),
+                    ),
+                    Text(
+                      (filteredProduct.stockQuantity! >= 0)
+                          ? "InStock"
+                          : "OutStock",
+                      style: Styles.textStyle16Medium.copyWith(
+                        color: (filteredProduct.stockQuantity! >= 0)
+                            ? Color(0xff009336)
+                            : Colors.red,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              Text(
+                "\$${filteredProduct.price}",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+
+              Text(
+                "${filteredProduct.description}",
+                style: TextStyle(color: Colors.grey),
+              ),
+
+              const Divider(height: 30),
+
+              const SizedBox(height: 20),
+
+              Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: ValueListenableBuilder<int>(
+                      valueListenable: quantityNotifier,
+                      builder: (context, quantity, child) {
+                        return IncrementDecrementButtonWidget(
+                          quantity: quantity,
+                          onIncrement: () {
+                            if (quantityNotifier.value <
+                                filteredProduct.stockQuantity!) {
+                              quantityNotifier.value++;
+                              if (existingCartItem != null) {
+                                context
+                                    .read<CartCubit>()
+                                    .changeItemQuantityInCart(
+                                      EditQuantity(
+                                        quantity: quantityNotifier.value,
+                                      ),
+                                      existingCartItem.cartItemId!,
+                                    );
+                              }
+                            } else {
+                              customSnakeBar(
+                                context,
+                                "You reached the maximum available stock.",
+                              );
+                            }
+                          },
+                          onDecrement: () {
+                            if (quantityNotifier.value > 1) {
+                              quantityNotifier.value--;
+                              existingCartItem != null
+                                  ? context
+                                        .read<CartCubit>()
+                                        .changeItemQuantityInCart(
+                                          EditQuantity(
+                                            quantity: quantityNotifier.value,
+                                          ),
+                                          existingCartItem.cartItemId!,
+                                        )
+                                  : null;
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xff083947),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: () {},
+                      child: Text(
+                        "Buy Now",
+                        style: Styles.textStyle16Regular.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.favorite_border),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Text(
+                    "SubTotal: ",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+
+                  ValueListenableBuilder<int>(
+                    valueListenable: quantityNotifier,
+                    builder: (context, quantity, _) {
+                      final price =
+                          double.tryParse(filteredProduct.price ?? "0") ?? 0;
+                      final subtotal = price * quantity;
+                      return Text(
+                        "\$${subtotal.toStringAsFixed(2)}",
+                        // " \$${existingCartItem != null ? existingCartItem.itemSubtotal : filteredProduct.price}",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    onPressed: () {
+                      GoRouter.of(context).push(
+                        AppRouter.kProductReviewsView,
+                        extra: {
+                          'slug': filteredProduct.slug,
+                          'productId': filteredProduct.id,
+                        },
+                      );
+                    },
+
+                    // onPressed: () async {
+                    //   await context.read<ProductsCubit>().getAllProductReviews(
+                    //     filteredProduct.slug!,
+                    //   );
+
+                    //   // 2. انتظر النتيجة من الـ State
+                    //   final cubit = context.read<ProductsCubit>();
+                    //   final state = cubit.state;
+
+                    //   if (state is ProductsReviewSuccess &&
+                    //       state.getAllReviews != null) {
+                    //     // 3. لو نجح → ارفع النتايج للصفحة
+                    //     GoRouter.of(context).push(
+                    //       AppRouter.kProductReviewsView,
+                    //       extra: state.getAllReviews,
+                    //     );
+                    //   } else if (state is ProductsReviewFailure) {
+                    //     // لو في خطأ → اعرض رسالة
+                    //     ScaffoldMessenger.of(context).showSnackBar(
+                    //       SnackBar(content: Text("Error: ${state.errMessage}")),
+                    //     );
+                    //   } else {
+                    //     // لو لسه loading أو فاضي
+                    //     ScaffoldMessenger.of(context).showSnackBar(
+                    //       const SnackBar(content: Text("No reviews yet")),
+                    //     );
+                    //   }
+                    // },
+                    child: Text("Add Review", style: Styles.textStyle16Medium),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+
+              // ====== Free Delivery ======
+              _buildInfoCard(
+                icon: Icons.local_shipping_outlined,
+                title: "Free Delivery",
+                subtitle: "Enter your postal code for Delivery Availability",
+              ),
+              const SizedBox(height: 12),
+              _buildInfoCard(
+                icon: Icons.refresh,
+                title: "Return Delivery",
+                subtitle: "Free 30 Days Delivery Returns. Details",
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 28, color: Color(0xff083947)),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4),
+                Text(subtitle, style: const TextStyle(color: Colors.grey)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class IncrementDecrementButtonWidget extends StatelessWidget {
+  const IncrementDecrementButtonWidget({
+    super.key,
+    required this.quantity,
+    required this.onIncrement,
+    required this.onDecrement,
+  });
+
+  final int quantity;
+  final VoidCallback onIncrement;
+  final VoidCallback onDecrement;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade400),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // زرار ناقص
+          InkWell(
+            onTap: onDecrement,
+            child: Container(
+              width: 50,
+              height: 45,
+              alignment: Alignment.center,
+              child: const Text(
+                "-",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          // الرقم
+          Container(
+            width: 50,
+            height: 45,
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              border: Border(
+                left: BorderSide(color: Colors.grey),
+                right: BorderSide(color: Colors.grey),
+              ),
+            ),
+            child: Text(
+              "$quantity",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          // زرار زائد (ملون)
+          InkWell(
+            onTap: onIncrement,
+            child: Container(
+              width: 50,
+              height: 45,
+              decoration: BoxDecoration(
+                color: Color(0xff083947),
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(8),
+                  bottomRight: Radius.circular(8),
+                ),
+              ),
+              alignment: Alignment.center,
+              child: const Text(
+                "+",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
