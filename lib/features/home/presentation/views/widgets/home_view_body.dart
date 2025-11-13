@@ -3,7 +3,6 @@ import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/assets.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
-import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -61,9 +60,9 @@ class HomeViewBody extends StatelessWidget {
           child: Row(
             spacing: 30,
             children: [
+              Text("Electronics", style: Styles.textStyle20Medium),
               Text("Men’s fashion", style: Styles.textStyle20Medium),
               Text("Women’s fashion", style: Styles.textStyle20Medium),
-              Text("Electronics", style: Styles.textStyle20Medium),
               Text("Home & Lifestyle", style: Styles.textStyle20Medium),
             ],
           ),
