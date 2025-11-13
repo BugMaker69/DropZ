@@ -6,7 +6,6 @@ import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_app_logo_only.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
-import 'package:drop_z_ecommerce_app/features/login/data/model/login_request.dart';
 import 'package:drop_z_ecommerce_app/features/login/presentation/manager/login_cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,9 +36,11 @@ class _LoginViewBodyState extends State<LoginViewBody> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LoginCubit, LoginState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is LoginSuccess) {
-          GoRouter.of(context).push(AppRouter.kHomeView);
+          FocusScope.of(context).unfocus();
+          await Future.delayed(const Duration(milliseconds: 80), () {});
+          GoRouter.of(context).pushReplacement(AppRouter.kHomeView);
         } else if (state is LoginFailure) {
           customSnakeBar(context, state.errMessage);
         }
@@ -66,9 +67,11 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Welcome back,", style: Styles.textStyle45Bold),
-                        const Text(
+                        Text(
                           "Login To Continue",
-                          style: Styles.textStyle20Regular,
+                          style: Styles.textStyle20Regular.copyWith(
+                            color: Colors.white,
+                          ),
                         ),
 
                         const SizedBox(height: 16),
@@ -138,11 +141,13 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                             }
                           },
                         ),
-                        const Center(
+                        Center(
                           child: Text(
                             "OR",
                             textAlign: TextAlign.center,
-                            style: Styles.textStyle20Regular,
+                            style: Styles.textStyle20Regular.copyWith(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                         CustomButton(
@@ -153,9 +158,11 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               "Doesn’t have an account?",
-                              style: Styles.textStyle16Regular,
+                              style: Styles.textStyle16Regular.copyWith(
+                                color: Colors.white,
+                              ),
                             ),
                             TextButton(
                               onPressed: () {

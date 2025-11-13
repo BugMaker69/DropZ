@@ -6,6 +6,7 @@ import 'package:drop_z_ecommerce_app/features/login/data/model/login_request.dar
 import 'package:drop_z_ecommerce_app/features/login/data/model/login_success_response/login_success_response.dart';
 import 'package:drop_z_ecommerce_app/features/login/data/repos/login_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 
 class LoginRepoImp implements LoginRepo {
   final ApiService apiService;
@@ -35,6 +36,18 @@ class LoginRepoImp implements LoginRepo {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('accessToken', accessToken);
 
+      Map<String, dynamic> payload = Jwt.parseJwt(accessToken);
+
+      String? userId = payload['user_id']?.toString();
+      String? role = payload['role']?.toString();
+
+      if (userId != null) {
+        await prefs.setString("userId", userId);
+      }
+      if (role != null) {
+        await prefs.setString("userRole", role);
+      }
+
       String? refreshToken;
       if (cookies != null) {
         for (var cookie in cookies) {
@@ -47,6 +60,7 @@ class LoginRepoImp implements LoginRepo {
 
       // print("response.data ${response.data}");
       print("refreshToken ${refreshToken}");
+      print("role  ${role}  , id ${userId}");
 
       LoginSuccessResponse loginSuccessResponse = LoginSuccessResponse.fromJson(
         result,
@@ -67,5 +81,10 @@ class LoginRepoImp implements LoginRepo {
   Future<Either<Failure, LoginSuccessResponse>> loginWithGmail() {
     // TODO: implement loginWithGmail
     throw UnimplementedError();
+  }
+
+  static Future<String?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString("userId");
   }
 }
