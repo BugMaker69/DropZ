@@ -33,6 +33,17 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.13.0"
+<<<<<<< HEAD
+=======
+  bloc:
+    dependency: "direct main"
+    description:
+      name: bloc
+      sha256: "52c10575f4445c61dd9e0cafcc6356fdd827c4c64dd7945ef3c4105f6b6ac189"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.0.0"
+>>>>>>> feature/reviews-system
   boolean_selector:
     dependency: transitive
     description:
@@ -41,6 +52,33 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+<<<<<<< HEAD
+=======
+  cached_network_image:
+    dependency: "direct main"
+    description:
+      name: cached_network_image
+      sha256: "7c1183e361e5c8b0a0f21a28401eecdbde252441106a9816400dd4c2b2424916"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.1"
+  cached_network_image_platform_interface:
+    dependency: transitive
+    description:
+      name: cached_network_image_platform_interface
+      sha256: "35814b016e37fbdc91f7ae18c8caf49ba5c88501813f73ce8a07027a395e2829"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.1"
+  cached_network_image_web:
+    dependency: transitive
+    description:
+      name: cached_network_image_web
+      sha256: "980842f4e8e2535b8dbd3d5ca0b1f0ba66bf61d14cc3a17a9b4788a3685ba062"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.1"
+>>>>>>> feature/reviews-system
   characters:
     dependency: transitive
     description:
@@ -81,14 +119,32 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.1"
+<<<<<<< HEAD
+=======
+  cookie_jar:
+    dependency: "direct main"
+    description:
+      name: cookie_jar
+      sha256: a6ac027d3ed6ed756bfce8f3ff60cb479e266f3b0fdabd6242b804b6765e52de
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.8"
+>>>>>>> feature/reviews-system
   crypto:
     dependency: transitive
     description:
       name: crypto
+<<<<<<< HEAD
       sha256: c8ea0233063ba03258fbcf2ca4d6dadfefe14f02fab57702265467a19f27fadf
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
+=======
+      sha256: "1e445881f28f22d6140f181e07737b22f1e099a5e1ff94b0af2f9e4a463f4855"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.6"
+>>>>>>> feature/reviews-system
   csslib:
     dependency: transitive
     description:
@@ -137,6 +193,17 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.9.0"
+<<<<<<< HEAD
+=======
+  dio_cookie_manager:
+    dependency: "direct main"
+    description:
+      name: dio_cookie_manager
+      sha256: d39c16abcc711c871b7b29bd51c6b5f3059ef39503916c6a9df7e22c4fc595e0
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.0"
+>>>>>>> feature/reviews-system
   dio_web_adapter:
     dependency: transitive
     description:
@@ -177,15 +244,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.1"
+<<<<<<< HEAD
+=======
+  fixnum:
+    dependency: transitive
+    description:
+      name: fixnum
+      sha256: b6dc7065e46c974bc7c5f143080a6764ec7a4be6da1285ececdc37be96de53be
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
+>>>>>>> feature/reviews-system
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+<<<<<<< HEAD
+=======
+  flutter_bloc:
+    dependency: "direct main"
+    description:
+      name: flutter_bloc
+      sha256: cf51747952201a455a1c840f8171d273be009b932c75093020f9af64f2123e38
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.1.1"
+  flutter_cache_manager:
+    dependency: transitive
+    description:
+      name: flutter_cache_manager
+      sha256: "400b6592f16a4409a7f2bb929a9a7e38c72cceb8ffb99ee57bbf2cb2cecf8386"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.1"
+>>>>>>> feature/reviews-system
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
       name: flutter_launcher_icons
+<<<<<<< HEAD
       sha256: "10f13781741a2e3972126fae08393d3c4e01fa4cd7473326b94b72cf594195e7"
       url: "https://pub.dev"
     source: hosted
@@ -198,6 +296,12 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
+=======
+      sha256: "526faf84284b86a4cb36d20a5e45147747b7563d921373d4ee0559c54fcdbcea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.1"
+>>>>>>> feature/reviews-system
   flutter_localizations:
     dependency: transitive
     description: flutter
@@ -207,6 +311,7 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_native_splash
+<<<<<<< HEAD
       sha256: "4fb9f4113350d3a80841ce05ebf1976a36de622af7d19aca0ca9a9911c7ff002"
       url: "https://pub.dev"
     source: hosted
@@ -219,6 +324,12 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+=======
+      sha256: "8321a6d11a8d13977fa780c89de8d257cce3d841eecfb7a4cadffcc4f12d82dc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.6"
+>>>>>>> feature/reviews-system
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -233,10 +344,17 @@ packages:
     dependency: "direct main"
     description:
       name: font_awesome_flutter
+<<<<<<< HEAD
       sha256: b9011df3a1fa02993630b8fb83526368cf2206a711259830325bab2f1d2a4eb0
       url: "https://pub.dev"
     source: hosted
     version: "10.12.0"
+=======
+      sha256: "27af5982e6c510dec1ba038eff634fa284676ee84e3fd807225c80c4ad869177"
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.10.0"
+>>>>>>> feature/reviews-system
   freezed_annotation:
     dependency: transitive
     description:
@@ -257,26 +375,47 @@ packages:
     dependency: "direct main"
     description:
       name: get_it
+<<<<<<< HEAD
       sha256: ae78de7c3f2304b8d81f2bb6e320833e5e81de942188542328f074978cc0efa9
       url: "https://pub.dev"
     source: hosted
     version: "8.3.0"
+=======
+      sha256: a4292e7cf67193f8e7c1258203104eb2a51ec8b3a04baa14695f4064c144297b
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.2.0"
+>>>>>>> feature/reviews-system
   go_router:
     dependency: "direct main"
     description:
       name: go_router
+<<<<<<< HEAD
       sha256: d8f590a69729f719177ea68eb1e598295e8dbc41bbc247fed78b2c8a25660d7c
       url: "https://pub.dev"
     source: hosted
     version: "16.3.0"
+=======
+      sha256: "2ccd74480706e0a70a0e0dfa9543dede41bc11d0fe3b146a6ad7b7686f6b4407"
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.1.4"
+>>>>>>> feature/reviews-system
   google_fonts:
     dependency: "direct main"
     description:
       name: google_fonts
+<<<<<<< HEAD
       sha256: "517b20870220c48752eafa0ba1a797a092fb22df0d89535fd9991e86ee2cdd9c"
       url: "https://pub.dev"
     source: hosted
     version: "6.3.2"
+=======
+      sha256: df9763500dadba0155373e9cb44e202ce21bd9ed5de6bdbd05c5854e86839cb8
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.3.0"
+>>>>>>> feature/reviews-system
   html:
     dependency: transitive
     description:
@@ -289,10 +428,17 @@ packages:
     dependency: transitive
     description:
       name: http
+<<<<<<< HEAD
       sha256: "87721a4a50b19c7f1d49001e51409bddc46303966ce89a65af4f4e6004896412"
       url: "https://pub.dev"
     source: hosted
     version: "1.6.0"
+=======
+      sha256: bb2ce4590bc2667c96f318d68cac1b5a7987ec819351d32b1c987239a815e007
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
+>>>>>>> feature/reviews-system
   http_parser:
     dependency: transitive
     description:
@@ -329,10 +475,17 @@ packages:
     dependency: transitive
     description:
       name: leak_tracker
+<<<<<<< HEAD
       sha256: "33e2e26bdd85a0112ec15400c8cbffea70d0f9c3407491f672a2fad47915e2de"
       url: "https://pub.dev"
     source: hosted
     version: "11.0.2"
+=======
+      sha256: "8dcda04c3fc16c14f48a7bb586d4be1f0d1572731b6d81d51772ef47c02081e0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.0.1"
+>>>>>>> feature/reviews-system
   leak_tracker_flutter_testing:
     dependency: transitive
     description:
@@ -349,6 +502,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+<<<<<<< HEAD
   lints:
     dependency: transitive
     description:
@@ -357,6 +511,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
+=======
+>>>>>>> feature/reviews-system
   logging:
     dependency: transitive
     description:
@@ -405,6 +561,17 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+<<<<<<< HEAD
+=======
+  octo_image:
+    dependency: transitive
+    description:
+      name: octo_image
+      sha256: "34faa6639a78c7e3cbe79be6f9f96535867e879748ade7d17c9b1ae7536293bd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
+>>>>>>> feature/reviews-system
   path:
     dependency: transitive
     description:
@@ -413,6 +580,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+<<<<<<< HEAD
   path_parsing:
     dependency: transitive
     description:
@@ -421,6 +589,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+=======
+>>>>>>> feature/reviews-system
   path_provider:
     dependency: transitive
     description:
@@ -433,18 +603,32 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
+<<<<<<< HEAD
       sha256: e122c5ea805bb6773bb12ce667611265980940145be920cd09a4b0ec0285cb16
       url: "https://pub.dev"
     source: hosted
     version: "2.2.20"
+=======
+      sha256: d0d310befe2c8ab9e7f393288ccbb11b60c019c6b5afc21973eeee4dda2b35e9
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.17"
+>>>>>>> feature/reviews-system
   path_provider_foundation:
     dependency: transitive
     description:
       name: path_provider_foundation
+<<<<<<< HEAD
       sha256: efaec349ddfc181528345c56f8eda9d6cccd71c177511b132c6a0ddaefaa2738
       url: "https://pub.dev"
     source: hosted
     version: "2.4.3"
+=======
+      sha256: "16eef174aacb07e09c351502740fa6254c165757638eba1e9116b0a781201bbd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.2"
+>>>>>>> feature/reviews-system
   path_provider_linux:
     dependency: transitive
     description:
@@ -509,9 +693,23 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.5+1"
+<<<<<<< HEAD
   shared_preferences:
     dependency: transitive
     description:
+=======
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "5c3004a4a8dbb94bd4bf5412a4def4acdaa12e12f269737a5751369e12d1a962"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.28.0"
+  shared_preferences:
+    dependency: "direct main"
+    description:
+>>>>>>> feature/reviews-system
       name: shared_preferences
       sha256: "6e8bf70b7fef813df4e9a36f658ac46d107db4b4cfe1048b477d4e453a8159f5"
       url: "https://pub.dev"
@@ -521,18 +719,32 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_android
+<<<<<<< HEAD
       sha256: "34266009473bf71d748912da4bf62d439185226c03e01e2d9687bc65bbfcb713"
       url: "https://pub.dev"
     source: hosted
     version: "2.4.15"
+=======
+      sha256: "5bcf0772a761b04f8c6bf814721713de6f3e5d9d89caf8d3fe031b02a342379e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.11"
+>>>>>>> feature/reviews-system
   shared_preferences_foundation:
     dependency: transitive
     description:
       name: shared_preferences_foundation
+<<<<<<< HEAD
       sha256: "1c33a907142607c40a7542768ec9badfd16293bac51da3a4482623d15845f88b"
       url: "https://pub.dev"
     source: hosted
     version: "2.5.5"
+=======
+      sha256: "6a52cfcdaeac77cad8c97b539ff688ccfc458c007b4db12be584fbe5c0e49e03"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.4"
+>>>>>>> feature/reviews-system
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -578,6 +790,57 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.1"
+<<<<<<< HEAD
+=======
+  sprintf:
+    dependency: transitive
+    description:
+      name: sprintf
+      sha256: "1fc9ffe69d4df602376b52949af107d8f5703b77cda567c4d7d86a0693120f23"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
+  sqflite:
+    dependency: transitive
+    description:
+      name: sqflite
+      sha256: e2297b1da52f127bc7a3da11439985d9b536f75070f3325e62ada69a5c585d03
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.2"
+  sqflite_android:
+    dependency: transitive
+    description:
+      name: sqflite_android
+      sha256: ecd684501ebc2ae9a83536e8b15731642b9570dc8623e0073d227d0ee2bfea88
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.2+2"
+  sqflite_common:
+    dependency: transitive
+    description:
+      name: sqflite_common
+      sha256: "6ef422a4525ecc601db6c0a2233ff448c731307906e92cabc9ba292afaae16a6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.6"
+  sqflite_darwin:
+    dependency: transitive
+    description:
+      name: sqflite_darwin
+      sha256: "279832e5cde3fe99e8571879498c9211f3ca6391b0d818df4e17d9fff5c6ccb3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.2"
+  sqflite_platform_interface:
+    dependency: transitive
+    description:
+      name: sqflite_platform_interface
+      sha256: "8dd4515c7bdcae0a785b0062859336de775e8c65db81ae33dd5445f35be61920"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
+>>>>>>> feature/reviews-system
   stack_trace:
     dependency: transitive
     description:
@@ -602,6 +865,17 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+<<<<<<< HEAD
+=======
+  synchronized:
+    dependency: transitive
+    description:
+      name: synchronized
+      sha256: c254ade258ec8282947a0acbbc90b9575b4f19673533ee46f2f6e9b3aeefd7c0
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.0"
+>>>>>>> feature/reviews-system
   term_glyph:
     dependency: transitive
     description:
@@ -646,18 +920,32 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
+<<<<<<< HEAD
       sha256: "5c8b6c2d89a78f5a1cca70a73d9d5f86c701b36b42f9c9dac7bad592113c28e9"
       url: "https://pub.dev"
     source: hosted
     version: "6.3.24"
+=======
+      sha256: "0aedad096a85b49df2e4725fa32118f9fa580f3b14af7a2d2221896a02cd5656"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.3.17"
+>>>>>>> feature/reviews-system
   url_launcher_ios:
     dependency: transitive
     description:
       name: url_launcher_ios
+<<<<<<< HEAD
       sha256: "6b63f1441e4f653ae799166a72b50b1767321ecc263a57aadf825a7a2a5477d9"
       url: "https://pub.dev"
     source: hosted
     version: "6.3.5"
+=======
+      sha256: d80b3f567a617cb923546034cc94bfe44eb15f989fe670b37f26abdb9d939cb7
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.3.4"
+>>>>>>> feature/reviews-system
   url_launcher_linux:
     dependency: transitive
     description:
@@ -670,10 +958,17 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_macos
+<<<<<<< HEAD
       sha256: "8262208506252a3ed4ff5c0dc1e973d2c0e0ef337d0a074d35634da5d44397c9"
       url: "https://pub.dev"
     source: hosted
     version: "3.2.4"
+=======
+      sha256: c043a77d6600ac9c38300567f33ef12b0ef4f4783a2c1f00231d2b1941fea13f
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.3"
+>>>>>>> feature/reviews-system
   url_launcher_platform_interface:
     dependency: transitive
     description:
@@ -698,6 +993,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.4"
+<<<<<<< HEAD
   vector_graphics:
     dependency: transitive
     description:
@@ -722,6 +1018,16 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.19"
+=======
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      sha256: a5be9ef6618a7ac1e964353ef476418026db906c4facdedaa299b7a2e71690ff
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.5.1"
+>>>>>>> feature/reviews-system
   vector_math:
     dependency: transitive
     description:
@@ -772,4 +1078,8 @@ packages:
     version: "3.1.3"
 sdks:
   dart: ">=3.9.0 <4.0.0"
+<<<<<<< HEAD
   flutter: ">=3.35.0"
+=======
+  flutter: ">=3.32.0"
+>>>>>>> feature/reviews-system

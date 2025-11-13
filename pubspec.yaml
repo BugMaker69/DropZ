@@ -2,7 +2,11 @@ name: drop_z_ecommerce_app
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
+<<<<<<< HEAD
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
+=======
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+>>>>>>> feature/reviews-system
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -28,6 +32,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+<<<<<<< HEAD
   flutter:
     sdk: flutter
 
@@ -43,23 +48,67 @@ dependencies:
   get: ^4.5.2
   get_it: ^8.2.0
   url_launcher: ^6.0.2
+=======
+  cached_network_image: ^3.2.1
+  dartz: ^0.10.1
+  dio: ^5.8.0+1
+  cookie_jar: ^4.0.3
+  dio_cookie_manager: ^3.1.1
+  equatable: ^2.0.7
+  font_awesome_flutter: ^10.8.0
+  get: ^4.5.2
+  get_it: ^8.2.0
+  go_router: ^11.0.0
+  google_fonts: ^6.0.1
+  url_launcher: ^6.0.2
+  device_preview: ^1.3.1
+  bloc: ^9.0.0
+  flutter_bloc: ^9.1.1
+  shared_preferences: ^2.5.3
+
+  flutter:
+    sdk: flutter
+>>>>>>> feature/reviews-system
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
+<<<<<<< HEAD
   flutter_launcher_icons: ^0.14.4
   flutter_native_splash: ^2.4.0
+=======
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.4.1
+>>>>>>> feature/reviews-system
 
   flutter_test:
     sdk: flutter
 
+<<<<<<< HEAD
+=======
+flutter_icons:
+  android: true
+  ios: true
+  adaptive_icon_background: "#083947" # اللون اللي انت عايزه للخلفية
+  adaptive_icon_foreground: "assets/images/dropz_logo.png" # اللوجو الشفاف
+  image_path: "assets/images/dropz_logo.png"
+
+
+flutter_native_splash:
+  color: "#083947"
+  image: assets/images/dropz_logo.png
+  android: true
+  ios: true
+
+>>>>>>> feature/reviews-system
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
+<<<<<<< HEAD
   flutter_lints: ^6.0.0
 
 #! Application Icon That Appears To User
@@ -78,12 +127,19 @@ flutter_native_splash:
   image: "assets/images/dropz_logo.png" # مسار صورة السبلاتش
   android: true
   ios: true
+=======
+  flutter_lints: ^5.0.0
+>>>>>>> feature/reviews-system
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
+<<<<<<< HEAD
+=======
+
+>>>>>>> feature/reviews-system
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -92,7 +148,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+<<<<<<< HEAD
   #   - images/a_dot_burr.jpeg
+=======
+>>>>>>> feature/reviews-system
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
