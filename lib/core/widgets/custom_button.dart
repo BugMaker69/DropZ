@@ -1,4 +1,3 @@
-import 'package:drop_z_ecommerce_app/constants.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:flutter/material.dart';
 

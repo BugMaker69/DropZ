@@ -5,13 +5,13 @@ abstract class Styles {
   static const textStyle14Regular = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.normal,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   static const textStyle16Regular = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.normal,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   static final textStyle16Medium = TextStyle(
@@ -29,7 +29,7 @@ abstract class Styles {
   static const textStyle18Regular = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.normal,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   static final textStyle18SemiBold = TextStyle(
@@ -41,13 +41,13 @@ abstract class Styles {
   static const textStyle20Regular = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.normal,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   static const textStyle20Medium = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   static final textStyle20SemiBold = TextStyle(
@@ -59,19 +59,19 @@ abstract class Styles {
   static const textStyle24Regular = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.normal,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   static const textStyle24Medium = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w500,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   static const textStyle24SemiBold = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w600,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   static final textStyle25Regular = TextStyle(
@@ -82,13 +82,13 @@ abstract class Styles {
   static const textStyle25SemiBold = TextStyle(
     fontSize: 25,
     fontWeight: FontWeight.w600,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   static const textStyle26SemiBold = TextStyle(
     fontSize: 26,
     fontWeight: FontWeight.w600,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   static final textStyle30Medium = TextStyle(

@@ -1,0 +1,18 @@
+{
+  "appName": "دروبز",
+  "home": "الرئيسية",
+  "search": "بحث",
+  "profile": "الملف الشخصي",
+  "cart": "السلة",
+  "notifications": "الإشعارات",
+  "myStore": "متجري",
+  "adminDashboard": "لوحة تحكم المدير",
+  "addProduct": "إضافة منتج",
+  "noProducts": "لا توجد منتجات في هذا التصنيف",
+  "refresh": "تحديث",
+  "explore": "استكشف",
+  "selectLanguage": "اختر اللغة",
+  "@appName": {
+    "description": "اسم التطبيق"
+  }
+}

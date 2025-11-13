@@ -61,6 +61,11 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
     return BlocConsumer<RegisterCubit, RegisterState>(
       listener: (context, state) {
         if (state is RegisterSuccess) {
+          customSnakeBar(
+            context,
+            state.registerSuccessResponse.message.toString(),
+          );
+
           GoRouter.of(context).push(AppRouter.kloginView);
         } else if (state is RegisterFailure) {
           customSnakeBar(context, state.errMessage);

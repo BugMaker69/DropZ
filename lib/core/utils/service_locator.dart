@@ -1,8 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:drop_z_ecommerce_app/core/utils/api_service.dart';
+import 'package:drop_z_ecommerce_app/features/cart/data/repos/cart_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/login/data/repos/login_repo_imp.dart';
+import 'package:drop_z_ecommerce_app/features/products/data/repos/products_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/repos/user_profile_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/register/data/repos/register_repo_imp.dart';
+import 'package:drop_z_ecommerce_app/features/reviews/data/repos/products_review_repo_imp.dart';
+import 'package:drop_z_ecommerce_app/features/search/data/repos/search_repo_imp.dart';
+import 'package:drop_z_ecommerce_app/features/whishlist/data/repos/whishlist_repo_imp.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,5 +26,20 @@ Future<void> setupServiceLocator() async {
   );
   getIt.registerSingleton<UserProfileRepoImp>(
     UserProfileRepoImp(getIt.get<ApiService>(), getIt.get<SharedPreferences>()),
+  );
+  getIt.registerSingleton<ProductsRepoImp>(
+    ProductsRepoImp(getIt.get<ApiService>()),
+  );
+  getIt.registerSingleton<CartRepoImp>(
+    CartRepoImp(getIt.get<ApiService>(), getIt.get<SharedPreferences>()),
+  );
+  getIt.registerSingleton<WhishlistRepoImp>(
+    WhishlistRepoImp(getIt.get<ApiService>(), getIt.get<SharedPreferences>()),
+  );
+  getIt.registerSingleton<SearchRepoImp>(
+    SearchRepoImp(getIt.get<ApiService>()),
+  );
+  getIt.registerSingleton<ProductsReviewRepoImp>(
+    ProductsReviewRepoImp(getIt.get<ApiService>()),
   );
 }

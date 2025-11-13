@@ -44,6 +44,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+<<<<<<< HEAD
 =======
 *.lock
 *.log
@@ -163,3 +164,7 @@ app.*.symbols
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
 >>>>>>> a01b5844145b27b6e9ed0d0271dd1b9788d04d9e
+=======
+
+/lib/core/testing_files/
+>>>>>>> feature/auth
