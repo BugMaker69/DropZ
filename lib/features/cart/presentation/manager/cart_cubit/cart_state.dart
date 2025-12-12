@@ -18,7 +18,8 @@ final class CartFailure extends CartState {
 }
 
 final class CartSuccess extends CartState {
-  final List<CartItemsModel> cartItemsModel;
+  final CartModel cartItemsModel;
+  // final List<CartItemsModel> cartItemsModel;
 
   CartSuccess(this.cartItemsModel);
 }

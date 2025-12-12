@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/add_item_to_cart_request.dart';
@@ -19,7 +20,17 @@ class WishListItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.network(
+            CachedNetworkImage(
+              imageUrl: wishListitem.product?.image ?? "",
+              width: 150,
+              height: 150,
+              fit: BoxFit.scaleDown,
+              placeholder: (context, url) =>
+                  const Center(child: CustomLoadingIndicator()),
+              errorWidget: (context, url, error) =>
+                  const Icon(Icons.broken_image, size: 48, color: Colors.grey),
+            ),
+            /*Image.network(
               width: 150,
               height: 150,
               wishListitem.product?.image ?? "",
@@ -30,7 +41,7 @@ class WishListItem extends StatelessWidget {
                 if (progress == null) return child;
                 return const Center(child: CustomLoadingIndicator());
               },
-            ),
+            ),*/
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

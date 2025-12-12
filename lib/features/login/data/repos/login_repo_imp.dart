@@ -13,7 +13,8 @@ class LoginRepoImp implements LoginRepo {
   LoginRepoImp(this.apiService);
 
   @override
-  Future<Either<Failure, LoginSuccessResponse>> loginWithEmailNPassword(
+  // Future<Either<Failure, LoginSuccessResponse>> loginWithEmailNPassword(
+  Future<Either<Failure, String>> loginWithEmailNPassword(
     LoginRequest loginRequest,
   ) async {
     print(
@@ -68,7 +69,7 @@ class LoginRepoImp implements LoginRepo {
       print(
         "loginSuccessResponse   $loginSuccessResponse , ${loginSuccessResponse.access} , ${loginSuccessResponse.user}",
       );
-      return right(loginSuccessResponse);
+      return right(role!);
     } catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));

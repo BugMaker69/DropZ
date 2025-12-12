@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/add_item_to_cart_request.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/add_item_to_cart_response.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
+import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_model.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/delete_item_response.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/edit_quantity.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/repos/cart_repo.dart';
@@ -13,13 +14,13 @@ class CartCubit extends Cubit<CartState> {
   CartCubit(this.cartRepo) : super(CartInitial());
 
   final CartRepo cartRepo;
-  List<CartItemsModel>? _cartItems;
+  // List<CartItemsModel>? _cartItems;
 
   Future<void> getCartItems() async {
-    if (_cartItems != null) {
-      emit(CartSuccess(_cartItems!));
-      return;
-    }
+    // if (_cartItems != null) {
+    //   emit(CartSuccess(_cartItems!));
+    //   return;
+    // }
     emit(CartLoading());
     var result = await cartRepo.getCartItems();
 
@@ -29,7 +30,7 @@ class CartCubit extends Cubit<CartState> {
         emit(CartFailure(failure.errMessage));
       },
       (cartItemsModel) {
-        _cartItems = cartItemsModel;
+        // _cartItems = cartItemsModel;
         emit(CartSuccess(cartItemsModel));
       },
     );
@@ -50,7 +51,7 @@ class CartCubit extends Cubit<CartState> {
       },
       (addItemToCart) async {
         emit(AddItemToCartSuccess(addItemToCart));
-        _cartItems = null;
+        // _cartItems = null;
         await getCartItems();
       },
     );
@@ -89,7 +90,7 @@ class CartCubit extends Cubit<CartState> {
       },
       (deleteItemFromCart) async {
         emit(DeleteItemFromCartSuccess(deleteItemFromCart));
-        _cartItems = null;
+        // _cartItems = null;
         await getCartItems();
       },
     );

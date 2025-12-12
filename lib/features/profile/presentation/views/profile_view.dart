@@ -7,8 +7,10 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(body: ProfileViewBody(), backgroundColor: kPrimaryColor),
+    return Scaffold(
+      appBar: AppBar(title: Text("Edit Profile")),
+      body: ProfileViewBody(),
+      backgroundColor: kPrimaryColor,
     );
   }
 }

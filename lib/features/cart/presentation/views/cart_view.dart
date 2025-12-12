@@ -1,36 +1,60 @@
+import 'package:drop_z_ecommerce_app/constants.dart';
+import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/staggered_animation.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/views/widgets/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () => context.read<CartCubit>().refreshCart(),
-      child: BlocBuilder<CartCubit, CartState>(
-        builder: (context, state) {
-          if (state is CartLoading) {
-            return const Center(child: CustomLoadingIndicator());
-          } else if (state is CartFailure) {
-            print("${state.errMessage}");
-            return Center(child: Text(state.errMessage));
-          } else if (state is CartSuccess) {
-            final data = state.cartItemsModel;
-            print("Inside CartView ${data}");
-            return ListView.separated(
-              itemBuilder: (context, index) =>
-                  CartItem(cartItemsModel: data[index]),
-              itemCount: data.length,
-              separatorBuilder: (context, index) => Divider(),
-            );
-          } else {
-            return const Center(child: Text("No data available"));
-          }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("My Cart"),
+        backgroundColor: kPrimaryColor,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          context.push(AppRouter.kCustomerCheckout); // اللي هتعمله دلوقتي
         },
+        label: const Text("Checkout"),
+        icon: const Icon(Icons.shopping_bag),
+        backgroundColor: Colors.green,
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => context.read<CartCubit>().refreshCart(),
+        child: BlocBuilder<CartCubit, CartState>(
+          builder: (context, state) {
+            if (state is CartLoading) {
+              return const Center(child: CustomLoadingIndicator());
+            } else if (state is CartFailure) {
+              print("${state.errMessage}");
+              return Center(child: Text("There is No NetWork Connection"));
+            } else if (state is CartSuccess) {
+              final data = state.cartItemsModel.items!;
+              print("Inside CartView ${data}");
+              if (data.length > 0 || data.isNotEmpty) {
+                return ListView.separated(
+                  itemBuilder: (context, index) => StaggeredAnimation(
+                    index: index,
+                    child: CartItem(cartItemsModel: data[index]),
+                  ),
+                  itemCount: data.length,
+                  separatorBuilder: (context, index) => Divider(),
+                );
+              } else {
+                return const Center(child: Text("No data available"));
+              }
+            } else {
+              return const Center(child: Text("No data available"));
+            }
+          },
+        ),
       ),
     );
   }

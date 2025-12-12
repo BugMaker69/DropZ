@@ -70,6 +70,7 @@ class ProductsCubit extends Cubit<ProductsState> {
       },
       (categoryModel) {
         print("Category Success: $categoryModel");
+        categories = categoryModel;
         emit(CategorySuccess(categoryModel));
       },
     );
@@ -91,6 +92,36 @@ class ProductsCubit extends Cubit<ProductsState> {
   Future<void> getAllProducts() async {
     emit(ProductsLoading());
     var result = await productsRepo.getAllProducts();
+
+    result.fold(
+      (failure) {
+        emit(ProductsFailure(failure.errMessage));
+      },
+      (productSuccessResponse) {
+        _products = productSuccessResponse;
+        print(
+          "Products Success: ${productSuccessResponse.results?.length} products",
+        );
+        emit(ProductsDataState(categories: categories, products: _products));
+        // emit(ProductsSuccess(productSuccessResponse));
+      },
+    );
+  }
+
+  Future<void> getProductDetails(int id) async {
+    emit(ProductsLoading());
+
+    final result = await productsRepo.getProductById(id);
+
+    result.fold(
+      (error) => emit(ProductsFailure(error.errMessage)),
+      (product) => emit(AddProductSuccess(product)),
+    );
+  }
+
+  Future<void> getAllSellerProducts() async {
+    emit(ProductsLoading());
+    var result = await productsRepo.getAllSellerProducts();
 
     result.fold(
       (failure) {

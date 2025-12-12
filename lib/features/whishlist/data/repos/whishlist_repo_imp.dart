@@ -39,9 +39,9 @@ class WhishlistRepoImp extends WhishlistRepo {
 
   @override
   Future<Either<Failure, WishListDataResponse>> getAllWishList() async {
-    // if (_cachedWishlist != null) {
-    //   return Right(_cachedWishlist!);
-    // }
+    if (_cachedWishlist != null) {
+      return Right(_cachedWishlist!);
+    }
     try {
       var data = await apiService.get(
         endPoint: "/wishlist/",
@@ -53,6 +53,9 @@ class WhishlistRepoImp extends WhishlistRepo {
       _cachedWishlist = wishListDataResponse;
       return right(wishListDataResponse);
     } catch (e) {
+      if (_cachedWishlist != null) {
+        return Right(_cachedWishlist!);
+      }
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));
       }

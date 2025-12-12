@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/edit_quantity.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
@@ -22,17 +24,16 @@ class CartItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.network(
+            CachedNetworkImage(
               width: 150,
               height: 150,
-              cartItemsModel.product?.image ?? "",
+              imageUrl:
+                  "http://10.0.2.2:8000/${cartItemsModel.product?.image}" ?? "",
               fit: BoxFit.scaleDown,
-              errorBuilder: (context, error, stackTrace) =>
+              errorWidget: (context, error, stackTrace) =>
                   const Icon(Icons.broken_image, size: 48, color: Colors.grey),
-              loadingBuilder: (context, child, progress) {
-                if (progress == null) return child;
-                return const Center(child: CircularProgressIndicator());
-              },
+              placeholder: (context, url) =>
+                  const Center(child: CustomLoadingIndicator()),
             ),
             Expanded(
               child: Column(
@@ -116,7 +117,6 @@ class CartItem extends StatelessWidget {
                             AddProductToWishListRequest(
                               productId: cartItemsModel.product!.id!,
                             ),
-                            context,
                           );
                           context.read<CartCubit>().deleteItemFromCart(
                             cartItemsModel.cartItemId!,

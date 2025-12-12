@@ -1,19 +1,25 @@
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
+import 'package:drop_z_ecommerce_app/features/cart/data/model/add_item_to_cart_request.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/edit_quantity.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/result.dart';
+import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
+import 'package:drop_z_ecommerce_app/features/whishlist/data/model/add_product_to_wish_list_request.dart';
+import 'package:drop_z_ecommerce_app/features/whishlist/presentation/manager/wish_list_cubit/wish_list_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ProductItemDetails extends StatelessWidget {
-  const ProductItemDetails({super.key, required this.filteredProduct});
+  ProductItemDetails({super.key, required this.filteredProduct, this.id});
 
-  final Result filteredProduct;
+  Result filteredProduct;
+  final int? id;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +32,7 @@ class ProductItemDetails extends StatelessWidget {
     if (cartCubit.state is CartSuccess) {
       final cartItems = (cartCubit.state as CartSuccess).cartItemsModel;
       try {
-        existingCartItem = cartItems.firstWhere(
+        existingCartItem = cartItems.items!.firstWhere(
           (item) => item.product!.id == filteredProduct.id,
         );
       } catch (e) {
@@ -49,6 +55,29 @@ class ProductItemDetails extends StatelessWidget {
     //       )
     //     : null;
 
+    if (id != null &&
+        (filteredProduct.id!.isNaN ||
+            filteredProduct.id == 0 ||
+            filteredProduct.id! < 0)) {
+      final productCubit = context.read<ProductsCubit>();
+
+      Result? productById;
+
+      if (productCubit.state is AddProductSuccess) {
+        final productItem =
+            (productCubit.state as AddProductSuccess).result.results;
+        // productById = productItem;
+        try {
+          productById = productItem!.firstWhere((item) => item.id == id);
+          filteredProduct = productById;
+        } catch (e) {
+          productById = null; // 👈 لو مش موجود
+        }
+      } else {
+        productById = null;
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -57,23 +86,48 @@ class ProductItemDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Image.network(
-                  height: 300,
-                  filteredProduct.image ?? "",
-                  fit: BoxFit.scaleDown,
-                  errorBuilder: (context, error, stackTrace) => const Icon(
-                    Icons.broken_image,
-                    size: 48,
-                    color: Colors.grey,
+              Stack(
+                children: [
+                  Align(
+                    alignment: AlignmentGeometry.bottomRight,
+                    child: IconButton(
+                      icon: Icon(Icons.share),
+                      onPressed: () {
+                        final link =
+                            "http://localhost:3000/product/${filteredProduct.id}";
+                        print(link);
+                        Share.share(link);
+                      },
+                    ),
                   ),
-                  loadingBuilder: (context, child, progress) {
-                    if (progress == null) return child;
-                    return const Center(child: CircularProgressIndicator());
-                  },
-                ),
+                  Center(
+                    child: Hero(
+                      tag: 'product-hero-${filteredProduct.id}', // نفس الـ tag
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                          height: 300,
+                          filteredProduct.image ?? "",
+                          fit: BoxFit.scaleDown,
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
+                                Icons.broken_image,
+                                size: 48,
+                                color: Colors.grey,
+                              ),
+                          loadingBuilder: (context, child, progress) {
+                            if (progress == null) return child;
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                ],
               ),
-              const SizedBox(width: 20),
 
               Text(
                 "${filteredProduct.title}",
@@ -89,16 +143,24 @@ class ProductItemDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    RatingBar.builder(
-                      initialRating: filteredProduct.averageRating!.toDouble(),
-                      minRating: 0,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemBuilder: (context, _) =>
+                    RatingBarIndicator(
+                      rating: filteredProduct.averageRating!.toDouble(),
+                      itemBuilder: (context, index) =>
                           const Icon(Icons.star, color: Colors.amber),
-                      onRatingUpdate: (rating) {},
+                      itemCount: 5,
+                      itemSize: 40.0, // حجم النجمة
+                      direction: Axis.horizontal,
                     ),
+                    // RatingBar.builder(
+                    //   initialRating: filteredProduct.averageRating!.toDouble(),
+                    //   minRating: 0,
+                    //   direction: Axis.horizontal,
+                    //   allowHalfRating: true,
+                    //   itemCount: 5,
+                    //   itemBuilder: (context, _) =>
+                    //       const Icon(Icons.star, color: Colors.amber),
+                    //   onRatingUpdate: (rating) {},
+                    // ),
                     Text(
                       "(${filteredProduct.reviewCount} Reviews)",
                       style: Styles.textStyle16Medium.copyWith(
@@ -198,7 +260,16 @@ class ProductItemDetails extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        await context.read<CartCubit>().addItemToCart(
+                          AddItemToCartRequest(
+                            productId: filteredProduct.id,
+                            quantity: quantityNotifier.value,
+                          ),
+                        );
+                        if (!context.mounted) return;
+                        GoRouter.of(context).push(AppRouter.kCustomerCheckout);
+                      },
                       child: Text(
                         "Buy Now",
                         style: Styles.textStyle16Regular.copyWith(
@@ -209,7 +280,17 @@ class ProductItemDetails extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final cubit = context.read<WishListCubit>();
+                      if (filteredProduct.isInWishlist!) {
+                        await cubit.removeWishListItem(filteredProduct.id!);
+                      }
+                      await cubit.addWishListItem(
+                        AddProductToWishListRequest(
+                          productId: filteredProduct.id,
+                        ),
+                      );
+                    },
                     icon: const Icon(Icons.favorite_border),
                   ),
                 ],

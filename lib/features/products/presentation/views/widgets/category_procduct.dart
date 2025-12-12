@@ -5,10 +5,12 @@ import 'package:drop_z_ecommerce_app/features/products/presentation/views/widget
 class CategoryProductsView extends StatelessWidget {
   final int category;
   final ProductItemDataModel products;
+  final int roleId;
   const CategoryProductsView({
     super.key,
     required this.category,
     required this.products,
+    required this.roleId,
   });
 
   @override
@@ -23,7 +25,7 @@ class CategoryProductsView extends StatelessWidget {
       return Center(child: Text("No products in $category category"));
     }
 
-    return ProductItemsList(filteredProducts: filteredProducts);
+    return ProductItemsList(filteredProducts: filteredProducts, roleId: roleId);
   }
 }
 

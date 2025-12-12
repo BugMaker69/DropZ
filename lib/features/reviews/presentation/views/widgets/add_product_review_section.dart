@@ -197,15 +197,6 @@ class _AddReviewSectionState extends State<AddReviewSection> {
   }
 }
 
-
-
-
-
-
-
-
-
-
 /*
 class AddReviewSection extends StatefulWidget {
   final String slug;
@@ -319,8 +310,6 @@ class _AddReviewSectionState extends State<AddReviewSection> {
   }
 }
 */
-
-
 
 /*
 class AddProductReviewSection extends StatefulWidget {

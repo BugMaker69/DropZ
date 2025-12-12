@@ -40,7 +40,13 @@ class _LoginViewBodyState extends State<LoginViewBody> {
         if (state is LoginSuccess) {
           FocusScope.of(context).unfocus();
           await Future.delayed(const Duration(milliseconds: 80), () {});
-          GoRouter.of(context).pushReplacement(AppRouter.kHomeView);
+          if (state.role.isNotEmpty) {
+            GoRouter.of(context).pushReplacement(
+              state.role == "seller"
+                  ? AppRouter.kSellerDashboard
+                  : AppRouter.kCustomerHome,
+            );
+          }
         } else if (state is LoginFailure) {
           customSnakeBar(context, state.errMessage);
         }

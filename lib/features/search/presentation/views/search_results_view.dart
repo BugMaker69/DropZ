@@ -47,9 +47,9 @@ class SearchResultsView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 320,
-                    child: ProductItemsList(filteredProducts: filteredProducts),
+                  ProductItemsList(
+                    filteredProducts: filteredProducts,
+                    roleId: 0,
                   ),
                 ],
               ),

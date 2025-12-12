@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/add_item_to_cart_request.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
@@ -14,9 +16,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({super.key, required this.filteredProduct});
+  const ProductItem({
+    super.key,
+    required this.filteredProduct,
+    //  this.height,
+  });
 
   final Result filteredProduct;
+  // final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +37,7 @@ class ProductItem extends StatelessWidget {
           List<CartItemsModel> cartItems = [];
 
           if (state is CartSuccess) {
-            cartItems = state.cartItemsModel;
+            cartItems = state.cartItemsModel.items!;
           }
 
           // ✅ check if this product already exists in cart
@@ -53,17 +60,17 @@ class ProductItem extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     //! Seller Edit Product Screen
-                    // GoRouter.of(context).push(
-                    //   AppRouter.kEditDeleteProductView,
-                    //   extra: {
-                    //     "categories": categories,
-                    //     "product": filteredProduct,
-                    //   },
-                    // );
                     GoRouter.of(context).push(
-                      AppRouter.kProductDetailsView,
-                      extra: filteredProduct,
+                      AppRouter.kSellerEditDeleteProductView,
+                      extra: {
+                        "categories": categories,
+                        "product": filteredProduct,
+                      },
                     );
+                    // GoRouter.of(context).push(
+                    //   AppRouter.kProductDetailsView,
+                    //   extra: filteredProduct,
+                    // );
                   },
                   child: Column(
                     // mainAxisSize: MainAxisSize.min,
@@ -71,36 +78,37 @@ class ProductItem extends StatelessWidget {
                     children: [
                       Container(
                         width: 200,
+                        // height: height,
                         height: 190,
 
                         color: Color(0xffF5F5F5),
                         child: Stack(
                           children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(12),
-                              ),
-                              child: AspectRatio(
-                                aspectRatio: 270 / 250,
-                                child: Image.network(
-                                  filteredProduct.image ?? "",
-                                  fit: BoxFit.scaleDown,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      const Icon(
-                                        Icons.broken_image,
-                                        size: 48,
-                                        color: Colors.grey,
-                                      ),
-                                  loadingBuilder: (context, child, progress) {
-                                    if (progress == null) return child;
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  },
+                            Hero(
+                              tag: 'product-hero-${filteredProduct.id}',
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(12),
+                                ),
+                                child: AspectRatio(
+                                  aspectRatio: 270 / 250,
+                                  child: CachedNetworkImage(
+                                    imageUrl: filteredProduct.image ?? "",
+                                    fit: BoxFit.scaleDown,
+                                    errorWidget: (context, error, stackTrace) =>
+                                        const Icon(
+                                          Icons.broken_image,
+                                          size: 48,
+                                          color: Colors.grey,
+                                        ),
+                                    placeholder: (context, url) => const Center(
+                                      child: CustomLoadingIndicator(),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                            Align(
+                            /*Align(
                               alignment: AlignmentGeometry.topRight,
                               child: Directionality(
                                 textDirection: TextDirection.ltr,
@@ -248,7 +256,7 @@ class ProductItem extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            ),
+                            ),*/
                           ],
                         ),
                       ),

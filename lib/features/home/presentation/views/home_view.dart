@@ -5,13 +5,9 @@ import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/assets.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
-import 'package:drop_z_ecommerce_app/features/cart/presentation/views/cart_view.dart';
 import 'package:drop_z_ecommerce_app/features/home/presentation/manager/bottom_nav_cubit/bottom_nav_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
-import 'package:drop_z_ecommerce_app/features/products/presentation/views/add_product_view.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/views/widgets/category_procduct.dart';
-import 'package:drop_z_ecommerce_app/features/search/presentation/views/search_view.dart';
-import 'package:drop_z_ecommerce_app/features/whishlist/presentation/views/wish_list_view.dart';
 import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -219,28 +215,6 @@ class HomeView extends StatelessWidget {
                                                 .copyWith(color: Colors.white),
                                           ),
                                         ),
-                                        /*  Text(
-                                          "Electronics",
-                                          style: Styles.textStyle20Medium
-                                              .copyWith(color: Colors.white),
-                                        ),
-                                        Text(
-                                          "Men’s fashion",
-                                          style: Styles.textStyle20Medium
-                                              .copyWith(color: Colors.white),
-                                        ),
-                                        Text(
-                                          "Women’s fashion",
-                                          style: Styles.textStyle20Medium
-                                              .copyWith(color: Colors.white),
-                                        ),
-        
-                                        Text(
-                                          "Home & Lifestyle",
-                                          style: Styles.textStyle20Medium
-                                              .copyWith(color: Colors.white),
-                                        ),
-                                      */
                                       ],
                                     ),
                                   ],
@@ -252,92 +226,22 @@ class HomeView extends StatelessWidget {
                       body: RefreshIndicator(
                         onRefresh: () =>
                             context.read<ProductsCubit>().refreshAllData(),
-                        child: IndexedStack(
-                          index: bottomIndex,
+                        child: TabBarView(
+                          physics:
+                              const NeverScrollableScrollPhysics(), // منع السحب للتأكد من النافيجيشن
+                          // اسحب يمين/شمال للتنقل
                           children: [
-                            TabBarView(
-                              physics:
-                                  const NeverScrollableScrollPhysics(), // منع السحب للتأكد من النافيجيشن
-                              // اسحب يمين/شمال للتنقل
-                              children: [
-                                CategoryProductsView(
-                                  category: 0,
-                                  products: products,
-                                ),
-                                ...categories.map(
-                                  (category) => CategoryProductsView(
-                                    category: category.id!,
-                                    products: products,
-                                  ),
-                                ),
-                                /* Center(
-                                  child: Text(
-                                    'Search Page',
-                                    style: Styles.textStyle20Medium.copyWith(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                Center(
-                                  child: Text(
-                                    'Home Page',
-                                    style: Styles.textStyle20Medium,
-                                  ),
-                                ),
-                                Center(
-                                  child: Text(
-                                    'Search Page',
-                                    style: Styles.textStyle20Medium,
-                                  ),
-                                ),
-                                Center(
-                                  child: Text(
-                                    'Profile Page',
-                                    style: Styles.textStyle20Medium,
-                                  ),
-                                ),
-                              */
-                              ],
+                            CategoryProductsView(
+                              category: 0,
+                              products: products,
+                              roleId: 0,
                             ),
-                            SearchView(),
-                            AddProductView(categories: state.categories!),
-                            // ProfileView(),
-                            CartView(),
-                            WishListView(),
-                            // Center(child: Text("Notifications")),
-                          ],
-                        ),
-                      ),
-                      bottomNavigationBar: Directionality(
-                        textDirection: TextDirection.ltr,
-                        child: NavigationBar(
-                          indicatorColor: kSecondaryColor,
-                          shadowColor: kSecondaryColor,
-                          surfaceTintColor: kSecondaryColor,
-                          backgroundColor: Colors.grey.shade800,
-                          selectedIndex: bottomIndex,
-                          onDestinationSelected: (index) =>
-                              context.read<BottomNavCubit>().changeTab(index),
-                          destinations: const [
-                            NavigationDestination(
-                              icon: Icon(Icons.home),
-                              label: "Home",
-                            ),
-                            NavigationDestination(
-                              icon: Icon(Icons.search),
-                              label: "Search",
-                            ),
-                            NavigationDestination(
-                              icon: Icon(Icons.person),
-                              label: "Profile",
-                            ),
-                            NavigationDestination(
-                              icon: Icon(Icons.shopping_cart_outlined),
-                              label: "Cart",
-                            ),
-                            NavigationDestination(
-                              icon: Icon(Icons.notifications_none_outlined),
-                              label: "Notifications",
+                            ...categories.map(
+                              (category) => CategoryProductsView(
+                                category: category.id!,
+                                products: products,
+                                roleId: 0,
+                              ),
                             ),
                           ],
                         ),

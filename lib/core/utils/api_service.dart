@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:drop_z_ecommerce_app/core/utils/service_locator.dart';
+import 'package:drop_z_ecommerce_app/features/profile/data/repos/user_profile_repo_imp.dart';
+import 'package:drop_z_ecommerce_app/features/profile/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,81 +14,7 @@ class ApiService {
 
   final Dio _dio;
   final SharedPreferences preferences;
-
-  // ApiService(this._dio, this.preferences)
-
-  /* ApiService(this._dio, this.preferences) {
-  _dio.interceptors.add(
-    InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        final token = preferences.getString('accessToken');
-        if (token != null && token.isNotEmpty) {
-          options.headers['Authorization'] = 'Bearer $token';
-        }
-        return handler.next(options);
-      },
-      onError: (error, handler) async {
-        final statusCode = error.response?.statusCode;
-
-        // إذا مش 401 نمرر الخطأ
-        if (statusCode != 401) {
-          return handler.next(error);
-        }
-
-        // تمنع محاولات متتالية من أخذ الـ refresh بنفس الوقت
-        // تُقفل الـ dio وتمنع الطلبات الجديدة أثناء عملية الريفرش
-        _dio.lock();
-        _dio.interceptors.errorLock.lock();
-        _dio.interceptors.requestLock.lock();
-
-        try {
-          final didRefresh = await _refreshToken(); // لازم تعرفها
-          if (!didRefresh) {
-            // فشل الريفرش -> أخرج المستخدم أو امسح التوكنات
-            await _handleRefreshFailure();
-            return handler.next(error);
-          }
-
-          // جلب الـ access token الجديد
-          final newAccessToken = preferences.getString('accessToken');
-
-          // نسخ RequestOptions الأصلي مع تعديل الهيدر
-          final requestOptions = error.requestOptions;
-          final opts = Options(
-            method: requestOptions.method,
-            headers: {
-              ...?requestOptions.headers,
-              'Authorization': 'Bearer $newAccessToken',
-            },
-            responseType: requestOptions.responseType,
-            followRedirects: requestOptions.followRedirects,
-            validateStatus: requestOptions.validateStatus,
-            contentType: requestOptions.contentType,
-          );
-
-          // اعادة ارسال الطلب باستخدام fullUri لتجنب مشاكل baseUrl/path
-          final uri = requestOptions.uri; // Uri
-          final clonedResponse = await _dio.requestUri(
-            uri,
-            options: opts,
-            data: requestOptions.data,
-            queryParameters: requestOptions.queryParameters,
-          );
-
-          return handler.resolve(clonedResponse);
-        } catch (e) {
-          return handler.next(error);
-        } finally {
-          // فك القفل دائماً
-          _dio.unlock();
-          _dio.interceptors.errorLock.unlock();
-          _dio.interceptors.requestLock.unlock();
-        }
-      },
-    ),
-  );
-}
-*/
+  Future<bool>? _refreshTokenFuture;
 
   ApiService(this._dio, this.preferences) {
     _dio.interceptors.add(
@@ -108,9 +37,14 @@ class ApiService {
         },
         onError: (error, handler) async {
           if (error.response?.statusCode == 401) {
-            final refreshed = await _refreshToken();
+            _refreshTokenFuture ??= _refreshToken();
 
-            if (refreshed) {
+            final success = await _refreshTokenFuture;
+
+            // Reset future after finish
+            _refreshTokenFuture = null;
+
+            if (success!) {
               final newAccessToken = preferences.getString("accessToken");
 
               error.requestOptions.headers['Authorization'] =
@@ -127,6 +61,8 @@ class ApiService {
               );
               return handler.resolve(clonedRequest);
             }
+            await UserProfileCubit(getIt.get<UserProfileRepoImp>()).logOut();
+            return handler.reject(error);
           }
           return handler.next(error);
         },
@@ -136,26 +72,15 @@ class ApiService {
 
   Future<Map<String, dynamic>> post({
     required String endPoint,
-    // required LoginRequest loginRequest,
+    String? newUrl,
     dynamic data,
-    // Map<String, dynamic>? data,
     String? token,
     String? refreshToken,
     bool? isImage = false,
   }) async {
-    /*_dio.interceptors.add(
-      LogInterceptor(
-        request: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        error: true,
-      ),
-    );*/
     var response = await _dio.post(
-      '$_baseUrl$endPoint',
+      newUrl == null ? '$_baseUrl$endPoint' : '$newUrl$endPoint',
       data: data,
-      // data: loginRequest,
       options: Options(
         headers: {
           "Content-Type": isImage == false
@@ -175,108 +100,7 @@ class ApiService {
             "data": response.data,
             "cookies": response.headers.map['set-cookie'],
           };
-
-    // return {
-    //   "data": response.data,
-    //   "cookies":
-    //       response.headers.map['set-cookie'], // بترجع للـ Repo يتصرف بيها
-    //   // "cookies": response.headers['set-cookie'], // بترجع للـ Repo يتصرف بيها
-    // };
-
-    // final accessToken = response.data['access'];
-    // await preferences.setString('accessToken', accessToken);
-
-    // final cookies = response.headers['set-cookie'];
-    // String? refreshToken;
-    // if (cookies != null) {
-    //   for (var cookie in cookies) {
-    //     if (cookie.startsWith('refresh_token=')) {
-    //       refreshToken = cookie.split(';').first.split('=').last;
-    //       await preferences.setString('refreshToken', refreshToken);
-    //     }
-    //   }
-    //   final decoded = decodeJwtPayload(refreshToken!);
-    //   final role = decoded['role'];
-    //   print("role ${role}");
-
-    //   await preferences.setString('role', role);
-    // }
-
-    // print("response.data ${response.data}");
-    // print("refreshToken ${refreshToken}");
-    // print(
-    //   "refreshToken From preferences ${preferences.getString("refreshToken")}",
-    // );
-    // print(
-    //   "AccessToken From preferences ${preferences.getString("accessToken")}",
-    // );
-    // return response.data;
   }
-
-  /* Future<FormData> postFormData({
-    required String endPoint,
-    Map<String, dynamic>? data,
-    String? token,
-    String? refreshToken,
-  }) async {
-    var response = await _dio.post(
-      '$_baseUrl$endPoint',
-      data: data,
-      options: Options(
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "Authorization": token != null ? "Bearer $token" : "",
-          "Cookie": refreshToken != null ? "refresh_token=$refreshToken" : "",
-        },
-      ),
-    );
-
-    print("response DAta From API ${response.data}");
-
-    return response.headers.map['set-cookie'] == null
-        ? response.data
-        : {
-            "data": response.data,
-            "cookies": response.headers.map['set-cookie'],
-          };
-
-    // return {
-    //   "data": response.data,
-    //   "cookies":
-    //       response.headers.map['set-cookie'], // بترجع للـ Repo يتصرف بيها
-    //   // "cookies": response.headers['set-cookie'], // بترجع للـ Repo يتصرف بيها
-    // };
-
-    // final accessToken = response.data['access'];
-    // await preferences.setString('accessToken', accessToken);
-
-    // final cookies = response.headers['set-cookie'];
-    // String? refreshToken;
-    // if (cookies != null) {
-    //   for (var cookie in cookies) {
-    //     if (cookie.startsWith('refresh_token=')) {
-    //       refreshToken = cookie.split(';').first.split('=').last;
-    //       await preferences.setString('refreshToken', refreshToken);
-    //     }
-    //   }
-    //   final decoded = decodeJwtPayload(refreshToken!);
-    //   final role = decoded['role'];
-    //   print("role ${role}");
-
-    //   await preferences.setString('role', role);
-    // }
-
-    // print("response.data ${response.data}");
-    // print("refreshToken ${refreshToken}");
-    // print(
-    //   "refreshToken From preferences ${preferences.getString("refreshToken")}",
-    // );
-    // print(
-    //   "AccessToken From preferences ${preferences.getString("accessToken")}",
-    // );
-    // return response.data;
-  }
-*/
 
   Future<bool> _refreshToken() async {
     try {
@@ -316,21 +140,11 @@ class ApiService {
     }
   }
 
-  // Future<Map<String, dynamic>> get({String? token, required String endPoint}) async {
   Future<dynamic> get({
     String? token,
     required String endPoint,
     Map<String, dynamic>? query,
   }) async {
-    /*_dio.interceptors.add(
-      LogInterceptor(
-        request: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        error: true,
-      ),
-    );*/
     var response = await _dio.get(
       '$_baseUrl$endPoint',
       queryParameters: query,
@@ -348,14 +162,17 @@ class ApiService {
   Future<Map<String, dynamic>> patch({
     String? token,
     required String endPoint,
-    Map<String, dynamic>? data,
+    dynamic data,
+    bool? isImage = false,
   }) async {
     var response = await _dio.patch(
       '$_baseUrl$endPoint',
       data: data,
       options: Options(
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": isImage == false
+              ? "application/json"
+              : "multipart/form-data",
           "Authorization": "Bearer $token",
         },
       ),
@@ -365,15 +182,6 @@ class ApiService {
   }
 
   Future<dynamic> delete({String? token, required String endPoint}) async {
-    /*_dio.interceptors.add(
-      LogInterceptor(
-        request: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        error: true,
-      ),
-    );*/
     var response = await _dio.delete(
       '$_baseUrl$endPoint',
       options: Options(
@@ -401,8 +209,6 @@ class ApiService {
           "Content-Type": isImage == false
               ? "application/json"
               : "multipart/form-data",
-
-          // if (isImage == false) "Content-Type": "application/json",
           "Authorization": token != null ? "Bearer $token" : "",
         },
       ),

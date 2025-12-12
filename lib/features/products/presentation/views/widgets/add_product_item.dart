@@ -281,7 +281,7 @@ class AddProductItem extends StatelessWidget {
                             category: selectedCategoryId,
                           ),
                         );
-                        GoRouter.of(context).go(AppRouter.kHomeView);
+                        GoRouter.of(context).go(AppRouter.kSellerDashboard);
 
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

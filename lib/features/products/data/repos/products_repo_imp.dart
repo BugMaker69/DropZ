@@ -9,6 +9,7 @@ import 'package:drop_z_ecommerce_app/features/products/data/model/category_model
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/product_item_data_model.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/result.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/repos/products_repo.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class ProductsRepoImp extends ProductsRepo {
   ProductsRepoImp(this.apiService);
@@ -18,9 +19,11 @@ class ProductsRepoImp extends ProductsRepo {
 
   @override
   Future<Either<Failure, ProductItemDataModel>> getAllProducts() async {
-    if (_cachedProducts != null) {
-      return Right(_cachedProducts!);
-    }
+    // if (_cachedProducts != null) {
+    //   return Right(_cachedProducts!);
+    // }
+    final productsBox = Hive.box('productsBox');
+
     try {
       var result = await apiService.get(endPoint: "/products/");
 
@@ -29,7 +32,33 @@ class ProductsRepoImp extends ProductsRepo {
       ProductItemDataModel productItemDataModel = ProductItemDataModel.fromJson(
         result,
       );
+      await productsBox.put("products", productItemDataModel);
+
       _cachedProducts = productItemDataModel;
+      return right(productItemDataModel);
+    } catch (e) {
+      if (productsBox.containsKey("products")) {
+        final cached = productsBox.get("products") as ProductItemDataModel;
+        return right(cached);
+      }
+
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProductItemDataModel>> getProductById(int id) async {
+    try {
+      var result = await apiService.get(endPoint: "/products/$id");
+
+      print("DAta Products + ${result}");
+
+      ProductItemDataModel productItemDataModel = ProductItemDataModel.fromJson(
+        result,
+      );
       return right(productItemDataModel);
     } catch (e) {
       if (e is DioException) {
@@ -41,9 +70,11 @@ class ProductsRepoImp extends ProductsRepo {
 
   @override
   Future<Either<Failure, List<CategoryModel>>> getAllCategories() async {
-    if (_cachedCategories != null) {
-      return Right(_cachedCategories!);
-    }
+    // if (_cachedCategories != null) {
+    //   return Right(_cachedCategories!);
+    // }
+    final categoriesBox = Hive.box('categoriesBox');
+
     try {
       var result = await apiService.get(endPoint: "/categories/");
 
@@ -54,9 +85,21 @@ class ProductsRepoImp extends ProductsRepo {
       final List<CategoryModel> categoryModel = (result as List)
           .map((item) => CategoryModel.fromJson(item))
           .toList();
+      await categoriesBox.put("categories", categoryModel);
+
       _cachedCategories = categoryModel;
       return right(categoryModel);
     } catch (e) {
+      // if (categoriesBox.containsKey("categories")) {
+      //   final cached = categoriesBox.get("categories") as List<CategoryModel>;
+      //   return right(cached);
+      // }
+      if (categoriesBox.containsKey("categories")) {
+        final cached = (categoriesBox.get("categories") as List)
+            .cast<CategoryModel>();
+        return right(cached);
+      }
+
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));
       }
@@ -168,6 +211,29 @@ class ProductsRepoImp extends ProductsRepo {
       }
 
       return right(result.data?["message"] ?? "Deleted successfully");
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProductItemDataModel>> getAllSellerProducts() async {
+    if (_cachedProducts != null) {
+      return Right(_cachedProducts!);
+    }
+    try {
+      var result = await apiService.get(endPoint: "/seller/products/");
+
+      print("DAta Products + ${result}");
+
+      ProductItemDataModel productItemDataModel = ProductItemDataModel.fromJson(
+        result,
+      );
+      _cachedProducts = productItemDataModel;
+      return right(productItemDataModel);
     } catch (e) {
       if (e is DioException) {
         return left(ServerFailure.fromDioError(e));

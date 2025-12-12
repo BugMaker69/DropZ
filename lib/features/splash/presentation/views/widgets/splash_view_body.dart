@@ -18,8 +18,13 @@ class SplashViewBody extends StatelessWidget {
       child: BlocListener<SplashCubit, SplashState>(
         listener: (context, state) {
           if (state is SplashAuthenticated) {
+            if (state.role == "seller") {
+              context.go(AppRouter.kSellerDashboard);
+            } else {
+              context.go(AppRouter.kCustomerHome);
+            }
             // context.go(AppRouter.kHomeView);
-            context.replace(AppRouter.kHomeView);
+            // context.replace(AppRouter.kHomeView);
           } else if (state is SplashUnauthenticated) {
             context.go(AppRouter.kloginView);
           }

@@ -1,4 +1,3 @@
-
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
@@ -98,7 +97,7 @@ class _SearchViewState extends State<SearchView> {
                       context.push(
                         AppRouter.kSearchResultsView,
                         extra: {
-                          "query": _controller.text.trim(),
+                          "query": product.title,
                           "products": state.results,
                         },
                       );

@@ -7,6 +7,8 @@ import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_d
 
 abstract class ProductsRepo {
   Future<Either<Failure, ProductItemDataModel>> getAllProducts();
+  Future<Either<Failure, ProductItemDataModel>> getProductById(int id);
+  Future<Either<Failure, ProductItemDataModel>> getAllSellerProducts();
   Future<Either<Failure, List<CategoryModel>>> getAllCategories();
   Future<Either<Failure, Result>> AddProductItem(
     AddProductRequest addProductRequest,

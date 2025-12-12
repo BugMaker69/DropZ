@@ -16,22 +16,22 @@ class WishListCubit extends Cubit<WishListState> {
   WishListDataResponse? _wishlistData;
 
   Future<void> getAllWishList() async {
-    if (_wishlistData != null) {
-      emit(WishListSuccess(_wishlistData!));
+    if (_wishlistData == null) {
+      emit(WishListLoading());
+      var result = await whishlistRepo.getAllWishList();
+      result.fold(
+        (failure) {
+          emit(WishListFailure(failure.toString()));
+        },
+        (wishlistDataSuccess) {
+          _wishlistData = wishlistDataSuccess;
+          emit(WishListSuccess(wishlistDataSuccess));
+        },
+      );
+
       return;
     }
-    emit(WishListLoading());
-    var result = await whishlistRepo.getAllWishList();
-
-    result.fold(
-      (failure) {
-        emit(WishListFailure(failure.toString()));
-      },
-      (wishlistDataSuccess) {
-        _wishlistData = wishlistDataSuccess;
-        emit(WishListSuccess(wishlistDataSuccess));
-      },
-    );
+    emit(WishListSuccess(_wishlistData!));
   }
 
   Future<void> refreshWishlist(BuildContext context) async {
@@ -42,7 +42,6 @@ class WishListCubit extends Cubit<WishListState> {
 
   Future<void> addWishListItem(
     AddProductToWishListRequest addProductToWishListRequest,
-    BuildContext context,
   ) async {
     emit(WishListLoading());
     var result = await whishlistRepo.addWishListItem(
@@ -56,6 +55,7 @@ class WishListCubit extends Cubit<WishListState> {
       (addProductToWishListResponse) async {
         emit(AddItemToWishListSuccess(addProductToWishListResponse));
         _wishlistData = null;
+        await whishlistRepo.clearCacheAndReload();
         await getAllWishList();
         // await refreshWishlist(context);
       },
@@ -74,6 +74,7 @@ class WishListCubit extends Cubit<WishListState> {
       (removeProductToWishListResponse) async {
         emit(DeleteItemFromWishListSuccess(removeProductToWishListResponse));
         _wishlistData = null;
+        await whishlistRepo.clearCacheAndReload();
         await getAllWishList();
 
         // await refreshWishlist(context);

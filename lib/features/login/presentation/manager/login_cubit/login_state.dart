@@ -25,9 +25,11 @@ final class LoginInitial extends LoginState {}
 final class LoginLoading extends LoginState {}
 
 final class LoginSuccess extends LoginState {
-  final LoginSuccessResponse loginSuccessResponse;
+  final String role;
+  const LoginSuccess(this.role);
+  // final LoginSuccessResponse loginSuccessResponse;
 
-  LoginSuccess(this.loginSuccessResponse);
+  // LoginSuccess(this.loginSuccessResponse);
 }
 
 final class LoginFailure extends LoginState {

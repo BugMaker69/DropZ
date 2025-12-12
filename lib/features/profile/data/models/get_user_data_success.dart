@@ -7,6 +7,7 @@ class GetUserDataSuccess extends Equatable {
   final String? phoneNumber;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final dynamic profileImage;
 
   const GetUserDataSuccess({
     this.firstName,
@@ -15,6 +16,7 @@ class GetUserDataSuccess extends Equatable {
     this.phoneNumber,
     this.createdAt,
     this.updatedAt,
+    this.profileImage,
   });
 
   factory GetUserDataSuccess.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class GetUserDataSuccess extends Equatable {
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
+      profileImage: json['profile_image'] as dynamic,
     );
   }
 
@@ -39,6 +42,7 @@ class GetUserDataSuccess extends Equatable {
     'phone_number': phoneNumber,
     'created_at': createdAt?.toIso8601String(),
     'updated_at': updatedAt?.toIso8601String(),
+    'profile_image': profileImage,
   };
 
   Map<String, dynamic> toUpdateJson() => {
@@ -46,10 +50,19 @@ class GetUserDataSuccess extends Equatable {
     'last_name': lastName,
     'email': email,
     'phone_number': phoneNumber,
+    'profile_image': profileImage,
   };
 
   @override
   List<Object?> get props {
-    return [firstName, lastName, email, phoneNumber, createdAt, updatedAt];
+    return [
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      createdAt,
+      updatedAt,
+      profileImage,
+    ];
   }
 }

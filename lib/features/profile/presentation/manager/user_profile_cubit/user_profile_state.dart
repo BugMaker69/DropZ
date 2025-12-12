@@ -13,15 +13,20 @@ final class UserProfileLoading extends UserProfileState {}
 
 class AuthLoggedOut extends UserProfileState {
   final LogoutMessage logoutMessage;
-  AuthLoggedOut(this.logoutMessage);
+  const AuthLoggedOut(this.logoutMessage);
 }
 
 final class UserProfileSuccess extends UserProfileState {
   final GetUserDataSuccess getUserDataSuccess;
-  UserProfileSuccess(this.getUserDataSuccess);
+  const UserProfileSuccess(this.getUserDataSuccess);
 }
 
 final class UserProfileFailure extends UserProfileState {
   final String errMessage;
-  UserProfileFailure(this.errMessage);
+  const UserProfileFailure(this.errMessage);
+}
+
+final class ChangePasswordSuccess extends UserProfileState {
+  final ChangePasswordResponse message;
+  const ChangePasswordSuccess(this.message);
 }

@@ -7,11 +7,13 @@ class CustomButton extends StatelessWidget {
     required this.text,
     required this.onPressed,
     this.backgroundColor = const Color(0xffE0FE17),
+    this.isDisable = false,
   });
 
   final String text;
   final Function() onPressed;
   Color backgroundColor;
+  bool isDisable;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class CustomButton extends StatelessWidget {
       width: double.infinity,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          backgroundColor: backgroundColor,
+          backgroundColor: isDisable ? Colors.grey : backgroundColor,
           textStyle: Styles.textStyle16SemiBold,
         ),
         onPressed: onPressed,

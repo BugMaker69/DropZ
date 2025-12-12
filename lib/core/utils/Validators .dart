@@ -92,4 +92,17 @@ class Validators {
     if (stock == null || stock < 0) return 'Enter a valid stock quantity';
     return null;
   }
+
+  static String? validatePostalCode(String? value) {
+    if (value == null || value.isEmpty) return 'Postal code is required';
+
+    if (value == null || value.length < 0) return 'Enter a valid Postal Code';
+    if (value == null ||
+        value.length != 5 ||
+        value.length > 5 ||
+        value.length < 5) {
+      return 'Code must be 5 digits';
+    }
+    return null;
+  }
 }
