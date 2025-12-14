@@ -1,7 +1,6 @@
-import 'package:drop_z_ecommerce_app/constants.dart';
 import 'package:drop_z_ecommerce_app/core/utils/Validators%20.dart';
-import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
-import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_error_widget.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/support/data/model/show_tickets/show_tickets.dart';
 import 'package:drop_z_ecommerce_app/features/support/presentation/manager/ticket_cubit/ticket_cubit.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +19,11 @@ class TicketDetailsItem extends StatelessWidget {
       builder: (context, state) {
         ShowTickets? showTicket = intialShowTicket;
         if (state is TicketLoading) {
-          return Center(child: CircularProgressIndicator());
+          return const CustomLoadingIndicator();
         }
 
         if (state is TicketFailure) {
-          return Center(child: Text(state.errMessage));
+          return CustomErrorWidget(errMessage: state.errMessage);
         }
 
         if (state is TicketSuccess) {
@@ -45,21 +44,19 @@ class TicketDetailsItem extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(16),
-                    color: Colors.grey.shade100,
+                    // color: Colors.grey.shade100,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Subject",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleSmall!
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 4),
                         Text(
                           "${showTicket.subject}",
-                          style: TextStyle(fontSize: 16),
+                          style: Theme.of(context).textTheme.bodyMedium,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -70,13 +67,12 @@ class TicketDetailsItem extends StatelessWidget {
                           children: [
                             Text(
                               "Status:",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: Theme.of(context).textTheme.titleSmall!
+                                  .copyWith(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(width: 8),
                             _statusBadge(
+                              context,
                               "${showTicket.status}",
                             ), // ← هنا بتحط الحالة
                           ],
@@ -86,15 +82,13 @@ class TicketDetailsItem extends StatelessWidget {
 
                         Text(
                           "Description",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleSmall!
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 4),
                         Text(
                           "${showTicket.description}",
-                          style: TextStyle(fontSize: 16),
+                          style: Theme.of(context).textTheme.bodyMedium,
                           maxLines: 5,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -115,7 +109,8 @@ class TicketDetailsItem extends StatelessWidget {
                           margin: EdgeInsets.only(bottom: 12),
                           padding: EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
+                            color: Theme.of(context).colorScheme.surface,
+                            // color: Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Column(
@@ -123,15 +118,12 @@ class TicketDetailsItem extends StatelessWidget {
                             children: [
                               Text(
                                 "${msg?.message}",
-                                style: TextStyle(fontSize: 15),
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               SizedBox(height: 6),
                               Text(
                                 _formatDate(msg?.createdAt),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey,
-                                ),
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
                           ),
@@ -144,7 +136,9 @@ class TicketDetailsItem extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
+                      color: Theme.of(context).colorScheme.surface,
+
+                      // color: Colors.grey.shade200,
                       border: Border(
                         top: BorderSide(color: Colors.grey.shade400),
                       ),
@@ -160,7 +154,8 @@ class TicketDetailsItem extends StatelessWidget {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              fillColor: Colors.white,
+                              fillColor: Theme.of(context).colorScheme.surface,
+
                               filled: true,
                             ),
                             validator: (value) => Validators.validateRequired(
@@ -173,7 +168,10 @@ class TicketDetailsItem extends StatelessWidget {
                         ),
                         SizedBox(width: 8),
                         IconButton(
-                          icon: Icon(Icons.send, color: Colors.blue),
+                          icon: Icon(
+                            Icons.send,
+                            color: Theme.of(context).colorScheme.tertiaryFixed,
+                          ),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               await context
@@ -201,7 +199,7 @@ class TicketDetailsItem extends StatelessWidget {
     );
   }
 
-  Widget _statusBadge(String status) {
+  Widget _statusBadge(context, String status) {
     Color bg;
     Color text;
 
@@ -239,11 +237,11 @@ class TicketDetailsItem extends StatelessWidget {
       ),
       child: Text(
         status,
-        style: TextStyle(
-          fontSize: 14,
+        style: Theme.of(context).textTheme.bodySmall!.copyWith(
           fontWeight: FontWeight.w600,
           color: text,
         ),
+        // TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: text),
       ),
     );
   }

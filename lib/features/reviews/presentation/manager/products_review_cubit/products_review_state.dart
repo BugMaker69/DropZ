@@ -20,17 +20,17 @@ final class ProductsReviewSuccess extends ProductsReviewState {
 final class ProductsReviewFailure extends ProductsReviewState {
   final String errMessage;
 
-  ProductsReviewFailure(this.errMessage);
+  const ProductsReviewFailure(this.errMessage);
 }
 
-final class addProductsReviewSuccess extends ProductsReviewState {
+final class AddProductsReviewSuccess extends ProductsReviewState {
   final GetAllReviews? getReview;
 
-  const addProductsReviewSuccess({this.getReview});
+  const AddProductsReviewSuccess({this.getReview});
 }
 
 final class DeleteProductReviewSuccess extends ProductsReviewState {
   final String message;
 
-  DeleteProductReviewSuccess(this.message);
+  const DeleteProductReviewSuccess(this.message);
 }

@@ -33,10 +33,11 @@ class ServerFailure extends Failure {
         return ServerFailure('Canceled Request To Api Server');
 
       case DioExceptionType.connectionError:
-        return ServerFailure('Connection Error To Api Server');
+        return ServerFailure('There is No Network Connection');
 
       case DioExceptionType.unknown:
-        if (dioError.message!.contains('SocketException')) {
+        if (dioError.message != null &&
+            dioError.message!.contains('SocketException')) {
           return ServerFailure('No Internet Connection To Api Server');
         }
         return ServerFailure('UnExpected Error');

@@ -1,5 +1,4 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:drop_z_ecommerce_app/core/payment/home_screen.dart';
 import 'package:drop_z_ecommerce_app/core/payment/payment_cubit/payment_cubit.dart';
 import 'package:drop_z_ecommerce_app/core/providers/localization_provider.dart';
 import 'package:drop_z_ecommerce_app/core/providers/theme_provider.dart';
@@ -21,7 +20,6 @@ import 'package:drop_z_ecommerce_app/features/checkout/data/repos/checkout_repo_
 import 'package:drop_z_ecommerce_app/features/checkout/presentation/manager/checkout_cubit/checkout_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/category_model/category_model_adapter.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/product_item_data_model_adapter.dart';
-import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/result.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/result_adapter.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/repos/products_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
@@ -31,8 +29,6 @@ import 'package:drop_z_ecommerce_app/features/register/data/repos/register_repo_
 import 'package:drop_z_ecommerce_app/features/register/presentation/manager/register_cubit/register_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/search/data/repos/search_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/search/presentation/manager/search_cubit/search_cubit.dart';
-import 'package:drop_z_ecommerce_app/features/support/data/repos/ticket_repo_imp.dart';
-import 'package:drop_z_ecommerce_app/features/support/presentation/manager/ticket_cubit/ticket_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/data/repos/whishlist_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/presentation/manager/wish_list_cubit/wish_list_cubit.dart';
 import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
@@ -100,7 +96,7 @@ void main() async {
     ),
   ]);
 
-  runApp(DevicePreview(enabled: true, builder: (context) => MyApp()));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

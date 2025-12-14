@@ -1,6 +1,8 @@
 import 'package:drop_z_ecommerce_app/core/payment/payment_cubit/payment_cubit.dart';
 import 'package:drop_z_ecommerce_app/core/payment/payment_cubit/payment_state.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -59,9 +61,7 @@ class PaymentWebViewPage extends StatelessWidget {
                   //   GoRouter.of(context).go(AppRouter.kCustomerHome);
                   // });
                 } else if (state is PaymentStatusError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Error: ${state.message}")),
-                  );
+                  CustomSnakeBar(context, "Error: ${state.message}");
                 }
 
                 isLoading.value = false;
@@ -87,7 +87,7 @@ class PaymentWebViewPage extends StatelessWidget {
             valueListenable: isLoading,
             builder: (_, loading, __) {
               if (!loading) return const SizedBox.shrink();
-              return const Center(child: CircularProgressIndicator());
+              return const CustomLoadingIndicator();
             },
           ),
         ],

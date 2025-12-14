@@ -5,12 +5,10 @@ enum PageAnimationType { slideFromRight, slideFromBottom, fade, fadeScale }
 
 class CustomAnimatedPage<T> extends CustomTransitionPage<T> {
   CustomAnimatedPage({
-    required Widget child,
-    required LocalKey key,
+    required super.child,
+    required LocalKey super.key,
     PageAnimationType animationType = PageAnimationType.slideFromRight,
   }) : super(
-         key: key,
-         child: child,
          transitionsBuilder: (context, animation, secondaryAnimation, child) {
            switch (animationType) {
              case PageAnimationType.slideFromRight:

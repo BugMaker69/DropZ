@@ -1,3 +1,5 @@
+import 'package:drop_z_ecommerce_app/core/widgets/custom_error_widget.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/presentation/manager/products_review_cubit/products_review_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/presentation/views/widgets/edit_review_bottom_sheet.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/presentation/views/widgets/product_review_item.dart';
@@ -18,12 +20,12 @@ class ProductReviewListView extends StatelessWidget {
     return BlocBuilder<ProductsReviewCubit, ProductsReviewState>(
       builder: (context, state) {
         if (state is ProductsReviewLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const CustomLoadingIndicator();
         }
         if (state is ProductsReviewSuccess) {
           final reviews = state.getAllReviews;
           if (reviews!.isEmpty) {
-            return const Center(child: Text("لا توجد تقييمات بعد"));
+            return const CustomErrorWidget(errMessage: "لا توجد تقييمات بعد");
           }
           return ListView.builder(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
@@ -60,7 +62,7 @@ class ProductReviewListView extends StatelessWidget {
             },
           );
         }
-        return const Center(child: Text("حدث خطأ، حاول مرة أخرى"));
+        return CustomErrorWidget(errMessage: "حدث خطأ، حاول مرة أخرى");
       },
     );
 

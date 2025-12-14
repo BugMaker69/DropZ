@@ -36,7 +36,7 @@ Future<void> setupServiceLocator() async {
   );
   getIt.registerSingleton<CartRepoImp>(CartRepoImp(getIt.get<ApiService>()));
   getIt.registerSingleton<WhishlistRepoImp>(
-    WhishlistRepoImp(getIt.get<ApiService>(), getIt.get<SharedPreferences>()),
+    WhishlistRepoImp(getIt.get<ApiService>()),
   );
   getIt.registerSingleton<SearchRepoImp>(
     SearchRepoImp(getIt.get<ApiService>()),

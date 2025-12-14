@@ -15,9 +15,11 @@ class ShowTicketItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       style: ListTileStyle.list,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text("${showTicket.subject}")],
+      title: Text(
+        "${showTicket.subject}",
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        softWrap: true,
       ),
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,7 +38,7 @@ class ShowTicketItem extends StatelessWidget {
       ),
       trailing: _statusBadge("${showTicket.status}"),
       shape: OutlineInputBorder(
-        borderSide: BorderSide(color: kPrimaryColor),
+        borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
         borderRadius: BorderRadius.circular(16),
       ),
       onTap: () {

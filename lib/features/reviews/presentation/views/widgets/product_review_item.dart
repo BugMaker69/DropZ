@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/login/data/repos/login_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/data/model/get_all_reviews/get_all_reviews.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/presentation/views/widgets/edit_review_bottom_sheet.dart';
@@ -44,32 +46,29 @@ class ProductReviewItem extends StatelessWidget {
           backgroundColor: Colors.grey.shade200,
           child: (getReview.user?.profileImage?.isNotEmpty ?? false)
               ? ClipOval(
-                  child: Image.network(
-                    getReview.user!.profileImage!,
+                  child: CachedNetworkImage(
+                    imageUrl: getReview.user!.profileImage!,
                     fit: BoxFit.cover,
                     width: 56,
                     height: 56,
-                    errorBuilder: (context, error, stackTrace) {
+                    errorWidget: (context, error, stackTrace) {
                       return const Icon(
                         Icons.person,
                         size: 30,
                         color: Colors.grey,
                       );
                     },
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return const CircularProgressIndicator(strokeWidth: 2);
-                    },
+                    placeholder: (context, url) => CustomLoadingIndicator(),
                   ),
                 )
               : const Icon(Icons.person, size: 30, color: Colors.grey),
         ),
         trailing: Text(
           _formatDate(getReview.createdAt),
-          style: Styles.textStyle14Regular.copyWith(color: Colors.black),
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         title: Text(
-          "${getReview.user!.name!}",
+          getReview.user!.name!,
           style: Styles.textStyle16Medium,
         ),
         subtitle: Column(
@@ -77,7 +76,7 @@ class ProductReviewItem extends StatelessWidget {
           children: [
             const SizedBox(height: 4),
 
-            Text("${getReview.comment!}", style: Styles.textStyle16Medium),
+            Text(getReview.comment!, style: Styles.textStyle16Medium),
             const SizedBox(height: 8),
 
             Row(

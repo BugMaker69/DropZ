@@ -1,3 +1,4 @@
+import 'package:drop_z_ecommerce_app/core/widgets/custom_error_widget.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/product_item_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/views/widgets/product_items_list.dart';
@@ -19,10 +20,8 @@ class CategoryProductsView extends StatelessWidget {
         ? products.results!
         : products.results!.where((p) => p.category == category).toList();
 
-    print("filteredProducts ${filteredProducts}");
-
     if (filteredProducts.isEmpty) {
-      return Center(child: Text("No products in $category category"));
+      return CustomErrorWidget(errMessage: "No products in $category category");
     }
 
     return ProductItemsList(filteredProducts: filteredProducts, roleId: roleId);

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:drop_z_ecommerce_app/core/utils/cubit_handler.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/model/address_request.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/model/address_response/address_response.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/repos/address_repo.dart';
@@ -7,70 +8,87 @@ import 'package:equatable/equatable.dart';
 part 'address_state.dart';
 
 class AddressCubit extends Cubit<AddressState> {
-  AddressCubit(this.addressRepo) : super(AddressInitial());
-
-  final AddressRepo addressRepo;
+  final AddressRepo repo;
+  AddressCubit(this.repo) : super(AddressInitial());
 
   Future<void> getAllAddresses() async {
-    emit(AddressLoading());
-    var result = await addressRepo.getAllAddresses();
+    if (isClosed) return;
 
-    print("getAllAddresses Cubit ${result}");
-    result.fold(
-      (failure) {
-        emit(AddressFailure(failure.errMessage));
+    CubitHandler.run<List<AddressResponse>>(
+      cubit: this,
+      call: () => repo.getAllAddresses(),
+      onSuccess: (data) {
+        if (!isClosed) emit(AddressSuccess(data));
       },
-      (allAddresses) {
-        emit(AddressSuccess(allAddresses));
+      loadingState: () {
+        if (!isClosed) emit(AddressLoading());
+      },
+      failureState: (msg) {
+        if (!isClosed) emit(AddressFailure(msg));
       },
     );
   }
 
-  Future<void> addAddress(AddressRequest addAddress) async {
-    emit(AddressLoading());
-    var result = await addressRepo.addAddress(addAddress);
-
-    print("addAddress Cubit ${result}");
-    result.fold(
-      (failure) {
-        emit(AddressFailure(failure.errMessage));
+  Future<void> addAddress(AddressRequest req) async {
+    CubitHandler.run<AddressResponse>(
+      cubit: this,
+      call: () => repo.addAddress(req),
+      onSuccess: (newAddress) {
+        // لو ال state الحالي هو AddressSuccess
+        if (state is AddressSuccess) {
+          final currentAddresses = List<AddressResponse>.from(
+            (state as AddressSuccess).allAddresses,
+          );
+          currentAddresses.add(newAddress);
+          emit(AddressSuccess(currentAddresses)); // تحديث الـ state محليًا
+        } else {
+          // الحالة الأولى لو مش موجودة
+          emit(AddressSuccess([newAddress]));
+        }
       },
-      (address) async {
-        emit(AddAddressSuccess(address));
-        await getAllAddresses();
-      },
+      loadingState: () => emit(AddressLoading()),
+      failureState: (msg) => emit(AddressFailure(msg)),
     );
   }
 
-  Future<void> updateAddress(int id, AddressRequest addAddress) async {
-    emit(AddressLoading());
-    var result = await addressRepo.updateAddress(id, addAddress);
-
-    print("updateAddress Cubit ${result}");
-    result.fold(
-      (failure) {
-        emit(AddressFailure(failure.errMessage));
+  Future<void> updateAddress(int id, AddressRequest req) async {
+    CubitHandler.run<AddressResponse>(
+      cubit: this,
+      call: () => repo.updateAddress(id, req),
+      onSuccess: (updatedAddress) {
+        if (state is AddressSuccess) {
+          final currentAddresses = List<AddressResponse>.from(
+            (state as AddressSuccess).allAddresses,
+          );
+          final index = currentAddresses.indexWhere((a) => a.id == id);
+          if (index != -1) currentAddresses[index] = updatedAddress;
+          emit(AddressSuccess(currentAddresses));
+        }
       },
-      (address) async {
-        emit(AddAddressSuccess(address));
-        await getAllAddresses();
-      },
+      loadingState: () => emit(AddressLoading()),
+      failureState: (msg) => emit(AddressFailure(msg)),
     );
   }
 
   Future<void> deleteAddress(int id) async {
-    emit(AddressLoading());
-    var result = await addressRepo.deleteAddress(id);
+    CubitHandler.run<String>(
+      cubit: this,
+      call: () => repo.deleteAddress(id),
+      onSuccess: (_) {
+        if (state is AddressSuccess) {
+          // إنشاء نسخة جديدة من الـ list بدل mutate
+          final updatedAddresses = (state as AddressSuccess).allAddresses
+              .where((a) => a.id != id)
+              .toList();
 
-    print("deleteAddress Cubit ${result}");
-    result.fold(
-      (failure) {
-        emit(AddressFailure(failure.errMessage));
+          emit(AddressSuccess(updatedAddresses));
+        } else {
+          // لو مش AddressSuccess، يمكن اعطاء قائمة فارغة
+          emit(AddressSuccess([]));
+        }
       },
-      (address) async {
-        emit(DeleteAddressSuccess(address));
-        await getAllAddresses();
-      },
+      loadingState: () => emit(AddressLoading()),
+      failureState: (msg) => emit(AddressFailure(msg)),
     );
   }
 }

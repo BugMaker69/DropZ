@@ -1,5 +1,5 @@
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
-import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_error_widget.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/search/presentation/manager/search_cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +44,9 @@ class _SearchViewState extends State<SearchView> {
       child: Scaffold(
         appBar: AppBar(
           title: TextField(
-            style: Styles.textStyle16Medium.copyWith(color: Colors.white),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
             controller: _controller,
             autofocus: true,
             onChanged: (value) {
@@ -78,12 +80,12 @@ class _SearchViewState extends State<SearchView> {
         body: BlocBuilder<SearchCubit, SearchState>(
           builder: (context, state) {
             if (state is SearchInitial) {
-              return const Center(child: Text("🔍 اكتب كلمة للبحث"));
+              return const CustomErrorWidget(errMessage: "🔍 اكتب كلمة للبحث");
             } else if (state is SearchLoading) {
-              return const Center(child: CustomLoadingIndicator());
+              return CustomLoadingIndicator();
             } else if (state is SearchSuccess) {
               if (state.results.results!.isEmpty) {
-                return const Center(child: Text("لا توجد نتائج"));
+                return const CustomErrorWidget(errMessage: "لا توجد نتائج");
               }
               return ListView.builder(
                 itemCount: state.results.results!.length,
@@ -106,7 +108,7 @@ class _SearchViewState extends State<SearchView> {
                 },
               );
             } else {
-              return const Center(child: Text("Error"));
+              return const CustomErrorWidget(errMessage: "Error");
             }
           },
         ),

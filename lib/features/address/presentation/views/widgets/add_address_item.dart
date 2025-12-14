@@ -1,9 +1,9 @@
-import 'package:drop_z_ecommerce_app/constants.dart';
 import 'package:drop_z_ecommerce_app/core/utils/Validators%20.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/address_service.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/model/address_request.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/model/city.dart';
@@ -65,7 +65,6 @@ class _AddAddressItemState extends State<AddAddressItem> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(title: Text("Add New Address")),
-        backgroundColor: kPrimaryColor,
         body: SingleChildScrollView(
           padding: EdgeInsets.all(16),
           physics: const AlwaysScrollableScrollPhysics(),
@@ -74,50 +73,26 @@ class _AddAddressItemState extends State<AddAddressItem> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Add New Address", style: Styles.textStyle45Bold),
+                Text(
+                  "Add New Address",
+                  style: Theme.of(context).textTheme.displayLarge,
+                ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        dropdownColor: kPrimaryColor,
-                        style: Styles.textStyle18Regular.copyWith(
-                          color: Colors.white,
-                        ),
-                        iconEnabledColor: Colors.white,
+                        // dropdownColor: Theme.of(context).colorScheme.primary,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        iconEnabledColor: Theme.of(
+                          context,
+                        ).colorScheme.onSurface,
                         initialValue: country,
                         items: countries,
                         onChanged: (c) {
                           setState(() => country = c);
                         },
-                        decoration: InputDecoration(
-                          labelText: "Choose Country",
-                          // labelText: "اختر الدولة",
-                          labelStyle: Styles.textStyle18Regular.copyWith(
-                            color: Colors.white,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                        ),
+                        decoration: _InputBoxDecoration("Choose Country"),
                       ),
                     ),
                   ],
@@ -130,40 +105,14 @@ class _AddAddressItemState extends State<AddAddressItem> {
                     Expanded(
                       child: DropdownButtonFormField<Governorate>(
                         initialValue: selectedGov,
-                        dropdownColor: kPrimaryColor,
-                        style: Styles.textStyle18Regular.copyWith(
-                          color: Colors.white,
-                        ),
-                        iconEnabledColor: Colors.white,
+                        // dropdownColor: Theme.of(context).colorScheme.primary,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        isExpanded: true,
+                        iconEnabledColor: Theme.of(
+                          context,
+                        ).colorScheme.onSurface,
                         // value: selectedGov,
-                        decoration: InputDecoration(
-                          labelText: "Choose Governorate",
-                          // labelText: "اختر المحافظة",
-                          labelStyle: Styles.textStyle18Regular.copyWith(
-                            color: Colors.white,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                        ),
+                        decoration: _InputBoxDecoration("Choose Governorate"),
                         items: governorates
                             .map(
                               (g) => DropdownMenuItem(
@@ -189,42 +138,14 @@ class _AddAddressItemState extends State<AddAddressItem> {
 
                     Expanded(
                       child: DropdownButtonFormField<City>(
-                        dropdownColor: kPrimaryColor,
-                        style: Styles.textStyle18Regular.copyWith(
-                          color: Colors.white,
-                        ),
+                        // dropdownColor: Theme.of(context).colorScheme.primary,
+                        style: Theme.of(context).textTheme.bodyLarge,
                         isExpanded: true,
-                        iconEnabledColor: Colors.white,
-                        value: selectedCity,
-                        decoration: InputDecoration(
-                          labelText: "Choose City",
-                          // labelText: "اختر المدينة",
-                          labelStyle: Styles.textStyle18Regular.copyWith(
-                            color: Colors.white,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-
+                        iconEnabledColor: Theme.of(
+                          context,
+                        ).colorScheme.onSurface,
+                        initialValue: selectedCity,
+                        decoration: _InputBoxDecoration("Choose City"),
                         validator: (value) =>
                             value == null ? "Please select a City" : null,
                         items: filteredCities
@@ -271,32 +192,30 @@ class _AddAddressItemState extends State<AddAddressItem> {
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          SizedBox(width: 8),
-                          Text(
-                            "Set Default",
-                            style: Styles.textStyle18Regular.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          ValueListenableBuilder<bool>(
-                            valueListenable: activeNotifier,
-                            builder: (context, value, _) {
-                              return Switch(
-                                value: value,
-                                onChanged: (val) {
-                                  activeNotifier.value = val;
-                                },
-                                activeThumbColor: Colors.green,
-                              );
-                            },
-                          ),
-                        ],
-                      ),
+                    const SizedBox(width: 8),
+                    Row(
+                      children: [
+                        SizedBox(width: 8),
+                        Text(
+                          "Set Default",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const SizedBox(width: 4),
+                        ValueListenableBuilder<bool>(
+                          valueListenable: activeNotifier,
+                          builder: (context, value, _) {
+                            return Switch(
+                              value: value,
+                              onChanged: (val) {
+                                activeNotifier.value = val;
+                              },
+                              activeThumbColor: Theme.of(
+                                context,
+                              ).colorScheme.tertiary,
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -319,10 +238,9 @@ class _AddAddressItemState extends State<AddAddressItem> {
                       );
                       GoRouter.of(context).go(AppRouter.kCustomerHome);
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("✅ Address validated successfully"),
-                        ),
+                      CustomSnakeBar(
+                        context,
+                        "✅ Address validated successfully",
                       );
                     }
                   },
@@ -330,6 +248,35 @@ class _AddAddressItemState extends State<AddAddressItem> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  InputDecoration _InputBoxDecoration(labelText) {
+    return InputDecoration(
+      labelText: labelText,
+      // labelText: "اختر الدولة",
+      labelStyle: Theme.of(context).textTheme.bodyLarge,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.onSurface,
+          width: 2,
+        ),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.onSurface,
+          width: 2,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.onSurface,
+          width: 2,
         ),
       ),
     );

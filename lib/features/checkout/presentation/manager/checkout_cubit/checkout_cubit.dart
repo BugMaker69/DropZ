@@ -1,7 +1,7 @@
 // lib/features/cart/logic/checkout_cubit.dart
+import 'package:drop_z_ecommerce_app/core/utils/cubit_handler.dart';
 import 'package:drop_z_ecommerce_app/core/utils/service_locator.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
-import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_model.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/repos/cart_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/checkout/data/repos/checkout_repo.dart';
 import 'package:drop_z_ecommerce_app/features/checkout/presentation/manager/checkout_cubit/checkout_state.dart';
@@ -25,25 +25,29 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       return;
     }
 
-    emit(CheckoutLoading());
+    await CubitHandler.run<int>(
+      cubit: this,
+      call: () async {
+        final cartItems = (await getIt.get<CartRepoImp>().getCartItems()).fold(
+          (f) => <CartItemsModel>[],
+          (items) => items.items!,
+        );
 
-    final cartItems = (await getIt.get<CartRepoImp>().getCartItems()).fold(
-      (f) => <CartItemsModel>[],
-      (items) => items.items!,
-    );
+        final orderItems = cartItems
+            .map(
+              (item) => {
+                "product": item.product!.id,
+                "quantity": item.quantity,
+              },
+            )
+            .toList();
 
-    final orderItems = cartItems
-        .map((item) => {"product": item.product!.id, "quantity": item.quantity})
-        .toList();
-
-    final result = await checkoutRepo.createOrder(
-      orderItems,
-      selectedAddressId!,
-    );
-
-    result.fold(
-      (failure) => emit(CheckoutFailure(failure.errMessage)),
-      (orderId) => emit(CheckoutSuccess(orderId)),
+        return checkoutRepo.createOrder(orderItems, selectedAddressId!);
+      },
+      onSuccess: (orderId) => emit(CheckoutSuccess(orderId)),
+      onError: (msg) => emit(CheckoutFailure(msg)),
+      loadingState: () => emit(CheckoutLoading()),
+      failureState: (msg) => emit(CheckoutFailure(msg)),
     );
   }
 
@@ -53,25 +57,19 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       return;
     }
 
-    emit(CheckoutLoading());
-
-    final cartItems = (await getIt.get<CartRepoImp>().getCartItems()).fold(
-      (f) => <int>[],
-      (items) => items.cartId,
-    );
-
-    // final orderItems = cartItems
-    //     .map((item) => {"product": item.product!.id, "quantity": item.quantity})
-    //     .toList();
-
-    final result = await checkoutRepo.createCheckoutOrder(
-      cartItems as int,
-      selectedAddressId!,
-    );
-
-    result.fold(
-      (failure) => emit(CheckoutFailure(failure.errMessage)),
-      (orderId) => emit(CheckoutSuccess(orderId)),
+    await CubitHandler.run<int>(
+      cubit: this,
+      call: () async {
+        final cartId = (await getIt.get<CartRepoImp>().getCartItems()).fold(
+          (f) => 0,
+          (items) => items.cartId,
+        );
+        return checkoutRepo.createCheckoutOrder(cartId!, selectedAddressId!);
+      },
+      onSuccess: (orderId) => emit(CheckoutSuccess(orderId)),
+      onError: (msg) => emit(CheckoutFailure(msg)),
+      loadingState: () => emit(CheckoutLoading()),
+      failureState: (msg) => emit(CheckoutFailure(msg)),
     );
   }
 }

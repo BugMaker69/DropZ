@@ -14,11 +14,11 @@ final class RegisterLoading extends RegisterState {}
 final class RegisterSuccess extends RegisterState {
   final RegisterSuccessResponse registerSuccessResponse;
 
-  RegisterSuccess(this.registerSuccessResponse);
+  const RegisterSuccess(this.registerSuccessResponse);
 }
 
 final class RegisterFailure extends RegisterState {
   final String errMessage;
 
-  RegisterFailure(this.errMessage);
+  const RegisterFailure(this.errMessage);
 }

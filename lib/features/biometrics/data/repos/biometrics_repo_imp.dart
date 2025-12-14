@@ -1,6 +1,9 @@
 import 'package:drop_z_ecommerce_app/features/biometrics/data/model/biometrics_status.dart';
 import 'package:drop_z_ecommerce_app/features/biometrics/data/repos/biometrics_repo.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:drop_z_ecommerce_app/features/biometrics/data/model/biometrics_status.dart';
+import 'package:drop_z_ecommerce_app/features/biometrics/data/repos/biometrics_repo.dart';
+import 'package:local_auth/local_auth.dart';
 
 class BiometricsRepoImp implements BiometricsRepo {
   final LocalAuthentication _localAuth = LocalAuthentication();
@@ -23,10 +26,11 @@ class BiometricsRepoImp implements BiometricsRepo {
   Future<bool> authenticateUser() async {
     try {
       return await _localAuth.authenticate(
-        localizedReason: "Please authenticate to proceed",
-        biometricOnly: true,
-        sensitiveTransaction: true,
-        persistAcrossBackgrounding: false,
+        localizedReason: "Confirm your identity",
+        biometricOnly: true, // البصمة فقط
+        sensitiveTransaction: true, // تأكيد العملية الحساسة
+        persistAcrossBackgrounding:
+            false, // عدم استمرار المصادقة إذا خرج التطبيق للخلفية
       );
     } catch (e) {
       print("Biometrics Error: $e");

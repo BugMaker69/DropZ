@@ -1,4 +1,6 @@
 import 'package:collection/collection.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/login/data/repos/login_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/data/model/add_review_request.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/data/model/get_all_reviews/get_all_reviews.dart';
@@ -35,7 +37,7 @@ class _AddReviewSectionState extends State<AddReviewSection> {
     return BlocListener<ProductsReviewCubit, ProductsReviewState>(
       listener: (context, state) {
         // لما ينجح الإضافة أو الحذف → نحدث القايمة
-        if (state is addProductsReviewSuccess ||
+        if (state is AddProductsReviewSuccess ||
             state is DeleteProductReviewSuccess) {
           setState(() => _isLoading = false);
           _controller.clear();
@@ -43,9 +45,7 @@ class _AddReviewSectionState extends State<AddReviewSection> {
         }
         if (state is ProductsReviewFailure) {
           setState(() => _isLoading = false);
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.errMessage)));
+          CustomSnakeBar(context, state.errMessage);
         }
       },
       child: Container(
@@ -60,7 +60,7 @@ class _AddReviewSectionState extends State<AddReviewSection> {
             if (!snapshot.hasData) {
               return const SizedBox(
                 height: 60,
-                child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                child: CustomLoadingIndicator(),
               );
             }
 
@@ -80,10 +80,10 @@ class _AddReviewSectionState extends State<AddReviewSection> {
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
+                      Text(
                         "لقد قيّمت المنتج مسبقًا",
                         style: TextStyle(
-                          color: Colors.green,
+                          color: Theme.of(context).colorScheme.tertiary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -111,7 +111,9 @@ class _AddReviewSectionState extends State<AddReviewSection> {
                             icon: const Icon(Icons.edit, size: 18),
                             label: const Text("تعديل"),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.tertiaryFixed,
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -124,7 +126,9 @@ class _AddReviewSectionState extends State<AddReviewSection> {
                             icon: const Icon(Icons.delete, size: 18),
                             label: const Text("حذف"),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.error,
                             ),
                           ),
                         ],
@@ -183,7 +187,7 @@ class _AddReviewSectionState extends State<AddReviewSection> {
                                   );
                             },
                       child: _isLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
+                          ? const CustomLoadingIndicator()
                           : const Text("إرسال التقييم"),
                     ),
                   ],

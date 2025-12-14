@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:drop_z_ecommerce_app/core/errors/failure.dart';
+import 'package:drop_z_ecommerce_app/core/utils/cubit_handler.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/add_product_request.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/category_model/category_model.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/product_item_data_model.dart';
+import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/result.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/repos/products_repo.dart';
 import 'package:equatable/equatable.dart';
 
@@ -17,14 +19,13 @@ class ProductsCubit extends Cubit<ProductsState> {
   ProductItemDataModel? _products;
 
   Future<void> refreshAllData() async {
-    await productsRepo.clearCacheAndReload(); // مسح الـ Cache
-    await _loadData(); // تحميل البيانات من جديد
+    await productsRepo.clearCacheAndReload();
+    await _loadData();
   }
 
   Future<void> _loadData() async {
     emit(ProductsLoading());
 
-    // Run both in parallel
     final categoriesResult = productsRepo.getAllCategories();
     final productsResult = productsRepo.getAllProducts();
 
@@ -33,7 +34,6 @@ class ProductsCubit extends Cubit<ProductsState> {
     final categoryEither = results[0] as Either<Failure, List<CategoryModel>>;
     final productEither = results[1] as Either<Failure, ProductItemDataModel>;
 
-    // Check for any failure
     if (categoryEither.isLeft()) {
       final failure = categoryEither.fold((l) => l, (r) => null);
       emit(ProductsFailure(failure!.errMessage));
@@ -44,7 +44,7 @@ class ProductsCubit extends Cubit<ProductsState> {
       emit(ProductsFailure(failure!.errMessage));
       return;
     }
-    // Both success
+
     categories = categoryEither.fold((l) => null, (r) => r)!;
     _products = productEither.fold((l) => null, (r) => r)!;
 
@@ -61,80 +61,78 @@ class ProductsCubit extends Cubit<ProductsState> {
 
   Future<void> getAllCategories() async {
     emit(ProductsLoading());
-    var result = await productsRepo.getAllCategories();
-    print("Categories Result: $result"); // للتحقق
-    result.fold(
-      (failure) {
-        print("Category Failure: ${failure.errMessage}");
-        emit(ProductsFailure(failure.errMessage));
+
+    await CubitHandler.run<List<CategoryModel>>(
+      cubit: this,
+      call: () => productsRepo.getAllCategories(),
+      onSuccess: (cats) {
+        categories = cats;
+        emit(CategorySuccess(cats));
       },
-      (categoryModel) {
-        print("Category Success: $categoryModel");
-        categories = categoryModel;
-        emit(CategorySuccess(categoryModel));
-      },
+      onError: (msg) => emit(ProductsFailure(msg)),
+      loadingState: () {},
+      failureState: (msg) => emit(ProductsFailure(msg)),
     );
   }
 
   Future<void> addProductItem(AddProductRequest addProductItem) async {
     emit(ProductsLoading());
 
-    var result = await productsRepo.AddProductItem(addProductItem);
-
-    result.fold((failure) => emit(ProductsFailure(failure.errMessage)), (
-      data,
-    ) async {
-      _products!.results!.insert(0, data);
-      emit(ProductsDataState(products: _products, categories: categories));
-    });
+    await CubitHandler.run<Result>(
+      cubit: this,
+      call: () => productsRepo.addProductItem(addProductItem),
+      onSuccess: (data) {
+        _products!.results!.insert(0, data);
+        emit(ProductsDataState(products: _products, categories: categories));
+      },
+      onError: (msg) => emit(ProductsFailure(msg)),
+      loadingState: () {},
+      failureState: (msg) => emit(ProductsFailure(msg)),
+    );
   }
 
   Future<void> getAllProducts() async {
     emit(ProductsLoading());
-    var result = await productsRepo.getAllProducts();
 
-    result.fold(
-      (failure) {
-        emit(ProductsFailure(failure.errMessage));
-      },
-      (productSuccessResponse) {
-        _products = productSuccessResponse;
-        print(
-          "Products Success: ${productSuccessResponse.results?.length} products",
-        );
+    await CubitHandler.run<ProductItemDataModel>(
+      cubit: this,
+      call: () => productsRepo.getAllProducts(),
+      onSuccess: (prods) {
+        _products = prods;
         emit(ProductsDataState(categories: categories, products: _products));
-        // emit(ProductsSuccess(productSuccessResponse));
       },
+      onError: (msg) => emit(ProductsFailure(msg)),
+      loadingState: () {},
+      failureState: (msg) => emit(ProductsFailure(msg)),
     );
   }
 
   Future<void> getProductDetails(int id) async {
     emit(ProductsLoading());
 
-    final result = await productsRepo.getProductById(id);
-
-    result.fold(
-      (error) => emit(ProductsFailure(error.errMessage)),
-      (product) => emit(AddProductSuccess(product)),
+    await CubitHandler.run<ProductItemDataModel>(
+      cubit: this,
+      call: () => productsRepo.getProductById(id),
+      onSuccess: (product) => emit(AddProductSuccess(product)),
+      onError: (msg) => emit(ProductsFailure(msg)),
+      loadingState: () {},
+      failureState: (msg) => emit(ProductsFailure(msg)),
     );
   }
 
   Future<void> getAllSellerProducts() async {
     emit(ProductsLoading());
-    var result = await productsRepo.getAllSellerProducts();
 
-    result.fold(
-      (failure) {
-        emit(ProductsFailure(failure.errMessage));
-      },
-      (productSuccessResponse) {
-        _products = productSuccessResponse;
-        print(
-          "Products Success: ${productSuccessResponse.results?.length} products",
-        );
+    await CubitHandler.run<ProductItemDataModel>(
+      cubit: this,
+      call: () => productsRepo.getAllSellerProducts(),
+      onSuccess: (prods) {
+        _products = prods;
         emit(ProductsDataState(categories: categories, products: _products));
-        // emit(ProductsSuccess(productSuccessResponse));
       },
+      onError: (msg) => emit(ProductsFailure(msg)),
+      loadingState: () {},
+      failureState: (msg) => emit(ProductsFailure(msg)),
     );
   }
 
@@ -144,22 +142,30 @@ class ProductsCubit extends Cubit<ProductsState> {
   ) async {
     emit(ProductsLoading());
 
-    var result = await productsRepo.updateProductItem(id, addProductItem);
-
-    result.fold((failure) => emit(ProductsFailure(failure.errMessage)), (data) {
-      _products!.results!.removeWhere((item) => item.id == data.id);
-      _products!.results!.insert(0, data);
-      emit(ProductsDataState(products: _products, categories: categories));
-    });
+    await CubitHandler.run<Result>(
+      cubit: this,
+      call: () => productsRepo.updateProductItem(id, addProductItem),
+      onSuccess: (data) {
+        _products!.results!.removeWhere((item) => item.id == data.id);
+        _products!.results!.insert(0, data);
+        emit(ProductsDataState(products: _products, categories: categories));
+      },
+      onError: (msg) => emit(ProductsFailure(msg)),
+      loadingState: () {},
+      failureState: (msg) => emit(ProductsFailure(msg)),
+    );
   }
 
   Future<void> deleteProductItem(int id) async {
     emit(ProductsLoading());
 
-    var result = await productsRepo.deleteProductItem(id);
-    result.fold(
-      (failure) => emit(ProductsFailure(failure.errMessage)),
-      (message) => emit(DeleteProductSuccess(message)),
+    await CubitHandler.run<String>(
+      cubit: this,
+      call: () => productsRepo.deleteProductItem(id),
+      onSuccess: (msg) => emit(DeleteProductSuccess(msg)),
+      onError: (msg) => emit(ProductsFailure(msg)),
+      loadingState: () {},
+      failureState: (msg) => emit(ProductsFailure(msg)),
     );
   }
 }

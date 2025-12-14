@@ -6,6 +6,7 @@ import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/add_product_request.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/category_model/category_model.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/result.dart';
@@ -61,7 +62,7 @@ class EditProductItem extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(),
-        backgroundColor: kPrimaryColor,
+        // backgroundColor: kPrimaryColor,
         body: SingleChildScrollView(
           padding: EdgeInsets.all(16),
           physics: const AlwaysScrollableScrollPhysics(),
@@ -70,7 +71,10 @@ class EditProductItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Add New Product", style: Styles.textStyle45Bold),
+                Text(
+                  "Add New Product",
+                  style: Theme.of(context).textTheme.displayLarge,
+                ),
                 const SizedBox(height: 16),
 
                 CustomTextEdit(
@@ -108,14 +112,13 @@ class EditProductItem extends StatelessWidget {
 
                 Row(
                   children: [
-                    //! DropDown Menu Come From API then Map to Vlaues
                     Expanded(
                       child: DropdownButtonFormField<int>(
                         dropdownColor: kPrimaryColor,
-                        style: Styles.textStyle18Regular.copyWith(
-                          color: Colors.white,
-                        ),
-                        iconEnabledColor: Colors.white,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        iconEnabledColor: Theme.of(
+                          context,
+                        ).colorScheme.onPrimary,
                         items: categories
                             .map(
                               (cat) => DropdownMenuItem<int>(
@@ -130,33 +133,7 @@ class EditProductItem extends StatelessWidget {
                         validator: (value) =>
                             value == null ? "Please select a category" : null,
                         initialValue: selectedCategoryId,
-                        decoration: InputDecoration(
-                          labelText: "Select Category",
-                          labelStyle: Styles.textStyle18Regular.copyWith(
-                            color: Colors.white,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Colors.white70,
-                              width: 2,
-                            ),
-                          ),
-                        ),
+                        decoration: _InputBoxDecoration(),
                       ),
                     ),
 
@@ -170,9 +147,7 @@ class EditProductItem extends StatelessWidget {
                     SizedBox(width: 8),
                     Text(
                       "Active",
-                      style: Styles.textStyle18Regular.copyWith(
-                        color: Colors.white,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(width: 16),
                     ValueListenableBuilder<bool>(
@@ -183,7 +158,9 @@ class EditProductItem extends StatelessWidget {
                           onChanged: (val) {
                             activeNotifier.value = val;
                           },
-                          activeThumbColor: Colors.green,
+                          activeThumbColor: Theme.of(
+                            context,
+                          ).colorScheme.tertiary,
                         );
                       },
                     ),
@@ -248,48 +225,6 @@ class EditProductItem extends StatelessWidget {
                   },
                 ),
 
-                /* ValueListenableBuilder<File?>(
-                  valueListenable: selectedImage,
-                  builder: (context, image, _) {
-                    return InkWell(
-                      onTap: () => pickImage(context),
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                        height: 160,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey.shade400),
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.white,
-                        ),
-                        child: image != null
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.file(
-                                  image,
-                                  fit: BoxFit.scaleDown,
-                                ),
-                              )
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Icon(
-                                    Icons.image_outlined,
-                                    size: 40,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    "Tap to select an image",
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ],
-                              ),
-                      ),
-                    );
-                  },
-                ),
-                */
                 const SizedBox(height: 16),
 
                 CustomTextEdit(
@@ -328,10 +263,9 @@ class EditProductItem extends StatelessWidget {
                       );
                       GoRouter.of(context).go(AppRouter.kSellerDashboard);
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("✅ Product validated successfully"),
-                        ),
+                      CustomSnakeBar(
+                        context,
+                        "✅ Product validated successfully",
                       );
                     }
                   },
@@ -340,6 +274,25 @@ class EditProductItem extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  InputDecoration _InputBoxDecoration() {
+    return InputDecoration(
+      labelText: "Select Category",
+      labelStyle: Styles.textStyle18Regular.copyWith(color: Colors.white),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(color: Colors.white70, width: 2),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(color: Colors.white70, width: 2),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(color: Colors.white70, width: 2),
       ),
     );
   }

@@ -1,4 +1,5 @@
-import 'package:drop_z_ecommerce_app/constants.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/data/model/add_review_request.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/data/model/get_all_reviews/get_all_reviews.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/presentation/manager/products_review_cubit/products_review_cubit.dart';
@@ -56,21 +57,11 @@ class _EditReviewBottomSheetState extends State<EditReviewBottomSheet> {
         if (state is ProductsReviewSuccess) {
           if (mounted) {
             Navigator.pop(context);
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("تم تعديل التقييم بنجاح!"),
-                backgroundColor: Colors.green,
-              ),
-            );
+            CustomSnakeBar(context, "تم تعديل التقييم بنجاح!");
           }
         }
         if (state is ProductsReviewFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errMessage),
-              backgroundColor: Colors.red,
-            ),
-          );
+          CustomSnakeBar(context, state.errMessage);
         }
       },
       child: Material(
@@ -129,7 +120,7 @@ class _EditReviewBottomSheetState extends State<EditReviewBottomSheet> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: kPrimaryColor,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   onPressed: _isLoading
@@ -153,10 +144,7 @@ class _EditReviewBottomSheetState extends State<EditReviewBottomSheet> {
                       ? const SizedBox(
                           height: 20,
                           width: 20,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2,
-                          ),
+                          child: CustomLoadingIndicator(),
                         )
                       : const Text(
                           "حفظ التعديل",

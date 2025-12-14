@@ -1,15 +1,12 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/Validators%20.dart';
-import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
-import 'package:drop_z_ecommerce_app/core/utils/service_locator.dart';
-import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/models/get_user_data_success.dart';
-import 'package:drop_z_ecommerce_app/features/profile/data/repos/user_profile_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/profile/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,7 +44,7 @@ class ProfileViewBody extends StatelessWidget {
       child: BlocConsumer<UserProfileCubit, UserProfileState>(
         listener: (context, state) {
           if (state is UserProfileFailure) {
-            return customSnakeBar(context, state.errMessage);
+            return CustomSnakeBar(context, state.errMessage);
           }
           if (state is UserProfileSuccess) {
             context.read<UserProfileCubit>().setUserData(
@@ -66,10 +63,6 @@ class ProfileViewBody extends StatelessWidget {
         builder: (context, state) {
           final cubit = context.read<UserProfileCubit>();
 
-          print(
-            "firstNameController.text inside ${cubit.firstNameController.text}",
-          );
-
           if (state is UserProfileLoading) {
             return const CustomLoadingIndicator();
           }
@@ -82,7 +75,10 @@ class ProfileViewBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Edit Your Profile", style: Styles.textStyle45Bold),
+                Text(
+                  "Edit Your Profile",
+                  style: Theme.of(context).textTheme.displayLarge,
+                ),
                 ValueListenableBuilder<File?>(
                   valueListenable: selectedImage,
                   builder: (context, image, _) {
@@ -111,24 +107,19 @@ class ProfileViewBody extends StatelessWidget {
                                 )
                               : hasNetworkImage
                               ? ClipOval(
-                                  child: Image.network(
-                                    cubit.profileImageUrl!,
+                                  child: CachedNetworkImage(
+                                    imageUrl: cubit.profileImageUrl!,
                                     fit: BoxFit.scaleDown,
-                                    errorBuilder: (context, error, stackTrace) {
+                                    errorWidget: (context, error, stackTrace) {
                                       return const Icon(
                                         Icons.person,
                                         size: 30,
                                         color: Colors.grey,
                                       );
                                     },
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                          if (loadingProgress == null)
-                                            return child;
-                                          return const CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                          );
-                                        },
+                                    placeholder: (context, url) => const Center(
+                                      child: CustomLoadingIndicator(),
+                                    ),
                                   ),
                                 )
                               : Column(

@@ -6,6 +6,7 @@ import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/add_product_request.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/category_model/category_model.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
@@ -69,7 +70,7 @@ class AddProductItem extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: kPrimaryColor,
+          // backgroundColor: kPrimaryColor,
           body: SingleChildScrollView(
             padding: EdgeInsets.all(16),
             physics: const AlwaysScrollableScrollPhysics(),
@@ -78,7 +79,10 @@ class AddProductItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Add New Product", style: Styles.textStyle45Bold),
+                  Text(
+                    "Add New Product",
+                    style: Theme.of(context).textTheme.displayLarge,
+                  ),
                   const SizedBox(height: 16),
 
                   CustomTextEdit(
@@ -119,11 +123,11 @@ class AddProductItem extends StatelessWidget {
                       //! DropDown Menu Come From API then Map to Vlaues
                       Expanded(
                         child: DropdownButtonFormField<int>(
-                          dropdownColor: kPrimaryColor,
-                          style: Styles.textStyle18Regular.copyWith(
-                            color: Colors.white,
-                          ),
-                          iconEnabledColor: Colors.white,
+                          // dropdownColor: kPrimaryColor,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          iconEnabledColor: Theme.of(
+                            context,
+                          ).colorScheme.onSurface,
                           items: categories
                               .map(
                                 (cat) => DropdownMenuItem<int>(
@@ -140,31 +144,8 @@ class AddProductItem extends StatelessWidget {
                           initialValue: selectedCategoryId,
                           decoration: InputDecoration(
                             labelText: "Select Category",
-                            labelStyle: Styles.textStyle18Regular.copyWith(
-                              color: Colors.white,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: BorderSide(
-                                color: Colors.white70,
-                                width: 2,
-                              ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: BorderSide(
-                                color: Colors.white70,
-                                width: 2,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: BorderSide(
-                                color: Colors.white70,
-                                width: 2,
-                              ),
-                            ),
                           ),
+                          // decoration: _InputBoxDecoration(),
                         ),
                       ),
 
@@ -178,9 +159,7 @@ class AddProductItem extends StatelessWidget {
                       SizedBox(width: 8),
                       Text(
                         "Active",
-                        style: Styles.textStyle18Regular.copyWith(
-                          color: Colors.white,
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const SizedBox(width: 16),
                       ValueListenableBuilder<bool>(
@@ -191,7 +170,9 @@ class AddProductItem extends StatelessWidget {
                             onChanged: (val) {
                               activeNotifier.value = val;
                             },
-                            activeThumbColor: Colors.green,
+                            activeThumbColor: Theme.of(
+                              context,
+                            ).colorScheme.tertiary,
                           );
                         },
                       ),
@@ -211,7 +192,7 @@ class AddProductItem extends StatelessWidget {
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey.shade400),
                             borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
                           child: image != null
                               ? ClipRRect(
@@ -260,10 +241,9 @@ class AddProductItem extends StatelessWidget {
                       if (addProductFormKey.currentState!.validate()) {
                         final image = selectedImage.value;
                         if (image == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("⚠️ Please select a product image"),
-                            ),
+                          CustomSnakeBar(
+                            context,
+                            "⚠️ Please select a product image",
                           );
                           return;
                         }
@@ -283,10 +263,9 @@ class AddProductItem extends StatelessWidget {
                         );
                         GoRouter.of(context).go(AppRouter.kSellerDashboard);
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("✅ Product validated successfully"),
-                          ),
+                        CustomSnakeBar(
+                          context,
+                          "✅ Product validated successfully",
                         );
                       }
                     },
@@ -296,6 +275,25 @@ class AddProductItem extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  InputDecoration _InputBoxDecoration() {
+    return InputDecoration(
+      labelText: "Select Category",
+      labelStyle: Styles.textStyle18Regular.copyWith(color: Colors.white),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(color: Colors.white70, width: 2),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(color: Colors.white70, width: 2),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(color: Colors.white70, width: 2),
       ),
     );
   }

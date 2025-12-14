@@ -6,12 +6,9 @@ class BiometricsInitial extends BiometricsState {}
 
 class BiometricsLoading extends BiometricsState {}
 
-class BiometricsSupportStatus extends BiometricsState {
-  final BiometricsStatus status;
-  BiometricsSupportStatus(this.status);
-}
-
 class BiometricsSuccess extends BiometricsState {}
+
+class BiometricsSkipped extends BiometricsState {} // تم تخطي البصمة
 
 class BiometricsFailed extends BiometricsState {
   final String message;

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:drop_z_ecommerce_app/core/utils/cubit_handler.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/data/model/add_product_to_wish_list_request.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/data/model/add_remove_product_to_wish_list_response.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/data/model/wish_list_data_response/wish_list_data_response.dart';
@@ -13,72 +14,58 @@ class WishListCubit extends Cubit<WishListState> {
   WishListCubit(this.whishlistRepo) : super(WishListInitial());
 
   final WhishlistRepo whishlistRepo;
+
   WishListDataResponse? _wishlistData;
 
   Future<void> getAllWishList() async {
-    if (_wishlistData == null) {
-      emit(WishListLoading());
-      var result = await whishlistRepo.getAllWishList();
-      result.fold(
-        (failure) {
-          emit(WishListFailure(failure.toString()));
-        },
-        (wishlistDataSuccess) {
-          _wishlistData = wishlistDataSuccess;
-          emit(WishListSuccess(wishlistDataSuccess));
-        },
-      );
-
+    if (_wishlistData != null) {
+      emit(WishListSuccess(_wishlistData!));
       return;
     }
-    emit(WishListSuccess(_wishlistData!));
+
+    await CubitHandler.run<WishListDataResponse>(
+      cubit: this,
+      loadingState: () => emit(WishListLoading()),
+      call: () => whishlistRepo.getAllWishList(),
+      onSuccess: (data) {
+        _wishlistData = data;
+        emit(WishListSuccess(data));
+      },
+      failureState: (msg) => emit(WishListFailure(msg)),
+    );
   }
 
   Future<void> refreshWishlist(BuildContext context) async {
-    await whishlistRepo.clearCacheAndReload(); // مسح الـ Cache
-    await getAllWishList(); // تحميل البيانات من جديد
-    // context.read<ProductsCubit>().refreshAllData();
+    _wishlistData = null;
+    await whishlistRepo.clearCacheAndReload();
+    await getAllWishList();
   }
 
-  Future<void> addWishListItem(
-    AddProductToWishListRequest addProductToWishListRequest,
-  ) async {
-    emit(WishListLoading());
-    var result = await whishlistRepo.addWishListItem(
-      addProductToWishListRequest,
-    );
+  Future<void> addWishListItem(AddProductToWishListRequest request) async =>
+      await CubitHandler.run<AddRemoveProductToWishListResponse>(
+        cubit: this,
+        loadingState: () => emit(WishListLoading()),
+        call: () => whishlistRepo.addWishListItem(request),
+        onSuccess: (response) async {
+          emit(AddItemToWishListSuccess(response));
+          _wishlistData = null;
+          await whishlistRepo.clearCacheAndReload();
+          await getAllWishList();
+        },
+        failureState: (msg) => emit(WishListFailure(msg)),
+      );
 
-    result.fold(
-      (failure) {
-        emit(WishListFailure(failure.toString()));
-      },
-      (addProductToWishListResponse) async {
-        emit(AddItemToWishListSuccess(addProductToWishListResponse));
-        _wishlistData = null;
-        await whishlistRepo.clearCacheAndReload();
-        await getAllWishList();
-        // await refreshWishlist(context);
-      },
-    );
-  }
-
-  Future<void> removeWishListItem(int id) async {
-    emit(WishListLoading());
-
-    var result = await whishlistRepo.removeWishListItem(id);
-
-    result.fold(
-      (failure) {
-        emit(WishListFailure(failure.toString()));
-      },
-      (removeProductToWishListResponse) async {
-        emit(DeleteItemFromWishListSuccess(removeProductToWishListResponse));
-        _wishlistData = null;
-        await whishlistRepo.clearCacheAndReload();
-        await getAllWishList();
-
-        // await refreshWishlist(context);
-      },
-    );
-  }
+  Future<void> removeWishListItem(int id) async =>
+      await CubitHandler.run<AddRemoveProductToWishListResponse>(
+        cubit: this,
+        loadingState: () => emit(WishListLoading()),
+        call: () => whishlistRepo.removeWishListItem(id),
+        onSuccess: (response) async {
+          emit(DeleteItemFromWishListSuccess(response));
+          _wishlistData = null;
+          await whishlistRepo.clearCacheAndReload();
+          await getAllWishList();
+        },
+        failureState: (msg) => emit(WishListFailure(msg)),
+      );
 }

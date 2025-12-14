@@ -1,4 +1,3 @@
-import 'package:drop_z_ecommerce_app/constants.dart';
 import 'package:drop_z_ecommerce_app/features/login/presentation/views/widgets/login_view_body.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +10,7 @@ class LoginView extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: true, // ✅ يخلي الشاشة تطلع لفوق مع الكيبورد
         // appBar: AppBar(leading: Image.asset(AssetsData.logo)),
-        backgroundColor: kPrimaryColor,
+        // backgroundColor: kPrimaryColor,
         body: LoginViewBody(),
       ),
     );

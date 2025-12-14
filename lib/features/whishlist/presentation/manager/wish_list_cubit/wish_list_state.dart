@@ -14,23 +14,23 @@ final class WishListLoading extends WishListState {}
 final class WishListFailure extends WishListState {
   final String errMessage;
 
-  WishListFailure(this.errMessage);
+  const WishListFailure(this.errMessage);
 }
 
 final class WishListSuccess extends WishListState {
   final WishListDataResponse wishListDataResponse;
 
-  WishListSuccess(this.wishListDataResponse);
+  const WishListSuccess(this.wishListDataResponse);
 }
 
 final class AddItemToWishListSuccess extends WishListState {
   final AddRemoveProductToWishListResponse addRemoveProductToWishListResponse;
 
-  AddItemToWishListSuccess(this.addRemoveProductToWishListResponse);
+  const AddItemToWishListSuccess(this.addRemoveProductToWishListResponse);
 }
 
 final class DeleteItemFromWishListSuccess extends WishListState {
   final AddRemoveProductToWishListResponse addRemoveProductToWishListResponse;
 
-  DeleteItemFromWishListSuccess(this.addRemoveProductToWishListResponse);
+  const DeleteItemFromWishListSuccess(this.addRemoveProductToWishListResponse);
 }

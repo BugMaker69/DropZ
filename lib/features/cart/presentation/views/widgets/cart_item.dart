@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/edit_quantity.dart';
@@ -28,39 +27,50 @@ class CartItem extends StatelessWidget {
               width: 150,
               height: 150,
               imageUrl:
-                  "http://10.0.2.2:8000/${cartItemsModel.product?.image}" ?? "",
+                  "https://uncondemnable-brianna-hazelly.ngrok-free.dev/${cartItemsModel.product?.image}" ??
+                  "",
+              // "http://10.0.2.2:8000/${cartItemsModel.product?.image}" ?? "",
               fit: BoxFit.scaleDown,
               errorWidget: (context, error, stackTrace) =>
                   const Icon(Icons.broken_image, size: 48, color: Colors.grey),
               placeholder: (context, url) =>
                   const Center(child: CustomLoadingIndicator()),
             ),
+            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                     "${cartItemsModel.product?.title}",
-                    style: Styles.textStyle16Medium,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     "${cartItemsModel.product?.seller}",
-                    style: Styles.textStyle16Medium,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     "\$${cartItemsModel.product?.price}",
-                    style: TextStyle(color: Color(0xff009336)),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
 
                   Text(
                     "Total Price \$${cartItemsModel.itemSubtotal}",
-                    style: TextStyle(color: Color(0xff009336)),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   ValueListenableBuilder(
                     valueListenable: quantityNotifier,
                     builder: (context, quantity, child) {
@@ -92,11 +102,11 @@ class CartItem extends StatelessWidget {
                       );
                     },
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       TextButton(
                         onPressed: () {
@@ -106,29 +116,37 @@ class CartItem extends StatelessWidget {
                         },
                         child: Text(
                           "Delete",
-                          style: Styles.textStyle16Medium.copyWith(
-                            color: Colors.red,
+                          style: Theme.of(context).textTheme.bodyMedium!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.error,
+                                fontWeight: FontWeight.w500,
+                              ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.read<WishListCubit>().addWishListItem(
+                              AddProductToWishListRequest(
+                                productId: cartItemsModel.product!.id!,
+                              ),
+                            );
+                            context.read<CartCubit>().deleteItemFromCart(
+                              cartItemsModel.cartItemId!,
+                            );
+                          },
+                          child: Text(
+                            "Add To WishList",
+                            style: Theme.of(context).textTheme.bodyMedium!
+                                .copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).colorScheme.onInverseSurface,
+                                ),
                           ),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<WishListCubit>().addWishListItem(
-                            AddProductToWishListRequest(
-                              productId: cartItemsModel.product!.id!,
-                            ),
-                          );
-                          context.read<CartCubit>().deleteItemFromCart(
-                            cartItemsModel.cartItemId!,
-                          );
-                        },
-                        child: Text(
-                          "Add To WishList",
-                          style: Styles.textStyle16Medium,
-                        ),
-                      ),
 
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                     ],
                   ),
                 ],

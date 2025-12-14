@@ -1,7 +1,7 @@
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextEdit extends StatelessWidget {
+class CustomTextEdit extends StatefulWidget {
   CustomTextEdit({
     super.key,
     required this.labelText,
@@ -26,66 +26,72 @@ class CustomTextEdit extends StatelessWidget {
   final bool isEditing;
 
   @override
+  State<CustomTextEdit> createState() => _CustomTextEditState();
+}
+
+class _CustomTextEditState extends State<CustomTextEdit> {
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      enabled: isEditing,
-      readOnly: !isEditing,
-      obscureText: !showText,
-      validator: validator,
-      controller: textController,
-      keyboardType: keyboardType,
-      maxLines: maxLines,
-      style: Styles.textStyle18Regular.copyWith(
-        color: Colors.white,
-        fontWeight: isEditing ? FontWeight.normal : FontWeight.w500,
-      ),
-      onChanged: onChanged,
+      enabled: widget.isEditing,
+      readOnly: !widget.isEditing,
+      obscureText: !widget.showText,
+      validator: widget.validator,
+      controller: widget.textController,
+      keyboardType: widget.keyboardType,
+      maxLines: widget.maxLines,
+      style: Theme.of(context).textTheme.bodyLarge,
+      onChanged: widget.onChanged,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      cursorColor: Colors.white,
+      cursorColor: Theme.of(context).colorScheme.onSurface,
+
       decoration: InputDecoration(
-        suffixIcon: isPassword
+        suffixIcon: widget.isPassword
             ? IconButton(
                 onPressed: () {
-                  showText = !showText;
+                  widget.showText = !widget.showText;
+                  setState(() {});
                 },
                 icon: Icon(
-                  showText
+                  widget.showText
                       ? Icons.visibility_outlined
                       : Icons.visibility_off_outlined,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               )
             : null,
         contentPadding: const EdgeInsets.all(16),
         alignLabelWithHint: false,
-        labelText: labelText,
-        floatingLabelStyle: const TextStyle(color: Colors.white),
-        labelStyle: Styles.textStyle18Regular.copyWith(color: Colors.white),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: isEditing
-                ? Colors.white
-                : Colors.transparent, // 🟡 بدون إطار وقت العرض
-            width: isEditing ? 1.5 : 0,
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Colors.white,
-            // width: 50,
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        border: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        errorStyle: const TextStyle(height: 0.8),
-        fillColor: isEditing
-            ? Colors.transparent
-            : Colors.white.withOpacity(0.1),
-        filled: true,
+        labelText: widget.labelText,
+        // floatingLabelStyle: TextStyle(
+        //   color: Theme.of(context).colorScheme.primary,
+        // ),
+        labelStyle: Theme.of(context).textTheme.bodyLarge,
+        // enabledBorder: OutlineInputBorder(
+        //   borderSide: BorderSide(
+        //     color: isEditing
+        //         ? Colors.white
+        //         : Colors.transparent, // 🟡 بدون إطار وقت العرض
+        //     width: isEditing ? 1.5 : 0,
+        //   ),
+        //   borderRadius: BorderRadius.circular(8),
+        // ),
+        // focusedBorder: OutlineInputBorder(
+        //   borderSide: const BorderSide(
+        //     color: Colors.white,
+        //     // width: 50,
+        //   ),
+        //   borderRadius: BorderRadius.circular(8),
+        // ),
+        // border: OutlineInputBorder(
+        //   borderSide: const BorderSide(color: Colors.white),
+        //   borderRadius: BorderRadius.circular(8),
+        // ),
+        // errorStyle: const TextStyle(height: 0.8),
+        // fillColor: isEditing
+        //     ? Colors.transparent
+        //     : Colors.white.withOpacity(0.1),
+        // filled: true,
       ),
     );
   }

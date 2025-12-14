@@ -1,4 +1,3 @@
-import 'package:drop_z_ecommerce_app/constants.dart';
 import 'package:drop_z_ecommerce_app/core/utils/service_locator.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/data/repos/products_review_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/presentation/manager/products_review_cubit/products_review_cubit.dart';
@@ -45,7 +44,7 @@ class ProductReviewView extends StatelessWidget {
               // ),
             ],
           ),
-          backgroundColor: kPrimaryColor,
+          // backgroundColor: kPrimaryColor,
         ),
       ),
     );

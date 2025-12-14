@@ -9,13 +9,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class ChangePassword extends StatelessWidget {
+class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
 
-  static final currentPasswordController = TextEditingController();
-  static final newPasswordController = TextEditingController();
-  static final newPassordConfirmationController = TextEditingController();
-  static final formKey = GlobalKey<FormState>();
+  @override
+  State<ChangePassword> createState() => _ChangePasswordState();
+}
+
+class _ChangePasswordState extends State<ChangePassword> {
+  final currentPasswordController = TextEditingController();
+
+  final newPasswordController = TextEditingController();
+
+  final newPassordConfirmationController = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
+
+  void _clearControllers() {
+    currentPasswordController.clear();
+    newPasswordController.clear();
+    newPassordConfirmationController.clear();
+  }
+
+  @override
+  void dispose() {
+    // 👈 تفريغ + تنظيف الذاكرة
+    currentPasswordController.dispose();
+    newPasswordController.dispose();
+    newPassordConfirmationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +49,7 @@ class ChangePassword extends StatelessWidget {
         resizeToAvoidBottomInset: true, // ✅ يخلي الشاشة تطلع لفوق مع الكيبورد
 
         appBar: AppBar(title: Text("Change Password")),
-        backgroundColor: kPrimaryColor,
+        // backgroundColor: kPrimaryColor,
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: SingleChildScrollView(
@@ -36,7 +59,9 @@ class ChangePassword extends StatelessWidget {
                 children: [
                   Text(
                     "Password Changes",
-                    style: Styles.textStyle45Bold.copyWith(fontSize: 40),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.displayLarge!.copyWith(fontSize: 40),
                   ),
                   const SizedBox(height: 16),
 
@@ -78,6 +103,7 @@ class ChangePassword extends StatelessWidget {
                                 newPassordConfirmationController.text,
                           ),
                         );
+                        _clearControllers();
                         GoRouter.of(context).pop();
                       }
                     },

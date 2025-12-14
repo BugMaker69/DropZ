@@ -54,7 +54,7 @@ class StaggeredProductItem extends StatelessWidget {
                   height: height,
                   margin: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: const Color(0xffF5F5F5),
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -85,7 +85,7 @@ class StaggeredProductItem extends StatelessWidget {
                                 color: Colors.grey,
                               ),
                               placeholder: (context, url) =>
-                                  const Center(child: CustomLoadingIndicator()),
+                                  CustomLoadingIndicator(),
                             ),
                           ),
                         ),
@@ -176,8 +176,8 @@ class StaggeredProductItem extends StatelessWidget {
                           right: 0,
                           child: Container(
                             padding: const EdgeInsets.all(12),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
                               borderRadius: BorderRadius.vertical(
                                 bottom: Radius.circular(16),
                               ),
@@ -187,15 +187,17 @@ class StaggeredProductItem extends StatelessWidget {
                               children: [
                                 Text(
                                   product.title ?? "",
-                                  style: Styles.textStyle16Medium,
+                                  style: Theme.of(context).textTheme.titleSmall,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   "\$${product.price}",
-                                  style: const TextStyle(
-                                    color: Color(0xff009336),
+                                  style: TextStyle(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.tertiary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

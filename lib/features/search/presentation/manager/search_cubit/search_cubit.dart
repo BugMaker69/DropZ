@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:drop_z_ecommerce_app/core/utils/cubit_handler.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/product_item_data_model.dart';
 import 'package:drop_z_ecommerce_app/features/search/data/repos/search_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -18,13 +19,12 @@ class SearchCubit extends Cubit<SearchState> {
       return;
     }
 
-    emit(SearchLoading());
-
-    final result = await searchRepo.searchProducts(trimmedQuery);
-
-    result.fold(
-      (failure) => emit(SearchFailure(failure.errMessage)),
-      (data) => emit(SearchSuccess(data)),
+    await CubitHandler.run<ProductItemDataModel>(
+      cubit: this,
+      loadingState: () => emit(SearchLoading()),
+      call: () => searchRepo.searchProducts(trimmedQuery),
+      onSuccess: (data) => emit(SearchSuccess(data)),
+      failureState: (msg) => emit(SearchFailure(msg)),
     );
   }
 }

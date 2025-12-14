@@ -1,18 +1,15 @@
 // lib/core/utils/royal_page_transition.dart
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart';
 
 class RoyalPageTransition extends CustomTransitionPage {
   RoyalPageTransition({
-    required LocalKey key,
-    required Widget child,
+    required LocalKey super.key,
+    required super.child,
     this.type = RoyalTransitionType.slideParallax,
     this.duration = const Duration(milliseconds: 450),
   }) : super(
-         key: key,
-         child: child,
          transitionDuration: duration,
          reverseTransitionDuration: duration,
          transitionsBuilder: (context, animation, secondaryAnimation, child) {

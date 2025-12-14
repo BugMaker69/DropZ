@@ -9,8 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
   // final _baseUrl = 'http://localhost:8000/api/';
-  final _baseUrl = 'http://10.0.2.2:8000/api'; // For Emulator Phone
+  // final _baseUrl = 'http://10.0.2.2:8000/api'; // For Emulator Phone
   // final _baseUrl = 'http://192.168.1.7:8000/api'; // For My Real Mobile Phone
+  final _baseUrl = 'https://uncondemnable-brianna-hazelly.ngrok-free.dev/api'; // For My Real Mobile Phone Using Ngrok
 
   final Dio _dio;
   final SharedPreferences preferences;

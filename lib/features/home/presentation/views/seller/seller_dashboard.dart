@@ -1,3 +1,4 @@
+import 'package:drop_z_ecommerce_app/core/widgets/custom_error_widget.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/views/widgets/category_procduct.dart';
@@ -11,9 +12,9 @@ class SellerDashboard extends StatelessWidget {
     return BlocBuilder<ProductsCubit, ProductsState>(
       builder: (context, state) {
         if (state is ProductsLoading) {
-          return const Center(child: CustomLoadingIndicator());
+          return const CustomLoadingIndicator();
         } else if (state is ProductsFailure) {
-          return Center(child: Text('Error: ${state.errMessage}'));
+          return CustomErrorWidget(errMessage: 'Error: ${state.errMessage}');
         } else if (state is ProductsDataState &&
             (state.products != null || state.products!.results!.isNotEmpty)) {
           return CategoryProductsView(
@@ -23,9 +24,9 @@ class SellerDashboard extends StatelessWidget {
           );
         }
         if (state is ProductsDataState && state.products != null) {
-          return const Center(child: Text("No products available"));
+          return const CustomErrorWidget(errMessage: "No products available");
         }
-        return const Center(child: CircularProgressIndicator());
+        return const CustomLoadingIndicator();
       },
     );
   }

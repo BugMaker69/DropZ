@@ -20,7 +20,7 @@ class PaymentRepoImp extends PaymentRepo {
         data: {"api_key": API_KEY},
       );
       final token = response["token"];
-      print("TOKEN PAYMENT ${token}");
+      print("TOKEN PAYMENT $token");
       return right(token);
     } catch (e) {
       if (e is DioException) {
@@ -62,7 +62,7 @@ class PaymentRepoImp extends PaymentRepo {
       );
       // final id = response["id"];
       final id = response.data["id"];
-      print("id PAYMENT ${id}");
+      print("id PAYMENT $id");
 
       return right(id);
     } catch (e) {
@@ -127,7 +127,7 @@ class PaymentRepoImp extends PaymentRepo {
 
       final token = response.data["token"];
       // final token = response["token"];
-      print("TOKEN PAYMENT ${token}");
+      print("TOKEN PAYMENT $token");
 
       return right(token);
     } catch (e) {
@@ -190,7 +190,7 @@ class PaymentRepoImp extends PaymentRepo {
         (failure) => throw failure,
         (key) => key,
       );
-      print("paymentKey PAYMENT ${paymentKey}");
+      print("paymentKey PAYMENT $paymentKey");
 
       return right(paymentKey);
     } catch (e) {

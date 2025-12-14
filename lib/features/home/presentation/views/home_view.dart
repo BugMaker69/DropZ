@@ -3,7 +3,7 @@ import 'package:drop_z_ecommerce_app/core/providers/localization_provider.dart';
 import 'package:drop_z_ecommerce_app/core/providers/theme_provider.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/assets.dart';
-import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_error_widget.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/home/presentation/manager/bottom_nav_cubit/bottom_nav_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
@@ -42,9 +42,11 @@ class HomeView extends StatelessWidget {
             return BlocBuilder<ProductsCubit, ProductsState>(
               builder: (context, state) {
                 if (state is ProductsLoading) {
-                  return const Center(child: CustomLoadingIndicator());
+                  return const CustomLoadingIndicator();
                 } else if (state is ProductsFailure) {
-                  return Center(child: Text('Error: ${state.errMessage}'));
+                  return CustomErrorWidget(
+                    errMessage: 'Error: ${state.errMessage}',
+                  );
                 } else if (state is ProductsDataState &&
                     state.categories != null &&
                     state.products != null) {
@@ -54,9 +56,10 @@ class HomeView extends StatelessWidget {
                   return DefaultTabController(
                     length: categories.length + 1,
                     child: Scaffold(
+                      // backgroundColor: Theme.of(context).colorScheme.onPrimary,
                       resizeToAvoidBottomInset: true,
                       appBar: AppBar(
-                        backgroundColor: kPrimaryColor,
+                        // backgroundColor: kPrimaryColor,
                         title: Row(
                           mainAxisAlignment: isRtl
                               ? MainAxisAlignment.end
@@ -109,12 +112,14 @@ class HomeView extends StatelessWidget {
                                         'en'
                                     ? 'EN'
                                     : 'AR',
-                                style: Styles.textStyle16Medium.copyWith(
-                                  color: kSecondaryColor,
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium!
+                                    .copyWith(
+                                      color: kSecondaryColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                               ),
                               iconSize: 32,
-                              color: kSecondaryColor,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                           ],
                         ),
@@ -140,18 +145,24 @@ class HomeView extends StatelessWidget {
                                             context,
                                           ).push(AppRouter.kSearchView);
                                         },
-                                        cursorColor: Colors.white,
+                                        cursorColor: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimary,
                                         decoration: InputDecoration(
                                           suffixIcon: isRtl
                                               ? null
                                               : Icon(
                                                   Icons.search,
-                                                  color: kSecondaryColor,
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.secondary,
                                                 ),
                                           prefixIcon: isRtl
                                               ? Icon(
                                                   Icons.search,
-                                                  color: kSecondaryColor,
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.secondary,
                                                 )
                                               : null,
                                           contentPadding: const EdgeInsets.all(
@@ -159,11 +170,19 @@ class HomeView extends StatelessWidget {
                                           ),
                                           alignLabelWithHint: false,
                                           labelText: localizations.search,
-                                          floatingLabelStyle: const TextStyle(
-                                            color: Colors.white,
+                                          floatingLabelStyle: TextStyle(
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.secondary,
                                           ),
-                                          labelStyle: Styles.textStyle18Regular
-                                              .copyWith(color: Colors.white),
+                                          labelStyle: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge!
+                                              .copyWith(
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.onPrimary,
+                                              ),
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
                                               color: Colors.white,
@@ -199,20 +218,28 @@ class HomeView extends StatelessWidget {
                                           : TabAlignment
                                                 .start, // tabAlignment: TabAlignment.start,
                                       isScrollable: true,
-                                      indicatorColor: kSecondaryColor,
-                                      labelColor: kSecondaryColor,
-                                      unselectedLabelColor: Colors.white,
+                                      indicatorColor: Theme.of(
+                                        context,
+                                      ).colorScheme.secondary,
+                                      labelColor: Theme.of(
+                                        context,
+                                      ).colorScheme.secondary,
+                                      unselectedLabelColor: Theme.of(
+                                        context,
+                                      ).colorScheme.onPrimary,
                                       tabs: [
                                         Text(
                                           "explore",
-                                          style: Styles.textStyle20Medium
-                                              .copyWith(color: Colors.white),
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium,
                                         ),
                                         ...categories.map(
                                           (category) => Text(
                                             "${category.name}",
-                                            style: Styles.textStyle20Medium
-                                                .copyWith(color: Colors.white),
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.titleMedium,
                                           ),
                                         ),
                                       ],
@@ -222,7 +249,6 @@ class HomeView extends StatelessWidget {
                               )
                             : null,
                       ),
-                      backgroundColor: Colors.white,
                       body: RefreshIndicator(
                         onRefresh: () =>
                             context.read<ProductsCubit>().refreshAllData(),
@@ -249,7 +275,9 @@ class HomeView extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return const Center(child: Text("Waiting for data..."));
+                  return const CustomErrorWidget(
+                    errMessage: "Waiting for data...",
+                  );
                 }
               },
             );

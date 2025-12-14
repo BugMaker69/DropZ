@@ -14,30 +14,30 @@ final class CartLoading extends CartState {}
 final class CartFailure extends CartState {
   final String errMessage;
 
-  CartFailure(this.errMessage);
+  const CartFailure(this.errMessage);
 }
 
 final class CartSuccess extends CartState {
   final CartModel cartItemsModel;
   // final List<CartItemsModel> cartItemsModel;
 
-  CartSuccess(this.cartItemsModel);
+  const CartSuccess(this.cartItemsModel);
 }
 
 final class AddItemToCartSuccess extends CartState {
   final AddItemToCartResponse addItemToCartResponse;
 
-  AddItemToCartSuccess(this.addItemToCartResponse);
+  const AddItemToCartSuccess(this.addItemToCartResponse);
 }
 
 final class DeleteItemFromCartSuccess extends CartState {
   final DeleteItemResponse deleteItemResponse;
 
-  DeleteItemFromCartSuccess(this.deleteItemResponse);
+  const DeleteItemFromCartSuccess(this.deleteItemResponse);
 }
 
 final class CartQuantityUpdated extends CartState {
   final EditQuantity editQuantity;
 
-  CartQuantityUpdated(this.editQuantity);
+  const CartQuantityUpdated(this.editQuantity);
 }

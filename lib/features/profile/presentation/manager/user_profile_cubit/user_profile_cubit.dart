@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:drop_z_ecommerce_app/core/utils/cubit_handler.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/models/change_password_data_data.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/models/change_password_response.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/models/get_user_data_success.dart';
@@ -33,82 +34,42 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   }
 
   Future<void> getUserData() async {
-    emit(UserProfileLoading());
-
-    var result = await userProfileRepo.getUserData(
-      // preferences.getString("accessToken")!,
-    );
-
-    print("RESult : $result");
-
-    result.fold(
-      (failure) {
-        emit(UserProfileFailure(failure.errMessage));
-      },
-      (getUserDataSuccess) {
-        emit(UserProfileSuccess(getUserDataSuccess));
-      },
+    await CubitHandler.run<GetUserDataSuccess>(
+      cubit: this,
+      call: () => userProfileRepo.getUserData(),
+      loadingState: () => emit(UserProfileLoading()),
+      onSuccess: (data) => emit(UserProfileSuccess(data)),
+      failureState: (msg) => emit(UserProfileFailure(msg)),
     );
   }
 
-  Future<void> updateUserData(
-    // String token,
-    GetUserDataSuccess updateUserData,
-  ) async {
-    emit(UserProfileLoading());
-
-    var result = await userProfileRepo.updateUserData(updateUserData);
-    // var result = await userProfileRepo.updateUserData(token, updateUserData);
-
-    print("RESult : $result");
-
-    result.fold(
-      (failure) {
-        emit(UserProfileFailure(failure.errMessage));
-      },
-      (getUserDataSuccess) {
-        emit(UserProfileSuccess(getUserDataSuccess));
-      },
+  Future<void> updateUserData(GetUserDataSuccess data) async {
+    await CubitHandler.run<GetUserDataSuccess>(
+      cubit: this,
+      call: () => userProfileRepo.updateUserData(data),
+      loadingState: () => emit(UserProfileLoading()),
+      onSuccess: (data) => emit(UserProfileSuccess(data)),
+      failureState: (msg) => emit(UserProfileFailure(msg)),
     );
   }
 
   Future<void> changePassword(ChangePasswordData password) async {
-    emit(UserProfileLoading());
-
-    var result = await userProfileRepo.changePassword(password);
-
-    print("RESult : $result");
-
-    result.fold(
-      (failure) {
-        emit(UserProfileFailure(failure.errMessage));
-      },
-      (message) {
-        emit(ChangePasswordSuccess(message));
-      },
+    await CubitHandler.run<ChangePasswordResponse>(
+      cubit: this,
+      call: () => userProfileRepo.changePassword(password),
+      loadingState: () => emit(UserProfileLoading()),
+      onSuccess: (data) => emit(ChangePasswordSuccess(data)),
+      failureState: (msg) => emit(UserProfileFailure(msg)),
     );
   }
 
-  //! Need To Be Handle in Efficent Way
   Future<void> logOut() async {
-    emit(UserProfileLoading());
-
-    var result = await userProfileRepo.logOut(
-      // preferences.getString("accessToken")!,
-      // preferences.getString("refreshToken")!,
+    await CubitHandler.run<LogoutMessage>(
+      cubit: this,
+      call: () => userProfileRepo.logOut(),
+      loadingState: () => emit(UserProfileLoading()),
+      onSuccess: (data) => emit(AuthLoggedOut(data)),
+      failureState: (msg) => emit(UserProfileFailure(msg)),
     );
-    print("RESult : $result");
-
-    result.fold(
-      (failure) {
-        emit(UserProfileFailure(failure.errMessage));
-      },
-      (logoutSuccess) {
-        // await preferences.remove('accessToken');
-        // await preferences.remove('refreshToken');
-        emit(AuthLoggedOut(logoutSuccess));
-      },
-    );
-    // emit(AuthLoggedOut());
   }
 }

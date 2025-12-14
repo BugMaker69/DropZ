@@ -1,8 +1,11 @@
+import 'package:drop_z_ecommerce_app/constants.dart';
+import 'package:drop_z_ecommerce_app/core/providers/theme_provider.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class SellerScaffold extends StatelessWidget {
   final Widget child;
@@ -11,7 +14,28 @@ class SellerScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Seller Panel")),
+      appBar: AppBar(
+        title: const Text("Seller Panel"),
+        actions: [
+          // 🌙 Theme Toggle
+          IconButton(
+            onPressed: () {
+              final themeProvider = Provider.of<ThemeProvider>(
+                context,
+                listen: false,
+              );
+              themeProvider.toggleTheme(!themeProvider.isDarkMode);
+            },
+            icon: Icon(
+              Provider.of<ThemeProvider>(context).isDarkMode
+                  ? Icons.light_mode
+                  : Icons.dark_mode_outlined,
+            ),
+            iconSize: 32,
+            color: kSecondaryColor,
+          ),
+        ],
+      ),
       body: child,
       bottomNavigationBar: NavigationBar(
         selectedIndex: _getIndex(context),
@@ -22,8 +46,8 @@ class SellerScaffold extends StatelessWidget {
             label: "Dashboard",
           ),
           NavigationDestination(icon: Icon(Icons.add_box), label: "Add"),
-          NavigationDestination(icon: Icon(Icons.list), label: "Products"),
-          NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
+          // NavigationDestination(icon: Icon(Icons.list), label: "Products"),
+          NavigationDestination(icon: Icon(Icons.settings), label: "Settings"),
 
           // NavigationDestination(
           //   icon: Icon(Icons.shopping_bag),
@@ -41,8 +65,8 @@ class SellerScaffold extends StatelessWidget {
     if (location == AppRouter.kSellerDashboard) return 0;
     if (location == AppRouter.kSellerAddproductView) return 1;
     //!Need To Be Edit
-    if (location == AppRouter.kSellerAddproductView) return 2;
-    if (location == AppRouter.kSellerSettingsView) return 3;
+    // if (location == AppRouter.kSellerAddproductView) return 2;
+    if (location == AppRouter.kSellerSettingsView) return 2;
     // if (location == AppRouter.kSellerProducts) return 2;
     // if (location == AppRouter.kSellerOrders) return 3;
     return 0;
@@ -53,7 +77,7 @@ class SellerScaffold extends StatelessWidget {
       AppRouter.kSellerDashboard,
       AppRouter.kSellerAddproductView,
       //!Need To Be Edit
-      AppRouter.kSellerAddproductView,
+      // AppRouter.kSellerAddproductView,
       AppRouter.kSellerSettingsView,
 
       // kSellerProducts,
@@ -72,7 +96,8 @@ class SellerScaffold extends StatelessWidget {
           const SnackBar(content: Text("Failed to load categories")),
         );
       }
-    } else
+    } else {
       context.go(routes[i]);
+    }
   }
 }

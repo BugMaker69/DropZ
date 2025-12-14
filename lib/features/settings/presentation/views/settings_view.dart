@@ -1,4 +1,3 @@
-import 'package:drop_z_ecommerce_app/constants.dart';
 import 'package:drop_z_ecommerce_app/features/settings/presentation/views/widgets/settings_view_body.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +8,7 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Settings"), backgroundColor: kPrimaryColor),
+      appBar: AppBar(title: Text("Settings")),
       body: SettingsViewBody(userRole: userRole),
     );
   }

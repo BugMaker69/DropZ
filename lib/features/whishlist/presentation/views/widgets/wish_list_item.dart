@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/add_item_to_cart_request.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
@@ -25,8 +24,7 @@ class WishListItem extends StatelessWidget {
               width: 150,
               height: 150,
               fit: BoxFit.scaleDown,
-              placeholder: (context, url) =>
-                  const Center(child: CustomLoadingIndicator()),
+              placeholder: (context, url) => CustomLoadingIndicator(),
               errorWidget: (context, url, error) =>
                   const Icon(Icons.broken_image, size: 48, color: Colors.grey),
             ),
@@ -42,6 +40,7 @@ class WishListItem extends StatelessWidget {
                 return const Center(child: CustomLoadingIndicator());
               },
             ),*/
+            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,23 +48,25 @@ class WishListItem extends StatelessWidget {
                   SizedBox(height: 16),
                   Text(
                     "${wishListitem.product?.title}",
-                    style: Styles.textStyle16Medium,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                   SizedBox(height: 8),
                   Text(
                     "${wishListitem.product?.seller}",
-                    style: Styles.textStyle16Medium,
+                    style: Theme.of(context).textTheme.titleSmall!,
                   ),
                   SizedBox(height: 8),
                   Text(
                     "\$${wishListitem.product?.price}",
-                    style: TextStyle(color: Color(0xff009336)),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
                   ),
                   SizedBox(height: 8),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       TextButton(
                         onPressed: () {
@@ -75,29 +76,39 @@ class WishListItem extends StatelessWidget {
                         },
                         child: Text(
                           "Delete",
-                          style: Styles.textStyle16Medium.copyWith(
-                            color: Colors.red,
+                          style: Theme.of(context).textTheme.bodyMedium!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.error,
+                                fontWeight: FontWeight.w500,
+                              ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.read<CartCubit>().addItemToCart(
+                              AddItemToCartRequest(
+                                productId: wishListitem.product!.id!,
+                                quantity: 1,
+                              ),
+                            );
+                            context.read<WishListCubit>().removeWishListItem(
+                              wishListitem.product!.id!,
+                            );
+                          },
+                          child: Text(
+                            "Add To Cart",
+                            style: Theme.of(context).textTheme.bodyMedium!
+                                .copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onInverseSurface,
+                                ),
                           ),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<CartCubit>().addItemToCart(
-                            AddItemToCartRequest(
-                              productId: wishListitem.product!.id!,
-                              quantity: 1,
-                            ),
-                          );
-                          context.read<WishListCubit>().removeWishListItem(
-                            wishListitem.product!.id!,
-                          );
-                        },
-                        child: Text(
-                          "Add To Cart",
-                          style: Styles.textStyle16Medium,
-                        ),
-                      ),
-
+                  
                       SizedBox(width: 8),
                     ],
                   ),

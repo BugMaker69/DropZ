@@ -1,4 +1,6 @@
 import 'package:drop_z_ecommerce_app/core/utils/service_locator.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_error_widget.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/repos/address_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/manager/address_cubit/address_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/views/widgets/address_item_list.dart';
@@ -16,15 +18,15 @@ class AddressViewBody extends StatelessWidget {
       child: BlocBuilder<AddressCubit, AddressState>(
         builder: (context, state) {
           if (state is AddressLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return CustomLoadingIndicator();
           }
           if (state is AddressFailure) {
-            return Center(child: Text('Error: ${state.errMessage}'));
+            return CustomErrorWidget(errMessage: 'Error: ${state.errMessage}');
           }
           if (state is AddressSuccess) {
             final addresses = state.allAddresses;
-            if (addresses!.isEmpty) {
-              return const Center(child: Text("There is No Addresses Yet"));
+            if (addresses.isEmpty) {
+              return CustomErrorWidget(errMessage: "There is No Addresses Yet");
             }
 
             return Column(
@@ -33,7 +35,7 @@ class AddressViewBody extends StatelessWidget {
               ],
             );
           }
-          return Text("There Is No data");
+          return CustomErrorWidget(errMessage: "There Is No data");
         },
       ),
     );

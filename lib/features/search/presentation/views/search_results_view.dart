@@ -1,3 +1,4 @@
+import 'package:drop_z_ecommerce_app/core/widgets/custom_error_widget.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/product_item_data_model.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/views/widgets/product_items_list.dart';
 import 'package:flutter/material.dart';
@@ -32,19 +33,16 @@ class SearchResultsView extends StatelessWidget {
         ),
       ),
       body: filteredProducts.isEmpty
-          ? const Center(child: Text("لا توجد منتجات"))
+          ? const CustomErrorWidget(errMessage: "لا توجد منتجات")
           : SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(16),
                     child: Text(
                       "المنتجات المطابقة",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                   ProductItemsList(

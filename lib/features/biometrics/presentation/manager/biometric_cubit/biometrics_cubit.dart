@@ -1,25 +1,29 @@
 import 'package:drop_z_ecommerce_app/features/biometrics/data/repos/biometrics_repo.dart';
 import 'package:drop_z_ecommerce_app/features/biometrics/presentation/manager/biometric_cubit/biometrics_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:drop_z_ecommerce_app/features/biometrics/data/repos/biometrics_repo.dart';
+import 'package:drop_z_ecommerce_app/features/biometrics/presentation/manager/biometric_cubit/biometrics_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BiometricsCubit extends Cubit<BiometricsState> {
   final BiometricsRepo biometricsRepo;
 
   BiometricsCubit(this.biometricsRepo) : super(BiometricsInitial());
 
-  Future<void> checkBiometrics() async {
+  Future<void> authenticateIfAvailable() async {
     emit(BiometricsLoading());
 
     final status = await biometricsRepo.checkBiometricsSupport();
-    emit(BiometricsSupportStatus(status));
-  }
 
-  Future<void> authenticate() async {
-    emit(BiometricsLoading());
+    // ❌ الجهاز لا يدعم البصمة أو لا توجد بصمة مسجلة
+    if (!status.isDeviceSupported || !status.isBiometricAvailable) {
+      emit(BiometricsSkipped());
+      return;
+    }
 
-    final ok = await biometricsRepo.authenticateUser();
+    final authenticated = await biometricsRepo.authenticateUser();
 
-    if (ok) {
+    if (authenticated) {
       emit(BiometricsSuccess());
     } else {
       emit(BiometricsFailed("Authentication failed"));

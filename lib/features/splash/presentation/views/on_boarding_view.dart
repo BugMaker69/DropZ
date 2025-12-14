@@ -20,18 +20,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   // بيانات الـ Onboarding (3 صفحات)
   final List<Map<String, String>> onBoardData = [
     {
-      'title': 'Welcome to Our Store',
-      'description': 'Discover a wide range of products tailored just for you.',
+      'title': 'Shop Amazing Products',
+      'description':
+          'Discover thousands of high-quality products at competitive prices',
       'image': 'assets/images/onboarding1.png',
     },
     {
-      'title': 'Shop with Ease',
-      'description': 'Browse, add to cart, and checkout in just a few clicks.',
+      'title': 'Fast Delivery to Your Address',
+      'description':
+          'Set your address and receive your order as fast as possible',
       'image': 'assets/images/onboarding2.png',
     },
     {
-      'title': 'Save Your Favorites',
-      'description': 'Add products to your wishlist and shop them later.',
+      'title': 'Secure & Easy Payments',
+      'description': 'Pay securely using your card',
       'image': 'assets/images/onboarding3.png',
     },
   ];

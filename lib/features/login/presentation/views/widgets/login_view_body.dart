@@ -1,4 +1,5 @@
 import 'package:drop_z_ecommerce_app/constants.dart';
+import 'package:drop_z_ecommerce_app/core/utils/Validators%20.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
@@ -13,7 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginViewBody extends StatefulWidget {
-  LoginViewBody({super.key});
+  const LoginViewBody({super.key});
 
   @override
   State<LoginViewBody> createState() => _LoginViewBodyState();
@@ -48,7 +49,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
             );
           }
         } else if (state is LoginFailure) {
-          customSnakeBar(context, state.errMessage);
+          CustomSnakeBar(context, state.errMessage);
         }
       },
       builder: (context, state) {
@@ -72,27 +73,20 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Welcome back,", style: Styles.textStyle45Bold),
+                        Text(
+                          "Welcome back,",
+                          style: Theme.of(context).textTheme.displayLarge,
+                        ),
                         Text(
                           "Login To Continue",
-                          style: Styles.textStyle20Regular.copyWith(
-                            color: Colors.white,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
 
                         const SizedBox(height: 16),
 
                         CustomTextEdit(
                           labelText: "Email address",
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Email is required';
-                            }
-                            if (!value.contains('@')) {
-                              return 'Enter a valid email';
-                            }
-                            return null;
-                          },
+                          validator: Validators.validateEmail,
                           textController: _emailController,
                           // onChanged: (value) {
                           //   print("value $value");
@@ -105,25 +99,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         CustomTextEdit(
                           labelText: "Password",
                           isPassword: true,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Password is required';
-                            }
-                            if (value.length < 8) {
-                              return 'Password must be at least 8 characters long';
-                            }
-                            if (!RegExp(r'[A-Z]').hasMatch(value)) {
-                              return 'Password must contain at least one uppercase letter';
-                            }
-                            if (!RegExp(r'\d').hasMatch(value)) {
-                              return 'Password must contain at least one number';
-                            }
-
-                            if (!RegExp(r'[!@#\$&*~^%()]').hasMatch(value)) {
-                              return 'Password must contain at least one special character';
-                            }
-                            return null;
-                          },
+                          // validator: Validators.validatePassword,
                           textController: _passwordController,
                           // onChanged: (value) {
                           //   print("value $value");
@@ -135,9 +111,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         CustomButton(
                           text: "Login",
                           onPressed: () {
-                            print("OutSide Validation");
                             if (_formKey.currentState!.validate()) {
-                              print("Inside Validation");
                               context
                                   .read<LoginCubit>()
                                   .loginWithEmailNPassword(
@@ -151,24 +125,22 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           child: Text(
                             "OR",
                             textAlign: TextAlign.center,
-                            style: Styles.textStyle20Regular.copyWith(
-                              color: Colors.white,
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
                         CustomButton(
                           text: "Login with Google",
                           onPressed: () {},
-                          backgroundColor: Colors.white,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.onPrimary,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Doesn’t have an account?",
-                              style: Styles.textStyle16Regular.copyWith(
-                                color: Colors.white,
-                              ),
+                              "Don’t have an account?",
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             TextButton(
                               onPressed: () {

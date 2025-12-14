@@ -1,7 +1,6 @@
 import 'package:drop_z_ecommerce_app/core/payment/payment_cubit/payment_state.dart';
 import 'package:drop_z_ecommerce_app/core/utils/api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
 
 class PaymentCubit extends Cubit<PaymentState> {
   PaymentCubit(this.apiService) : super(PaymentInitial());

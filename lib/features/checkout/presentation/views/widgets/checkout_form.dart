@@ -1,14 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/payment/payment_cubit/payment_cubit.dart';
 import 'package:drop_z_ecommerce_app/core/payment/payment_cubit/payment_state.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
-import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/model/address_response/address_response.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/manager/address_cubit/address_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/biometrics/presentation/manager/biometric_cubit/biometrics_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/biometrics/presentation/manager/biometric_cubit/biometrics_state.dart';
-import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_model.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/checkout/presentation/manager/checkout_cubit/checkout_cubit.dart';
@@ -16,7 +16,6 @@ import 'package:drop_z_ecommerce_app/features/checkout/presentation/manager/chec
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class CheckoutForm extends StatelessWidget {
   const CheckoutForm({super.key});
@@ -61,23 +60,20 @@ class CheckoutForm extends StatelessWidget {
                   // }
                 } else if (paymentState is PaymentError) {
                   isPaymentLoading.value = false;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("Payment failed: ${paymentState.message}"),
-                    ),
+                  CustomSnakeBar(
+                    context,
+                    "Payment failed: ${paymentState.message}",
                   );
                 }
               },
             ),
             BlocListener<BiometricsCubit, BiometricsState>(
               listener: (context, state) {
-                if (state is BiometricsSuccess) {
+                if (state is BiometricsSuccess ) {
                   context.read<CheckoutCubit>().createCheckoutOrder();
                 }
                 if (state is BiometricsFailed) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Authentication failed")),
-                  );
+                  CustomSnakeBar(context, "Authentication failed");
                 }
               },
             ),
@@ -85,9 +81,7 @@ class CheckoutForm extends StatelessWidget {
           child: BlocConsumer<CheckoutCubit, CheckoutState>(
             listener: (context, state) {
               if (state is CheckoutSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Order placed! ID: ${state.orderId}")),
-                );
+                CustomSnakeBar(context, "Order placed! ID: ${state.orderId}");
 
                 final paymentCubit = context.read<PaymentCubit>();
 
@@ -98,14 +92,12 @@ class CheckoutForm extends StatelessWidget {
               }
 
               if (state is CheckoutFailure) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.errMessage)));
+                CustomSnakeBar(context, (state.errMessage));
               }
             },
             builder: (context, state) {
               if (state is CheckoutLoading) {
-                return const Center(child: CustomLoadingIndicator());
+                return const CustomLoadingIndicator();
               }
 
               final cartItems = context.read<CartCubit>().state is CartSuccess
@@ -132,28 +124,29 @@ class CheckoutForm extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final dynamic item = cartItems[index];
                           return ListTile(
-                            leading: Image.network(
-                              "http://10.0.2.2:8000/${item.product?.image}" ??
+                            leading: CachedNetworkImage(
+                              imageUrl:
+                                  "https://uncondemnable-brianna-hazelly.ngrok-free.dev/${item.product?.image}" ??
                                   "",
+                              // imageUrl:
+                              //     "http://10.0.2.2:8000/${item.product?.image}" ??
+                              //     "",
                               width: 50,
                               height: 50,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
+                              errorWidget: (context, error, stackTrace) =>
                                   const Icon(
                                     Icons.broken_image,
                                     size: 48,
                                     color: Colors.grey,
                                   ),
-                              loadingBuilder: (context, child, progress) {
-                                if (progress == null) return child;
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              },
+                              placeholder: (context, url) =>
+                                  CustomLoadingIndicator(),
                             ),
                             title: Text(item.product!.title ?? ""),
                             subtitle: Text("Qty: ${item.quantity}"),
                             trailing: Text(
+                              style: Theme.of(context).textTheme.bodySmall,
                               "\$${(double.tryParse(item.product!.price!)! * item.quantity!).toStringAsFixed(2)}",
                             ),
                           );
@@ -166,19 +159,17 @@ class CheckoutForm extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             "Total",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.titleLarge!
+                                  .copyWith(fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "\$${total.toStringAsFixed(2)}",
-                            style: const TextStyle(
-                              fontSize: 20,
-                              color: Colors.green,
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium!
+                                .copyWith(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
                           ),
                         ],
                       ),
@@ -189,7 +180,7 @@ class CheckoutForm extends StatelessWidget {
                       onPressed: cartItems.isEmpty
                           ? () {}
                           : () {
-                              context.read<BiometricsCubit>().authenticate();
+                              context.read<BiometricsCubit>().authenticateIfAvailable();
 
                               // context
                               //     .read<CheckoutCubit>()
@@ -210,7 +201,7 @@ class CheckoutForm extends StatelessWidget {
             if (!loading) return const SizedBox.shrink();
             return Container(
               color: Colors.black.withOpacity(0.3),
-              child: const Center(child: CircularProgressIndicator()),
+              child: const CustomLoadingIndicator(),
             );
           },
         ),
@@ -227,11 +218,14 @@ Widget _buildAddressSection(
   final checkoutCubit = context.read<CheckoutCubit>();
 
   if (addressState is AddressLoading) {
-    return const Center(child: CircularProgressIndicator());
+    return const CustomLoadingIndicator();
   }
 
   if (addressState is AddressFailure) {
-    return Text(addressState.errMessage, style: TextStyle(color: Colors.red));
+    return Text(
+      addressState.errMessage,
+      style: TextStyle(color: Theme.of(context).colorScheme.error),
+    );
   }
 
   List<AddressResponse> addresses = [];
@@ -244,9 +238,11 @@ Widget _buildAddressSection(
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Shipping Address",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         const Text("No addresses found."),
@@ -288,15 +284,17 @@ Widget _buildAddressSection(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               "Shipping Address",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
               // "${defaultAddress.street}, ${defaultAddress.city}, ${defaultAddress.governorate}",
               "${currentAddress.street}, ${currentAddress.city}, ${currentAddress.governorate}",
-              style: TextStyle(fontSize: 16),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 5),
             Text(currentAddress.country ?? "Egypt"),
@@ -306,9 +304,9 @@ Widget _buildAddressSection(
             TextButton(
               onPressed: () =>
                   _openAddressSelector(context, addresses, selectedAddressId),
-              child: const Text(
+              child: Text(
                 "Change Address",
-                style: Styles.textStyle16Regular,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
           ],
@@ -339,9 +337,11 @@ void _openAddressSelector(
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
+                  Text(
                     "Choose Address",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const Divider(),
 
@@ -352,15 +352,13 @@ void _openAddressSelector(
                       groupValue: selectedAddressId.value,
                       onChanged: (val) {
                         selectedAddressId.value = val;
-                        print(
-                          "selectedAddressId.value ${selectedAddressId.value}  ,value:${val}",
-                        );
+
                         setState(() => selectedAddressId.value = val);
 
                         checkoutCubit.setSelectedAddress(val!);
                       },
                     );
-                  }).toList(),
+                  }),
 
                   const SizedBox(height: 10),
 

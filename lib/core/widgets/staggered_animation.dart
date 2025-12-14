@@ -5,7 +5,7 @@ class StaggeredAnimation extends StatelessWidget {
   final int index;
   final Widget child;
 
-  const StaggeredAnimation({required this.index, required this.child});
+  const StaggeredAnimation({super.key, required this.index, required this.child});
 
   @override
   Widget build(BuildContext context) {

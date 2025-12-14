@@ -10,7 +10,7 @@ abstract class ProductsRepo {
   Future<Either<Failure, ProductItemDataModel>> getProductById(int id);
   Future<Either<Failure, ProductItemDataModel>> getAllSellerProducts();
   Future<Either<Failure, List<CategoryModel>>> getAllCategories();
-  Future<Either<Failure, Result>> AddProductItem(
+  Future<Either<Failure, Result>> addProductItem(
     AddProductRequest addProductRequest,
   );
   Future<Either<Failure, Result>> updateProductItem(

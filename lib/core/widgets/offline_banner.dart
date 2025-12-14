@@ -14,7 +14,9 @@ class OfflineBanner extends StatelessWidget {
           return Container(
             width: double.infinity,
             padding: const EdgeInsets.all(12),
-            color: state is NetworkDisconnected ? Colors.red : Colors.orange,
+            color: state is NetworkDisconnected
+                ? Theme.of(context).colorScheme.error
+                : Theme.of(context).colorScheme.tertiaryFixed,
             child: Row(
               children: [
                 Icon(
@@ -29,17 +31,19 @@ class OfflineBanner extends StatelessWidget {
                     state is NetworkDisconnected
                         ? "No Internet Connection"
                         : "Weak Internet Connection",
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 TextButton(
                   onPressed: () => context.read<NetworkCubit>().retry(),
-                  child: const Text(
+                  child: Text(
                     "Retry",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
                   ),
                 ),
               ],

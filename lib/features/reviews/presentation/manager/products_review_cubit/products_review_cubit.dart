@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:drop_z_ecommerce_app/core/utils/cubit_handler.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/data/model/add_review_request.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/data/model/get_all_reviews/get_all_reviews.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/data/repos/products_review_repo.dart';
@@ -10,79 +11,55 @@ class ProductsReviewCubit extends Cubit<ProductsReviewState> {
   ProductsReviewCubit(this.productsReviewRepo) : super(ProductsReviewInitial());
 
   final ProductsReviewRepo productsReviewRepo;
-
   String? currentSlug;
 
-  Future<void> getAllProductReviews(String slug) async {
-    currentSlug = slug;
-    emit(ProductsReviewLoading());
-    var result = await productsReviewRepo.getAllProductReviews(slug);
-
-    result.fold(
-      (failure) {
-        emit(ProductsReviewFailure(failure.errMessage));
-      },
-      (productReviewSuccessResponse) {
-        print("Products Success: ${productReviewSuccessResponse} products");
-        emit(
-          ProductsReviewSuccess(getAllReviews: productReviewSuccessResponse),
-        );
-        // emit(ProductsSuccess(productSuccessResponse));
-      },
-    );
-  }
+  Future<void> getAllProductReviews(String slug) async =>
+      await CubitHandler.run<List<GetAllReviews>>(
+        cubit: this,
+        loadingState: () => emit(ProductsReviewLoading()),
+        call: () => productsReviewRepo.getAllProductReviews(slug),
+        onSuccess: (data) => emit(ProductsReviewSuccess(getAllReviews: data)),
+        failureState: (msg) => emit(ProductsReviewFailure(msg)),
+      );
 
   Future<void> addProductItemReview(
     String slug,
     AddReviewRequest addReviewRequest,
-  ) async {
-    emit(ProductsReviewLoading());
-
-    var result = await productsReviewRepo.addProductReview(
-      slug,
-      addReviewRequest,
-    );
-
-    result.fold((failure) => emit(ProductsReviewFailure(failure.errMessage)), (
-      data,
-    ) async {
-      await getAllProductReviews(slug);
-      // emit(addProductsReviewSuccess(getReview: data));
-    });
-  }
+  ) async => await CubitHandler.run<GetAllReviews>(
+    cubit: this,
+    loadingState: () => emit(ProductsReviewLoading()),
+    call: () => productsReviewRepo.addProductReview(slug, addReviewRequest),
+    onSuccess: (_) async => await getAllProductReviews(slug),
+    failureState: (msg) => emit(ProductsReviewFailure(msg)),
+  );
 
   Future<void> updateProductItemReview(
     int reviewId,
     AddReviewRequest addReviewRequest,
-  ) async {
-    emit(ProductsReviewLoading());
-
-    var result = await productsReviewRepo.editProductReview(
-      reviewId,
-      addReviewRequest,
-    );
-
-    result.fold((failure) => emit(ProductsReviewFailure(failure.errMessage)), (
-      data,
-    ) async {
+  ) async => await CubitHandler.run<GetAllReviews>(
+    cubit: this,
+    loadingState: () => emit(ProductsReviewLoading()),
+    call: () =>
+        productsReviewRepo.editProductReview(reviewId, addReviewRequest),
+    onSuccess: (_) async {
       if (currentSlug != null) {
         await getAllProductReviews(currentSlug!);
       }
-      // emit(addProductsReviewSuccess(getReview: data));
-    });
-  }
+    },
+    failureState: (msg) => emit(ProductsReviewFailure(msg)),
+  );
 
-  Future<void> deleteProductItemReview(int id) async {
-    emit(ProductsReviewLoading());
-
-    var result = await productsReviewRepo.deleteProductReview(id);
-    result.fold((failure) => emit(ProductsReviewFailure(failure.errMessage)), (
-      message,
-    ) async {
-      if (currentSlug != null) {
-        await getAllProductReviews(currentSlug!);
-      }
-      emit(DeleteProductReviewSuccess(message));
-    });
-  }
+  Future<void> deleteProductItemReview(int id) async =>
+      await CubitHandler.run<String>(
+        cubit: this,
+        loadingState: () => emit(ProductsReviewLoading()),
+        call: () => productsReviewRepo.deleteProductReview(id),
+        onSuccess: (message) async {
+          if (currentSlug != null) {
+            await getAllProductReviews(currentSlug!);
+          }
+          emit(DeleteProductReviewSuccess(message));
+        },
+        failureState: (msg) => emit(ProductsReviewFailure(msg)),
+      );
 }

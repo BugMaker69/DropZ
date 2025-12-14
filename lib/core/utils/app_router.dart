@@ -1,8 +1,5 @@
 import 'package:drop_z_ecommerce_app/core/payment/payment_failed_page.dart';
 import 'package:drop_z_ecommerce_app/core/payment/payment_success_page.dart';
-import 'package:drop_z_ecommerce_app/core/widgets/custom_animated_page.dart';
-import 'package:drop_z_ecommerce_app/core/widgets/custom_page_transition.dart';
-import 'package:drop_z_ecommerce_app/core/widgets/royal_page_transition.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/model/address_response/address_response.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/views/address_view.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/views/widgets/add_address_item.dart';
@@ -18,7 +15,6 @@ import 'package:drop_z_ecommerce_app/features/checkout/presentation/views/widget
 import 'package:drop_z_ecommerce_app/features/products/data/model/category_model/category_model.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/product_item_data_model.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/result.dart';
-import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/views/add_product_view.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/views/edit_product_item_view.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/views/widgets/product_item_details.dart';
@@ -65,6 +61,7 @@ abstract class AppRouter {
   static const kCustomerEditAddress = '/customer/editAddress';
   static const kCustomerAddress = '/customer/address';
   static const kCustomerChangePassword = '/customer/changePassword';
+  static const kSellerChangePassword = '/seller/changePassword';
   static const kCustomerCheckout = '/customer/checkoutView';
   static const kCustomerSupport = '/customer/support';
   static const kCustomerSupportDetails = '/customer/supportDetails';
@@ -206,8 +203,6 @@ abstract class AppRouter {
         ],
       ),
 */
-      
-      
       ShellRoute(
         pageBuilder: (context, state, child) => NoTransitionPage(
           key: state.pageKey,
@@ -222,7 +217,7 @@ abstract class AppRouter {
           GoRoute(
             path: AppRouter.kCustomerCartView,
             pageBuilder: (_, state) =>
-                NoTransitionPage(key: state.pageKey, child: const CartView()),
+                NoTransitionPage(key: state.pageKey, child: CartView()),
           ),
           GoRoute(
             path: AppRouter.kCustomerWishlistView,
@@ -259,10 +254,10 @@ abstract class AppRouter {
             path: kSellerSettingsView,
             builder: (_, __) => const SettingsView(userRole: "seller"),
           ),
-          GoRoute(
-            path: kSellerProfileView,
-            builder: (_, __) => const ProfileView(),
-          ),
+          // GoRoute(
+          //   path: kSellerProfileView,
+          //   builder: (_, __) => const ProfileView(),
+          // ),
           // GoRoute(
           //   path: kProdSellerProducts,
           //   builder: (_, __) => const SellerProductsView(),
@@ -273,7 +268,10 @@ abstract class AppRouter {
           // ),
         ],
       ),
-
+      GoRoute(
+        path: kSellerProfileView,
+        builder: (_, __) => const ProfileView(),
+      ),
       // GoRoute(path: kHomeView, builder: (context, state) => const HomeView()),
       // GoRoute(
       //   path: kProfileView,
@@ -352,6 +350,10 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kCustomerChangePassword,
+        builder: (context, state) => const ChangePassword(),
+      ),
+      GoRoute(
+        path: kSellerChangePassword,
         builder: (context, state) => const ChangePassword(),
       ),
       GoRoute(

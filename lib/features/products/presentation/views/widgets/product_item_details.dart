@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/add_item_to_cart_request.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
@@ -105,22 +107,18 @@ class ProductItemDetails extends StatelessWidget {
                       tag: 'product-hero-${filteredProduct.id}', // نفس الـ tag
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
+                        child: CachedNetworkImage(
                           height: 300,
-                          filteredProduct.image ?? "",
+                          imageUrl: filteredProduct.image ?? "",
                           fit: BoxFit.scaleDown,
-                          errorBuilder: (context, error, stackTrace) =>
+                          errorWidget: (context, error, stackTrace) =>
                               const Icon(
                                 Icons.broken_image,
                                 size: 48,
                                 color: Colors.grey,
                               ),
-                          loadingBuilder: (context, child, progress) {
-                            if (progress == null) return child;
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          },
+                          placeholder: (context, url) =>
+                              CustomLoadingIndicator(),
                         ),
                       ),
                     ),
@@ -151,16 +149,6 @@ class ProductItemDetails extends StatelessWidget {
                       itemSize: 40.0, // حجم النجمة
                       direction: Axis.horizontal,
                     ),
-                    // RatingBar.builder(
-                    //   initialRating: filteredProduct.averageRating!.toDouble(),
-                    //   minRating: 0,
-                    //   direction: Axis.horizontal,
-                    //   allowHalfRating: true,
-                    //   itemCount: 5,
-                    //   itemBuilder: (context, _) =>
-                    //       const Icon(Icons.star, color: Colors.amber),
-                    //   onRatingUpdate: (rating) {},
-                    // ),
                     Text(
                       "(${filteredProduct.reviewCount} Reviews)",
                       style: Styles.textStyle16Medium.copyWith(
@@ -225,7 +213,7 @@ class ProductItemDetails extends StatelessWidget {
                                     );
                               }
                             } else {
-                              customSnakeBar(
+                              CustomSnakeBar(
                                 context,
                                 "You reached the maximum available stock.",
                               );
@@ -331,35 +319,6 @@ class ProductItemDetails extends StatelessWidget {
                         },
                       );
                     },
-
-                    // onPressed: () async {
-                    //   await context.read<ProductsCubit>().getAllProductReviews(
-                    //     filteredProduct.slug!,
-                    //   );
-
-                    //   // 2. انتظر النتيجة من الـ State
-                    //   final cubit = context.read<ProductsCubit>();
-                    //   final state = cubit.state;
-
-                    //   if (state is ProductsReviewSuccess &&
-                    //       state.getAllReviews != null) {
-                    //     // 3. لو نجح → ارفع النتايج للصفحة
-                    //     GoRouter.of(context).push(
-                    //       AppRouter.kProductReviewsView,
-                    //       extra: state.getAllReviews,
-                    //     );
-                    //   } else if (state is ProductsReviewFailure) {
-                    //     // لو في خطأ → اعرض رسالة
-                    //     ScaffoldMessenger.of(context).showSnackBar(
-                    //       SnackBar(content: Text("Error: ${state.errMessage}")),
-                    //     );
-                    //   } else {
-                    //     // لو لسه loading أو فاضي
-                    //     ScaffoldMessenger.of(context).showSnackBar(
-                    //       const SnackBar(content: Text("No reviews yet")),
-                    //     );
-                    //   }
-                    // },
                     child: Text("Add Review", style: Styles.textStyle16Medium),
                   ),
                 ],

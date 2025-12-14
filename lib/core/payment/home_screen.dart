@@ -1,9 +1,6 @@
 import 'dart:async';
 
-import 'package:dartz/dartz.dart';
-import 'package:drop_z_ecommerce_app/core/errors/failure.dart';
 import 'package:drop_z_ecommerce_app/core/payment/paymob_manager/payment_repo_imp.dart';
-import 'package:drop_z_ecommerce_app/core/payment/paymob_manager/paymob_manager.dart';
 import 'package:drop_z_ecommerce_app/core/utils/api_service.dart';
 import 'package:drop_z_ecommerce_app/core/utils/service_locator.dart';
 import 'package:flutter/material.dart';

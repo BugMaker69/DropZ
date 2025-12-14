@@ -4,14 +4,12 @@ import 'package:go_router/go_router.dart';
 
 class CustomPageTransition extends CustomTransitionPage {
   CustomPageTransition({
-    required LocalKey key,
-    required Widget child,
+    required LocalKey super.key,
+    required super.child,
     Duration duration = const Duration(milliseconds: 300),
     Curve curve = Curves.easeInOut,
     TransitionType type = TransitionType.slideFromRight,
   }) : super(
-         key: key,
-         child: child,
          transitionDuration: duration,
          reverseTransitionDuration: duration,
          transitionsBuilder: (context, animation, secondaryAnimation, child) {

@@ -61,14 +61,14 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
     return BlocConsumer<RegisterCubit, RegisterState>(
       listener: (context, state) {
         if (state is RegisterSuccess) {
-          customSnakeBar(
+          CustomSnakeBar(
             context,
             state.registerSuccessResponse.message.toString(),
           );
 
           GoRouter.of(context).push(AppRouter.kloginView);
         } else if (state is RegisterFailure) {
-          customSnakeBar(context, state.errMessage);
+          CustomSnakeBar(context, state.errMessage);
         }
       },
       builder: (context, state) {
@@ -93,10 +93,13 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Join Dropz,", style: Styles.textStyle45Bold),
-                        const Text(
+                        Text(
+                          "Join Dropz,",
+                          style: Theme.of(context).textTheme.displayLarge,
+                        ),
+                        Text(
                           "Create an account",
-                          style: Styles.textStyle20Regular,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 16),
                         Row(
@@ -127,39 +130,17 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                         const SizedBox(height: 16),
 
                         DropdownButtonFormField(
-                          dropdownColor: kPrimaryColor,
-                          style: Styles.textStyle18Regular,
-                          iconEnabledColor: Colors.white,
+                          // dropdownColor: kPrimaryColor,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          iconEnabledColor: Theme.of(
+                            context,
+                          ).colorScheme.onPrimary,
                           items: _userRole,
                           onChanged: (value) {
                             _selectedRole = value!;
                           },
                           initialValue: _selectedRole,
-                          decoration: InputDecoration(
-                            labelText: "Select Role",
-                            labelStyle: Styles.textStyle18Regular,
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: BorderSide(
-                                color: Colors.white70,
-                                width: 2,
-                              ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: BorderSide(
-                                color: Colors.white70,
-                                width: 2,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide: BorderSide(
-                                color: Colors.white70,
-                                width: 2,
-                              ),
-                            ),
-                          ),
+                          decoration: _inputDecoration(),
                         ),
 
                         const SizedBox(height: 16),
@@ -184,15 +165,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                         CustomButton(
                           text: "Sign up",
                           onPressed: () {
-                            print(
-                              " emailController Out ${_emailController.text}",
-                            );
-
                             if (_formKey.currentState!.validate()) {
-                              print(
-                                " emailController IN ${_emailController.text}",
-                              );
-
                               context
                                   .read<RegisterCubit>()
                                   .registerWithEmailNPassword(
@@ -207,11 +180,13 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                             }
                           },
                         ),
-                        const Center(
+                        Center(
                           child: Text(
                             "OR",
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.surface,
+                            ),
                           ),
                         ),
                         CustomButton(
@@ -222,9 +197,9 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               "Already have an account ?",
-                              style: Styles.textStyle16Regular,
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             TextButton(
                               onPressed: () {
@@ -253,6 +228,34 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
           ),
         );
       },
+    );
+  }
+
+  InputDecoration _inputDecoration() {
+    return InputDecoration(
+      labelText: "Select Role",
+      labelStyle: Theme.of(context).textTheme.bodyLarge,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.onSurface,
+          width: 2,
+        ),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.onSurface,
+          width: 2,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(
+          color: Theme.of(context).colorScheme.onSurface,
+          width: 2,
+        ),
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:drop_z_ecommerce_app/core/providers/theme_provider.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/features/profile/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
@@ -49,21 +50,68 @@ class SettingsViewBody extends StatelessWidget {
       SettingsItemData(
         title: "Change Password",
         icon: Icons.lock_outlined,
-        pathRoute: AppRouter.kCustomerProfileView,
+        pathRoute: AppRouter.kSellerChangePassword,
       ),
     ];
 
     final itemsData = userRole == "seller"
         ? sellerItemsData
         : customerItemsData;
-
     return BlocConsumer<UserProfileCubit, UserProfileState>(
+      listener: (context, state) {
+        if (state is AuthLoggedOut) {
+          context.go(AppRouter.kloginView);
+        }
+      },
+      builder: (context, state) {
+        final themeProvider = Provider.of<ThemeProvider>(context);
+        // دمج كل العناصر بما فيها Toggle و LogOut داخل ListView
+        final allItems = [
+          ...itemsData.map((item) => SettingsItem(itemData: item)),
+          ListTile(
+            leading: Icon(
+              themeProvider.isDarkMode
+                  ? Icons.dark_mode_outlined
+                  : Icons.light_mode_outlined,
+            ),
+            title: const Text("Dark Mode"),
+            trailing: Switch(
+              value: themeProvider.isDarkMode,
+              onChanged: (val) {
+                themeProvider.toggleTheme(val);
+              },
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              context.read<UserProfileCubit>().logOut();
+            },
+            iconColor: Colors.red,
+            leading: const Icon(Icons.logout_outlined),
+            title: Text(
+              "LogOut",
+              style: Styles.textStyle16Medium.copyWith(color: Colors.red),
+            ),
+          ),
+        ];
+
+        return ListView.separated(
+          itemCount: allItems.length,
+          separatorBuilder: (context, index) => const Divider(),
+          itemBuilder: (context, index) => allItems[index],
+        );
+      },
+    );
+
+    /*    return BlocConsumer<UserProfileCubit, UserProfileState>(
       listener: (context, state) {
         if (state is AuthLoggedOut) {
           return context.go(AppRouter.kloginView);
         }
       },
       builder: (context, state) {
+        final themeProvider = Provider.of<ThemeProvider>(context);
+
         return Column(
           children: [
             Expanded(
@@ -72,6 +120,21 @@ class SettingsViewBody extends StatelessWidget {
                     SettingsItem(itemData: itemsData[index]),
                 itemCount: itemsData.length,
                 separatorBuilder: (context, index) => Divider(),
+              ),
+            ),
+
+            ListTile(
+              leading: Icon(
+                themeProvider.isDarkMode
+                    ? Icons.dark_mode_outlined
+                    : Icons.light_mode_outlined,
+              ),
+              title: const Text("Dark Mode"),
+              trailing: Switch(
+                value: themeProvider.isDarkMode,
+                onChanged: (val) {
+                  themeProvider.toggleTheme(val);
+                },
               ),
             ),
             ListTile(
@@ -89,5 +152,6 @@ class SettingsViewBody extends StatelessWidget {
         );
       },
     );
+  */
   }
 }
