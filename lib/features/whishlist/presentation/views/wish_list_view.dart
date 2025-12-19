@@ -44,7 +44,9 @@ class WishListView extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Error: ${state.errMessage}"),
+                            CustomErrorWidget(
+                              errMessage: "Error: ${state.errMessage}",
+                            ),
                             const SizedBox(height: 16),
                             /*  ElevatedButton(
                               onPressed: () => context

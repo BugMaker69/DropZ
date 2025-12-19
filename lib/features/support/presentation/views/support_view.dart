@@ -23,45 +23,54 @@ class SupportView extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           TicketCubit(getIt.get<TicketRepoImp>())..getAllTickets(),
-      child: BlocBuilder<TicketCubit, TicketState>(
-        builder: (context, state) {
-          if (state is TicketLoading) {
-            return const CustomLoadingIndicator();
-          }
+      child: Scaffold(
+        appBar: AppBar(title: const Text("Support")),
+        floatingActionButton: Builder(
+          builder: (context) {
+            return FloatingActionButton.extended(
+              onPressed: () => _showInputDialog(context),
+              icon: const Icon(Icons.contact_support_outlined),
+              label: const Text("New Ticket"),
+            );
+          },
+        ),
+        body: BlocBuilder<TicketCubit, TicketState>(
+          builder: (context, state) {
+            if (state is TicketLoading) {
+              return const Center(child: CustomLoadingIndicator());
+            }
 
-          if (state is TicketFailure) {
-            return CustomErrorWidget(errMessage: state.errMessage);
-          }
-
-          if (state is TicketSuccess) {
-            final tickets = state.tickets;
-            if (tickets.isEmpty) {
-              return const CustomErrorWidget(
-                errMessage: "No Tickets available",
+            if (state is TicketFailure) {
+              return Center(
+                child: CustomErrorWidget(errMessage: state.errMessage),
               );
             }
-            return Scaffold(
-              appBar: AppBar(title: Text("Support")),
-              floatingActionButton: FloatingActionButton.extended(
-                onPressed: () => _showInputDialog(context),
-                icon: Icon(Icons.contact_support_outlined),
-                label: Text("New Ticket"),
-              ),
-              body: Padding(
+
+            if (state is TicketSuccess) {
+              final tickets = state.tickets;
+
+              if (tickets.isEmpty) {
+                return const Center(
+                  child: CustomErrorWidget(errMessage: "No Tickets available"),
+                );
+              }
+
+              return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ShowTicketItemsListView(getAllTickets: tickets),
-              ),
-            );
-          } else {
-            return SizedBox.shrink();
-          }
-        },
+              );
+            }
+
+            return const SizedBox.shrink();
+          },
+        ),
       ),
     );
   }
 
   void _showInputDialog(parentContext) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
     showDialog(
       context: parentContext,
       builder: (context) {
@@ -80,7 +89,7 @@ class SupportView extends StatelessWidget {
                     validator: (value) =>
                         Validators.validateRequired(value, "Subject"),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   CustomTextEdit(
                     labelText: "Description",
                     textController: descriptionController,
@@ -96,12 +105,14 @@ class SupportView extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // غلق الديالوج
+                Navigator.of(context).pop();
+                subjectController.clear();
+                descriptionController.clear();
               },
-              child: Text("Cancel"),
+              child: const Text("Cancel"),
             ),
             ElevatedButton(
-              onPressed: () async {
+              onPressed: () {
                 if (formKey.currentState!.validate()) {
                   BlocProvider.of<TicketCubit>(parentContext).createNewTicket(
                     CreateTicket(
@@ -109,10 +120,12 @@ class SupportView extends StatelessWidget {
                       description: descriptionController.text,
                     ),
                   );
-                  Navigator.of(context).pop(); // غلق الديالوج
+                  subjectController.clear();
+                  descriptionController.clear();
+                  Navigator.of(context).pop();
                 }
               },
-              child: Text("Submit"),
+              child: const Text("Submit"),
             ),
           ],
         );
