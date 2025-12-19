@@ -180,6 +180,18 @@ flutter run
 
 ---
 
+## 🎥 Demo & Screenshots
+
+### 🖼️ Screenshots
+
+| Browse Products                      | Add Product                      | Cart                      |
+| ------------------------------------ | -------------------------------- | ------------------------- |
+| ![](screenshots/browse_products.png) | ![](screenshots/add_product.jpeg) | ![](screenshots/cart.png) |
+
+---
+
+---
+
 ## 🔮 Planned Enhancements
 
 * Order history & tracking
