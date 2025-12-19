@@ -1,4 +1,5 @@
-# E-Shop Pro  
+# DropZ
+
 **A Full-Featured E-Commerce App (Customer + Seller) – Amazon & Noon Style**
 
 <p align="center">
@@ -8,7 +9,6 @@
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License">
 </p>
 
-# DropZ
 
 A **modern, production‑grade E‑Commerce mobile application** built with **Flutter**.
 DropZ is designed to demonstrate how a real-world shopping app is engineered: secure payments, biometric verification, scalable architecture, and clean, maintainable code.
