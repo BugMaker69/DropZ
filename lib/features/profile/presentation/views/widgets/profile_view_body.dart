@@ -16,12 +16,7 @@ import 'package:image_picker/image_picker.dart';
 class ProfileViewBody extends StatelessWidget {
   ProfileViewBody({super.key});
 
-  // static final firstNameController = TextEditingController();
-  // static final lastNameController = TextEditingController();
-  // static final emailController = TextEditingController();
-  // static final phoneController = TextEditingController();
   final ValueNotifier<File?> selectedImage = ValueNotifier<File?>(null);
-  // String? urlImage;
 
   static final formKey = GlobalKey<FormState>();
 
@@ -51,14 +46,6 @@ class ProfileViewBody extends StatelessWidget {
               state.getUserDataSuccess,
             );
           }
-          // if (state is UserProfileSuccess) {
-          //   firstNameController.text = state.getUserDataSuccess.firstName ?? '';
-          //   lastNameController.text = state.getUserDataSuccess.lastName ?? '';
-          //   emailController.text = state.getUserDataSuccess.email ?? '';
-          //   phoneController.text = state.getUserDataSuccess.phoneNumber ?? '';
-          //   urlImage = state.getUserDataSuccess.profileImage;
-          //   print("firstNameController.text ${firstNameController.text}");
-          // }
         },
         builder: (context, state) {
           final cubit = context.read<UserProfileCubit>();

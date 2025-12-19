@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 1. تعريف Observer
@@ -5,24 +7,24 @@ class MyCubitObserver extends BlocObserver {
   @override
   void onCreate(BlocBase bloc) {
     super.onCreate(bloc);
-    print('Cubit/Bloc Created: ${bloc.runtimeType}');
+    log('Cubit/Bloc Created: ${bloc.runtimeType}');
   }
 
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
-    print('Cubit/Bloc State Changed: ${bloc.runtimeType}, $change');
+    log('Cubit/Bloc State Changed: ${bloc.runtimeType}, $change');
   }
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    print('Cubit/Bloc Error: ${bloc.runtimeType}, $error');
+    log('Cubit/Bloc Error: ${bloc.runtimeType}, $error');
     super.onError(bloc, error, stackTrace);
   }
 
   @override
   void onClose(BlocBase bloc) {
     super.onClose(bloc);
-    print('Cubit/Bloc Closed: ${bloc.runtimeType}');
+    log('Cubit/Bloc Closed: ${bloc.runtimeType}');
   }
 }

@@ -60,6 +60,10 @@ class ProductsCubit extends Cubit<ProductsState> {
   }
 
   Future<void> getAllCategories() async {
+    if (categories != null && categories!.isNotEmpty) {
+      emit(ProductsDataState(categories: categories, products: _products));
+      return;
+    }
     emit(ProductsLoading());
 
     await CubitHandler.run<List<CategoryModel>>(
@@ -67,12 +71,23 @@ class ProductsCubit extends Cubit<ProductsState> {
       call: () => productsRepo.getAllCategories(),
       onSuccess: (cats) {
         categories = cats;
-        emit(CategorySuccess(cats));
+        emit(ProductsDataState(categories: cats, products: _products));
       },
       onError: (msg) => emit(ProductsFailure(msg)),
       loadingState: () {},
       failureState: (msg) => emit(ProductsFailure(msg)),
     );
+  }
+
+  Future<List<CategoryModel>?> loadCategoriesForAddProduct() async {
+    if (categories != null && categories!.isNotEmpty) {
+      return categories;
+    }
+    final result = await productsRepo.getAllCategories();
+    return result.fold((_) => null, (cats) {
+      categories = cats;
+      return cats;
+    });
   }
 
   Future<void> addProductItem(AddProductRequest addProductItem) async {
@@ -136,6 +151,42 @@ class ProductsCubit extends Cubit<ProductsState> {
     );
   }
 
+  Future<void> _loadSellerData() async {
+    emit(ProductsLoading());
+
+    final categoriesResult = productsRepo.getAllCategories();
+    final productsResult = productsRepo.getAllSellerProducts();
+
+    final results = await Future.wait([categoriesResult, productsResult]);
+
+    final categoryEither = results[0] as Either<Failure, List<CategoryModel>>;
+    final productEither = results[1] as Either<Failure, ProductItemDataModel>;
+
+    if (categoryEither.isLeft()) {
+      final failure = categoryEither.fold((l) => l, (r) => null);
+      emit(ProductsFailure(failure!.errMessage));
+      return;
+    }
+    if (productEither.isLeft()) {
+      final failure = productEither.fold((l) => l, (r) => null);
+      emit(ProductsFailure(failure!.errMessage));
+      return;
+    }
+
+    categories = categoryEither.fold((l) => null, (r) => r)!;
+    _products = productEither.fold((l) => null, (r) => r)!;
+
+    emit(ProductsDataState(categories: categories, products: _products));
+  }
+
+  Future<void> loadAllSellerData() async {
+    if (categories != null && _products != null) {
+      emit(ProductsDataState(categories: categories, products: _products));
+      return;
+    }
+    await _loadSellerData();
+  }
+
   Future<void> updateProductItem(
     int id,
     AddProductRequest addProductItem,
@@ -169,50 +220,3 @@ class ProductsCubit extends Cubit<ProductsState> {
     );
   }
 }
-
-/*
-class ProductsCubit extends Cubit<ProductsState> {
-  ProductsCubit(this.productsRepo) : super(ProductsInitial());
-
-  ProductsRepo productsRepo;
-  List<CategoryModel>? categories;
-  ProductItemDataModel? _products;
-
-  Future<void> getAllProducts() async {
-    emit(ProductsLoading());
-    var result = await productsRepo.getAllProducts();
-
-    result.fold(
-      (failure) {
-        emit(ProductsFailure(failure.errMessage));
-      },
-      (productSuccessResponse) {
-        _products = productSuccessResponse;
-        print(
-          "Products Success: ${productSuccessResponse.results?.length} products",
-        );
-        emit(ProductsDataState(categories: _categories, products: _products));
-        // emit(ProductsSuccess(productSuccessResponse));
-      },
-    );
-  }
-
-  Future<void> getAllCategories() async {
-    emit(ProductsLoading());
-    var result = await productsRepo.getAllCategories();
-    print("Categories Result: $result"); // للتحقق
-    result.fold(
-      (failure) {
-        print("Category Failure: ${failure.errMessage}");
-        emit(ProductsFailure(failure.errMessage));
-      },
-      (categoryModel) {
-        _categories = categoryModel;
-        print("Category Success: $categoryModel");
-        emit(ProductsDataState(categories: _categories, products: _products));
-        // emit(CategorySuccess(categoryModel));
-      },
-    );
-  }
-}
-*/

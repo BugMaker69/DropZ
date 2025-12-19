@@ -3,6 +3,7 @@ import 'package:drop_z_ecommerce_app/core/payment/payment_cubit/payment_state.da
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
+import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -78,19 +79,33 @@ class PaymentWebViewPage extends StatelessWidget {
       )
       ..loadRequest(Uri.parse(iframeUrl));
 
-    return Scaffold(
-      appBar: AppBar(title: const Text("Complete Payment")),
-      body: Stack(
-        children: [
-          WebViewWidget(controller: controller),
-          ValueListenableBuilder<bool>(
-            valueListenable: isLoading,
-            builder: (_, loading, __) {
-              if (!loading) return const SizedBox.shrink();
-              return const CustomLoadingIndicator();
-            },
-          ),
-        ],
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          // امسح أو فرّغ الكارت
+          context
+              .read<CartCubit>()
+              .refreshCart(); // أو clearCart لو عندك دالة خاصة
+          // context.read<CartCubit>().refreshCart(); // أو clearCart لو عندك دالة خاصة
+
+          // ارجع على الهوم مباشرة
+          GoRouter.of(context).go(AppRouter.kCustomerHome);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(title: const Text("Complete Payment")),
+        body: Stack(
+          children: [
+            WebViewWidget(controller: controller),
+            ValueListenableBuilder<bool>(
+              valueListenable: isLoading,
+              builder: (_, loading, __) {
+                if (!loading) return const SizedBox.shrink();
+                return const CustomLoadingIndicator();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

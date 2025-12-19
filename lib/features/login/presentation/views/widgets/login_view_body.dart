@@ -66,7 +66,9 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   margin: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                    color: Colors.white.withOpacity(.2),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white.withOpacity(.2)
+                        : Colors.black.withOpacity(.2),
                   ),
                   child: Form(
                     key: _formKey,
@@ -79,7 +81,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         ),
                         Text(
                           "Login To Continue",
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
 
                         const SizedBox(height: 16),
@@ -88,10 +90,6 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           labelText: "Email address",
                           validator: Validators.validateEmail,
                           textController: _emailController,
-                          // onChanged: (value) {
-                          //   print("value $value");
-                          //   context.read<LoginCubit>().emailChanged(value);
-                          // },
                         ),
 
                         const SizedBox(height: 16),
@@ -99,16 +97,12 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         CustomTextEdit(
                           labelText: "Password",
                           isPassword: true,
-                          // validator: Validators.validatePassword,
                           textController: _passwordController,
-                          // onChanged: (value) {
-                          //   print("value $value");
-                          //   context.read<LoginCubit>().passwordChanged(value);
-                          // },
                         ),
 
                         const SizedBox(height: 16),
                         CustomButton(
+                          isLoading: state is LoginLoading ? true : false,
                           text: "Login",
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
@@ -125,7 +119,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           child: Text(
                             "OR",
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.titleMedium,
+                            style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ),
                         CustomButton(
@@ -155,6 +149,8 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                                   decoration: TextDecoration.underline,
                                   decorationColor: kSecondaryColor,
                                   decorationThickness: 2,
+                                  fontWeight: FontWeight.w900,
+                                  // backgroundColor: Colors.grey[900],
                                 ),
                               ),
                             ),
@@ -165,12 +161,54 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   ),
                 ),
                 const Spacer(),
-                Text(allRightsReserved, style: Styles.textStyle16SemiBold),
+                Text(
+                  allRightsReserved,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ],
             ),
           ),
         );
       },
+    );
+  }
+}
+
+class SecondaryBorderedElevation extends StatelessWidget {
+  final Widget child;
+  final EdgeInsetsGeometry padding;
+  final double radius;
+
+  const SecondaryBorderedElevation({
+    super.key,
+    required this.child,
+    this.padding = const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    this.radius = 16,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: padding,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(radius),
+
+        // Border
+        border: Border.all(color: kSecondaryColor, width: 2),
+
+        // Elevation
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black.withOpacity(0.6)
+                : Colors.black.withOpacity(0.2),
+            blurRadius: 10,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: child,
     );
   }
 }

@@ -173,7 +173,29 @@ class ProductsRepoImp extends ProductsRepo {
 
   @override
   Future<Either<Failure, ProductItemDataModel>> getAllSellerProducts() async {
-    return getAllProducts();
+    final productsBox = Hive.box('productsBox');
+
+    try {
+      var result = await apiService.get(endPoint: "/seller/products/");
+
+      ProductItemDataModel productItemDataModel = ProductItemDataModel.fromJson(
+        result,
+      );
+      await productsBox.put("products", productItemDataModel);
+
+      _cachedProducts = productItemDataModel;
+      return right(productItemDataModel);
+    } catch (e) {
+      if (productsBox.containsKey("products")) {
+        final cached = productsBox.get("products") as ProductItemDataModel;
+        return right(cached);
+      }
+
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(e.toString()));
+    }
   }
 
   @override

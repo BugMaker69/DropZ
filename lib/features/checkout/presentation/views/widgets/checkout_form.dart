@@ -46,18 +46,6 @@ class CheckoutForm extends StatelessWidget {
                     },
                   );
 
-                  // final uri = Uri.parse(paymentState.iframeUrl);
-                  // // final uri = Uri.parse(Uri.encodeFull(paymentState.iframeUrl));
-                  // if (await canLaunchUrl(uri)) {
-                  //   await launchUrl(uri);
-                  //   // await launchUrl(uri, mode: LaunchMode.inAppWebView);
-                  //   // await launchUrl(uri, mode: LaunchMode.externalApplication);
-                  // } else {
-                  //   print("THIS IS THE FINAL URL  //");
-                  //   ScaffoldMessenger.of(context).showSnackBar(
-                  //     const SnackBar(content: Text("Could not launch payment URL")),
-                  //   );
-                  // }
                 } else if (paymentState is PaymentError) {
                   isPaymentLoading.value = false;
                   CustomSnakeBar(
@@ -69,7 +57,7 @@ class CheckoutForm extends StatelessWidget {
             ),
             BlocListener<BiometricsCubit, BiometricsState>(
               listener: (context, state) {
-                if (state is BiometricsSuccess ) {
+                if (state is BiometricsSuccess || state is BiometricsSkipped) {
                   context.read<CheckoutCubit>().createCheckoutOrder();
                 }
                 if (state is BiometricsFailed) {
@@ -82,6 +70,8 @@ class CheckoutForm extends StatelessWidget {
             listener: (context, state) {
               if (state is CheckoutSuccess) {
                 CustomSnakeBar(context, "Order placed! ID: ${state.orderId}");
+
+                context.read<CartCubit>().clearCart();
 
                 final paymentCubit = context.read<PaymentCubit>();
 
@@ -162,7 +152,7 @@ class CheckoutForm extends StatelessWidget {
                           Text(
                             "Total",
                             style: Theme.of(context).textTheme.titleLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
+                                .copyWith(fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "\$${total.toStringAsFixed(2)}",
@@ -175,12 +165,15 @@ class CheckoutForm extends StatelessWidget {
                       ),
                     ),
                     CustomButton(
+                      isLoading: state is CheckoutLoading ? true : false,
                       text: "Place Order",
                       isDisable: cartItems.isEmpty,
                       onPressed: cartItems.isEmpty
                           ? () {}
                           : () {
-                              context.read<BiometricsCubit>().authenticateIfAvailable();
+                              context
+                                  .read<BiometricsCubit>()
+                                  .authenticateIfAvailable();
 
                               // context
                               //     .read<CheckoutCubit>()

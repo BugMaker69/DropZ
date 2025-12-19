@@ -1,6 +1,7 @@
 import 'package:drop_z_ecommerce_app/constants.dart';
 import 'package:drop_z_ecommerce_app/core/providers/theme_provider.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,14 +88,12 @@ class SellerScaffold extends StatelessWidget {
     if (i == 1) {
       // لما تضغط "Add" → احمل الـ categories أولاً
       final cubit = context.read<ProductsCubit>();
-      await cubit.getAllCategories();
+      final cats = await cubit.loadCategoriesForAddProduct();
 
-      if (cubit.categories != null && cubit.categories!.isNotEmpty) {
-        context.go(routes[i], extra: cubit.categories);
+      if (cats != null && cats.isNotEmpty) {
+        context.go(routes[i], extra: cats);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Failed to load categories")),
-        );
+        CustomSnakeBar(context, "Failed to load categories");
       }
     } else {
       context.go(routes[i]);

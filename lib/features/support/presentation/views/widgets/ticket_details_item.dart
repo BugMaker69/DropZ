@@ -32,7 +32,6 @@ class TicketDetailsItem extends StatelessWidget {
           );
           if (index != -1) showTicket = state.tickets[index];
 
-          print("indexx: ${intialShowTicket.id} :::   ${showTicket.id} ");
           return Scaffold(
             appBar: AppBar(title: Text("Support Ticket")),
 
@@ -181,7 +180,6 @@ class TicketDetailsItem extends StatelessWidget {
                                     messageController.text,
                                   );
                               messageController.clear();
-                              print("Success");
                             }
                           },
                         ),

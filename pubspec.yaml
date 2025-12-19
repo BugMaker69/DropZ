@@ -72,6 +72,10 @@ dependencies:
   webview_flutter: ^4.13.0
   lottie: ^3.3.2
   local_auth: ^3.0.0
+  feedback: ^3.2.0
+  flutter_secure_storage: ^10.0.0
+  skeletonizer: ^2.1.1
+  flutter_dotenv: ^6.0.0
 
 
 

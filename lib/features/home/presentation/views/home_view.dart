@@ -249,28 +249,24 @@ class HomeView extends StatelessWidget {
                               )
                             : null,
                       ),
-                      body: RefreshIndicator(
-                        onRefresh: () =>
-                            context.read<ProductsCubit>().refreshAllData(),
-                        child: TabBarView(
-                          physics:
-                              const NeverScrollableScrollPhysics(), // منع السحب للتأكد من النافيجيشن
-                          // اسحب يمين/شمال للتنقل
-                          children: [
-                            CategoryProductsView(
-                              category: 0,
+                      body: TabBarView(
+                        physics:
+                            const NeverScrollableScrollPhysics(), // منع السحب للتأكد من النافيجيشن
+                        // اسحب يمين/شمال للتنقل
+                        children: [
+                          CategoryProductsView(
+                            category: 0,
+                            products: products,
+                            roleId: 0,
+                          ),
+                          ...categories.map(
+                            (category) => CategoryProductsView(
+                              category: category.id!,
                               products: products,
                               roleId: 0,
                             ),
-                            ...categories.map(
-                              (category) => CategoryProductsView(
-                                category: category.id!,
-                                products: products,
-                                roleId: 0,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   );

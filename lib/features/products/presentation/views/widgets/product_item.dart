@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/result.dart';
@@ -51,11 +52,18 @@ class ProductItem extends StatelessWidget {
                   (item) => item.product?.id == filteredProduct.id,
                 );
               }
-              final categories = context.read<ProductsCubit>().categories!;
               return Padding(
                 padding: const EdgeInsets.only(left: 16, top: 16),
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    final cubit = context.read<ProductsCubit>();
+                    final categories = cubit.categories;
+
+                    if (categories == null || categories.isEmpty) {
+                      CustomSnakeBar(context, "Categories not loaded yet");
+                      return;
+                    }
+
                     //! Seller Edit Product Screen
                     GoRouter.of(context).push(
                       AppRouter.kSellerEditDeleteProductView,

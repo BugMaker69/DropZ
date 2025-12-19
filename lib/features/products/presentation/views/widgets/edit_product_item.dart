@@ -114,11 +114,11 @@ class EditProductItem extends StatelessWidget {
                   children: [
                     Expanded(
                       child: DropdownButtonFormField<int>(
-                        dropdownColor: kPrimaryColor,
+                        // dropdownColor: kPrimaryColor,
                         style: Theme.of(context).textTheme.bodyLarge,
                         iconEnabledColor: Theme.of(
                           context,
-                        ).colorScheme.onPrimary,
+                        ).colorScheme.onSurface,
                         items: categories
                             .map(
                               (cat) => DropdownMenuItem<int>(
@@ -133,7 +133,32 @@ class EditProductItem extends StatelessWidget {
                         validator: (value) =>
                             value == null ? "Please select a category" : null,
                         initialValue: selectedCategoryId,
-                        decoration: _InputBoxDecoration(),
+                        decoration: InputDecoration(
+                          labelText: "Select Category",
+                          // labelText: "اختر الدولة",
+                          labelStyle: Theme.of(context).textTheme.bodyLarge,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              width: 2,
+                            ),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              width: 2,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              width: 2,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
 
@@ -274,25 +299,6 @@ class EditProductItem extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  InputDecoration _InputBoxDecoration() {
-    return InputDecoration(
-      labelText: "Select Category",
-      labelStyle: Styles.textStyle18Regular.copyWith(color: Colors.white),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(color: Colors.white70, width: 2),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(color: Colors.white70, width: 2),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(color: Colors.white70, width: 2),
       ),
     );
   }

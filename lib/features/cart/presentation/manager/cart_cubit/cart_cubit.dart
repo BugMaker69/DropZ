@@ -71,4 +71,9 @@ class CartCubit extends Cubit<CartState> {
     await cartRepo.clearCacheAndReload();
     await getCartItems();
   }
+
+  Future<void> clearCart() async {
+    // await cartRepo.clearCacheAndReload();
+    emit(CartSuccess(CartModel(items: [])));
+  }
 }

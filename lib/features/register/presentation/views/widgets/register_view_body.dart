@@ -86,7 +86,9 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                   margin: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                    color: Colors.white.withOpacity(.2),
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white.withOpacity(.2)
+                        : Colors.black.withOpacity(.2),
                   ),
                   child: Form(
                     key: _formKey,
@@ -99,7 +101,8 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                         ),
                         Text(
                           "Create an account",
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          // style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 16),
                         Row(
@@ -134,7 +137,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                           style: Theme.of(context).textTheme.bodyLarge,
                           iconEnabledColor: Theme.of(
                             context,
-                          ).colorScheme.onPrimary,
+                          ).colorScheme.onSurface,
                           items: _userRole,
                           onChanged: (value) {
                             _selectedRole = value!;
@@ -163,6 +166,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                         ),
                         const SizedBox(height: 16),
                         CustomButton(
+                          isLoading: state is RegisterLoading ? true : false,
                           text: "Sign up",
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
@@ -184,9 +188,10 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                           child: Text(
                             "OR",
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.surface,
-                            ),
+                            style: Theme.of(context).textTheme.titleSmall,
+                            // style: TextStyle(
+                            //   color: Theme.of(context).colorScheme.surface,
+                            // ),
                           ),
                         ),
                         CustomButton(
@@ -212,6 +217,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                                   decoration: TextDecoration.underline,
                                   decorationColor: kSecondaryColor,
                                   decorationThickness: 2,
+                                  fontWeight: FontWeight.w900,
                                 ),
                               ),
                             ),
@@ -222,7 +228,10 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                   ),
                 ),
                 const Spacer(),
-                Text(allRightsReserved, style: Styles.textStyle16SemiBold),
+                Text(
+                  allRightsReserved,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ],
             ),
           ),
