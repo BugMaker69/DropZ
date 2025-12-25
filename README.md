@@ -10,7 +10,7 @@
 </p>
 
 
-A **modern, production‑grade E‑Commerce mobile application** built with **Flutter**.
+A **modern, production-grade E-Commerce mobile application** built with **Flutter**, supporting both **Customer and Seller flows**, inspired by platforms like Amazon & Noon.
 DropZ is designed to demonstrate how a real-world shopping app is engineered: secure payments, biometric verification, scalable architecture, and clean, maintainable code.
 
 > This project is built as a **professional portfolio showcase**, following patterns and practices used in large-scale mobile products.
@@ -177,6 +177,41 @@ cd DropZ
 flutter pub get
 flutter run
 ```
+
+---
+
+## 🎥 Demo & Screenshots
+
+## 🎥 Demo Videos
+
+### 🧑‍💼 Customer App Demo
+A short walkthrough showcasing the customer experience:
+- Browsing products
+- Adding items to cart
+- Checkout & secure payment
+- Biometric verification
+
+[![▶️ Watch Customer Demo](screenshots/customer_thumb.png)](https://drive.google.com/file/d/1uP7zWL1-KIC9i2zXfN6-TqYt_HSKVr4-/view?usp=drive_link)
+
+---
+
+### 🏪 Seller App Demo
+A walkthrough demonstrating the seller-side workflow:
+- Managing products
+- Viewing orders
+- Handling customer requests
+- Order status updates
+
+[![Seller Demo](screenshots/seller_thumb.png)](https://drive.google.com/file/d/1KjOIZ9EJ5Z6rBqZ0iUBttRoLXMwG58-v/view?usp=drive_link)
+
+
+### 🖼️ Screenshots
+
+| Browse Products                      | Add Product                      | Cart                      |
+| ------------------------------------ | -------------------------------- | ------------------------- |
+| ![](screenshots/browse_products.png) | ![](screenshots/add_product.jpeg) | ![](screenshots/cart.png) |
+
+---
 
 ---
 
