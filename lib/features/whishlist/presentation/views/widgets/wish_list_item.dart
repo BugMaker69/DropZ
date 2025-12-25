@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/add_item_to_cart_request.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
@@ -19,27 +20,11 @@ class WishListItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CachedNetworkImage(
-              imageUrl: wishListitem.product?.image ?? "",
+            CustomCachedNetworkImage(
+              image: wishListitem.product?.image,
               width: 150,
               height: 150,
-              fit: BoxFit.scaleDown,
-              placeholder: (context, url) => CustomLoadingIndicator(),
-              errorWidget: (context, url, error) =>
-                  const Icon(Icons.broken_image, size: 48, color: Colors.grey),
             ),
-            /*Image.network(
-              width: 150,
-              height: 150,
-              wishListitem.product?.image ?? "",
-              fit: BoxFit.scaleDown,
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.broken_image, size: 48, color: Colors.grey),
-              loadingBuilder: (context, child, progress) {
-                if (progress == null) return child;
-                return const Center(child: CustomLoadingIndicator());
-              },
-            ),*/
             const SizedBox(width: 10),
             Expanded(
               child: Column(
@@ -108,7 +93,7 @@ class WishListItem extends StatelessWidget {
                           ),
                         ),
                       ),
-                  
+
                       SizedBox(width: 8),
                     ],
                   ),

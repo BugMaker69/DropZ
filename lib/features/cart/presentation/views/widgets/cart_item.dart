@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/edit_quantity.dart';
@@ -23,18 +24,14 @@ class CartItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CachedNetworkImage(
+            CustomCachedNetworkImage(
               width: 150,
               height: 150,
-              imageUrl:
+              image:
                   "https://uncondemnable-brianna-hazelly.ngrok-free.dev/${cartItemsModel.product?.image}" ??
                   "",
+
               // "http://10.0.2.2:8000/${cartItemsModel.product?.image}" ?? "",
-              fit: BoxFit.scaleDown,
-              errorWidget: (context, error, stackTrace) =>
-                  const Icon(Icons.broken_image, size: 48, color: Colors.grey),
-              placeholder: (context, url) =>
-                  const Center(child: CustomLoadingIndicator()),
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -140,7 +137,9 @@ class CartItem extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyMedium!
                                 .copyWith(
                                   fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).colorScheme.onInverseSurface,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onInverseSurface,
                                 ),
                           ),
                         ),

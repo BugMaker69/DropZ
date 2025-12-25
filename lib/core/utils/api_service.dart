@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -11,7 +12,8 @@ class ApiService {
   // final _baseUrl = 'http://localhost:8000/api/';
   // final _baseUrl = 'http://10.0.2.2:8000/api'; // For Emulator Phone
   // final _baseUrl = 'http://192.168.1.7:8000/api'; // For My Real Mobile Phone
-  final _baseUrl = 'https://uncondemnable-brianna-hazelly.ngrok-free.dev/api'; // For My Real Mobile Phone Using Ngrok
+  final _baseUrl =
+      'https://uncondemnable-brianna-hazelly.ngrok-free.dev/api'; // For My Real Mobile Phone Using Ngrok
 
   final Dio _dio;
   final SharedPreferences preferences;
@@ -93,7 +95,7 @@ class ApiService {
       ),
     );
 
-    print("response DAta From API ${response.data}");
+    log("response DAta From API ${response.data}");
 
     return response.headers.map['set-cookie'] == null
         ? response.data
@@ -136,7 +138,7 @@ class ApiService {
       }
       return newAccessToken != null;
     } catch (e) {
-      print('Error refreshing token: $e');
+      log('Error refreshing token: $e');
       return false;
     }
   }
@@ -156,7 +158,7 @@ class ApiService {
         },
       ),
     );
-    print("response.data GET ${response.data}");
+    log("response.data GET ${response.data}");
     return response.data;
   }
 
@@ -178,7 +180,7 @@ class ApiService {
         },
       ),
     );
-    print("response.data patch ${response.data}");
+    log("response.data patch ${response.data}");
     return response.data;
   }
 
@@ -192,7 +194,7 @@ class ApiService {
         },
       ),
     );
-    print("response.data delete ${response.data}");
+    log("response.data delete ${response.data}");
     return response.data;
   }
 
@@ -238,20 +240,8 @@ class ApiService {
       await file.writeAsBytes(response.data);
       return file;
     } catch (e) {
-      print("Failed to download old image: $e");
+      log("Failed to download old image: $e");
       return null;
     }
   }
-  // Future<File> downloadImage(String url) async {
-  //   final response = await _dio.get(
-  //     url,
-  //     options: Options(responseType: ResponseType.bytes),
-  //   );
-
-  //   final tempDir = await getTemporaryDirectory();
-  //   final fileName = url.split('/').last.split('?').first;
-  //   final file = File('${tempDir.path}/temp_$fileName');
-  //   await file.writeAsBytes(response.data);
-  //   return file;
-  // }
 }

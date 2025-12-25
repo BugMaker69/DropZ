@@ -73,38 +73,10 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage>
 
               const SizedBox(height: 16),
 
-              // Text(
-              //   "رقم العملية: ${widget.paymentId}",
-              //   style: const TextStyle(fontSize: 18, color: Colors.grey),
-              // ),
               const SizedBox(height: 40),
 
-              // زر عرض الطلبات
-              // SizedBox(
-              //   width: double.infinity,
-              //   height: 56,
-              //   child: ElevatedButton(
-              //     style: ElevatedButton.styleFrom(
-              //       backgroundColor: Colors.green,
-              //       shape: RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(16),
-              //       ),
-              //     ),
-              //     onPressed: () {
-              //       context.go('/orders'); // أو '/home'
-              //     },
-              //     child: const Text(
-              //       "عرض الطلبات",
-              //       style: TextStyle(fontSize: 18, color: Colors.white),
-              //     ),
-              //   ),
-              // ),
               const SizedBox(height: 16),
 
-              // TextButton(
-              //   onPressed: () => context.go('/'),
-              //   child: const Text("العودة للرئيسية"),
-              // ),
             ],
           ),
         ),

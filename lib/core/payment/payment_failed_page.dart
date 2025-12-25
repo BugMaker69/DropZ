@@ -79,39 +79,8 @@ class _PaymentFailedPageState extends State<PaymentFailedPage>
 
               const SizedBox(height: 16),
 
-              // Text(
-              //   "رقم العملية: ${widget.paymentId}",
-              //   style: const TextStyle(color: Colors.grey),
-              // ),
+  
               const SizedBox(height: 40),
-
-              // زر المحاولة مرة أخرى
-              // SizedBox(
-              //   width: double.infinity,
-              //   height: 56,
-              //   child: ElevatedButton(
-              //     style: ElevatedButton.styleFrom(
-              //       backgroundColor: Colors.red,
-              //       shape: RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(16),
-              //       ),
-              //     ),
-              //     onPressed: () {
-              //       context.pop(); // رجع للـ Checkout
-              //     },
-              //     child: const Text(
-              //       "حاول مرة أخرى",
-              //       style: TextStyle(fontSize: 18, color: Colors.white),
-              //     ),
-              //   ),
-              // ),
-
-              // const SizedBox(height: 16),
-
-              // TextButton(
-              //   onPressed: () => context.go('/cart'),
-              //   child: const Text("العودة للعربة"),
-              // ),
             ],
           ),
         ),

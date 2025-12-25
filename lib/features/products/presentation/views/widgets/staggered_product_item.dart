@@ -2,6 +2,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/add_item_to_cart_request.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
@@ -74,18 +75,11 @@ class StaggeredProductItem extends StatelessWidget {
                           tag: 'product-hero-${product.id}',
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16),
-                            child: CachedNetworkImage(
-                              imageUrl: product.image ?? "",
+                            child: CustomCachedNetworkImage(
+                              image: product.image,
                               fit: BoxFit.cover,
                               width: double.infinity,
                               height: double.infinity,
-                              errorWidget: (_, __, ___) => const Icon(
-                                Icons.broken_image,
-                                size: 40,
-                                color: Colors.grey,
-                              ),
-                              placeholder: (context, url) =>
-                                  CustomLoadingIndicator(),
                             ),
                           ),
                         ),

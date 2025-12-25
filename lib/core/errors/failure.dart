@@ -50,8 +50,7 @@ class ServerFailure extends Failure {
     if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
       return ServerFailure(
         "${response.toString()} + $statusCode",
-        // response['email'].toString(), //! Register endpoint When Email Already Exits
-      ); //! Wants To Change According To API
+      );
     } else if (statusCode == 404) {
       return ServerFailure('Not Found');
     } else if (statusCode == 500) {

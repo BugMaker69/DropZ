@@ -69,8 +69,6 @@ abstract class AppRouter {
   static const kCustomerPaymentSuccess = '/customer/paymentSuccess';
   static const kCustomerPaymentFailed = '/customer/paymentFailed';
 
-  // static const kHomeView = '/';
-  // static const kloginView = '/homeView';
   static final router = GoRouter(
     initialLocation: kSplashView,
     redirect: (context, state) async {
@@ -97,112 +95,6 @@ abstract class AppRouter {
         builder: (context, state) => const RegisterView(),
       ),
 
-      /*
-      ShellRoute(
-        pageBuilder: (context, state, child) => RoyalPageTransition(
-          key: state.pageKey,
-          child: CustomerScaffold(child: child),
-          type: RoyalTransitionType.sharedAxis,
-        ),
-        // builder: (context, state, child) => CustomerScaffold(child: child),
-        routes: [
-          GoRoute(
-            path: kCustomerHome,
-            pageBuilder: (context, state) => RoyalPageTransition(
-              key: state.pageKey,
-              child: const HomeView(),
-              type: RoyalTransitionType.fadeScale,
-            ),
-            //  builder: (_, __) => const HomeView()
-          ),
-          GoRoute(
-            path: kCustomerCartView,
-            pageBuilder: (context, state) => RoyalPageTransition(
-              key: state.pageKey,
-              child: const CartView(),
-              type: RoyalTransitionType.slideFromBottom,
-            ),
-            // builder: (_, __) => const CartView(),
-          ),
-          GoRoute(
-            path: kCustomerWishlistView,
-            pageBuilder: (context, state) => RoyalPageTransition(
-              key: state.pageKey,
-              child: const WishListView(),
-              type: RoyalTransitionType.slideParallax,
-            ),
-            // builder: (_, __) => const WishListView(),
-          ),
-          GoRoute(
-            path: kCustomerSettingsView,
-            pageBuilder: (context, state) => RoyalPageTransition(
-              key: state.pageKey,
-              child: const SettingsView(userRole: "customer"),
-              type: RoyalTransitionType.sharedAxis,
-            ),
-          ),
-          GoRoute(
-            path: kCustomerProfileView,
-            pageBuilder: (context, state) => RoyalPageTransition(
-              key: state.pageKey,
-              child: const ProfileView(),
-              type: RoyalTransitionType.sharedAxis,
-            ),
-            //   // builder: (_, __) => const ProfileView(),
-          ),
-        ],
-      ),
-*/
-
-      /*ShellRoute(
-        pageBuilder: (context, state, child) => CustomAnimatedPage(
-          key: state.pageKey,
-          child: CustomerScaffold(child: child),
-        ),
-        routes: [
-          GoRoute(
-            path: kCustomerHome,
-            pageBuilder: (context, state) => CustomAnimatedPage(
-              key: state.pageKey,
-              child: const HomeView(),
-              animationType: PageAnimationType.fadeScale,
-            ),
-          ),
-          GoRoute(
-            path: kCustomerCartView,
-            pageBuilder: (context, state) => CustomAnimatedPage(
-              key: state.pageKey,
-              child: const CartView(),
-              animationType: PageAnimationType.slideFromBottom,
-            ),
-          ),
-          GoRoute(
-            path: kCustomerWishlistView,
-            pageBuilder: (context, state) => CustomAnimatedPage(
-              key: state.pageKey,
-              child: const WishListView(),
-              animationType: PageAnimationType.slideFromRight,
-            ),
-          ),
-          GoRoute(
-            path: kCustomerSettingsView,
-            pageBuilder: (context, state) => CustomAnimatedPage(
-              key: state.pageKey,
-              child: const SettingsView(userRole: "customer"),
-              animationType: PageAnimationType.slideFromRight,
-            ),
-          ),
-          GoRoute(
-            path: kCustomerProfileView,
-            pageBuilder: (context, state) => CustomAnimatedPage(
-              key: state.pageKey,
-              child: const ProfileView(),
-              animationType: PageAnimationType.fadeScale,
-            ),
-          ),
-        ],
-      ),
-*/
       ShellRoute(
         pageBuilder: (context, state, child) => NoTransitionPage(
           key: state.pageKey,
@@ -254,29 +146,14 @@ abstract class AppRouter {
             path: kSellerSettingsView,
             builder: (_, __) => const SettingsView(userRole: "seller"),
           ),
-          // GoRoute(
-          //   path: kSellerProfileView,
-          //   builder: (_, __) => const ProfileView(),
-          // ),
-          // GoRoute(
-          //   path: kProdSellerProducts,
-          //   builder: (_, __) => const SellerProductsView(),
-          // ),
-          // GoRoute(
-          //   path: kSellerOrders,
-          //   builder: (_, __) => const SellerOrdersView(),
-          // ),
+
         ],
       ),
       GoRoute(
         path: kSellerProfileView,
         builder: (_, __) => const ProfileView(),
       ),
-      // GoRoute(path: kHomeView, builder: (context, state) => const HomeView()),
-      // GoRoute(
-      //   path: kProfileView,
-      //   builder: (context, state) => const ProfileView(),
-      // ),
+
       GoRoute(
         path: kSearchView,
         builder: (context, state) => const SearchView(),
@@ -291,13 +168,7 @@ abstract class AppRouter {
           );
         },
       ),
-      // GoRoute(
-      //   path: kAddproductView,
-      //   builder: (context, state) {
-      //     final categories = state.extra as List<CategoryModel>;
-      //     return AddProductView(categories: categories);
-      //   },
-      // ),
+
       GoRoute(
         path: kSellerEditDeleteProductView,
         builder: (context, state) {
@@ -384,8 +255,6 @@ abstract class AppRouter {
             value: cubit,
             child: TicketDetailsItem(intialShowTicket: ticket),
           );
-          // final showTicket = state.extra as ShowTickets;
-          // return TicketDetailsItem(showTicket: showTicket);
         },
       ),
 

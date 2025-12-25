@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/features/login/data/repos/login_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/data/model/get_all_reviews/get_all_reviews.dart';
@@ -46,19 +47,11 @@ class ProductReviewItem extends StatelessWidget {
           backgroundColor: Colors.grey.shade200,
           child: (getReview.user?.profileImage?.isNotEmpty ?? false)
               ? ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: getReview.user!.profileImage!,
+                  child: CustomCachedNetworkImage(
+                    image: getReview.user!.profileImage!,
                     fit: BoxFit.cover,
                     width: 56,
                     height: 56,
-                    errorWidget: (context, error, stackTrace) {
-                      return const Icon(
-                        Icons.person,
-                        size: 30,
-                        color: Colors.grey,
-                      );
-                    },
-                    placeholder: (context, url) => CustomLoadingIndicator(),
                   ),
                 )
               : const Icon(Icons.person, size: 30, color: Colors.grey),
@@ -67,10 +60,7 @@ class ProductReviewItem extends StatelessWidget {
           _formatDate(getReview.createdAt),
           style: Theme.of(context).textTheme.bodySmall,
         ),
-        title: Text(
-          getReview.user!.name!,
-          style: Styles.textStyle16Medium,
-        ),
+        title: Text(getReview.user!.name!, style: Styles.textStyle16Medium),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -99,44 +89,6 @@ class ProductReviewItem extends StatelessWidget {
                 ),
               ],
             ),
-            /* FutureBuilder<bool>(
-              future: _isCurrentUserReview(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data == true) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.edit,
-                          color: Colors.blue,
-                          size: 20,
-                        ),
-                        onPressed: onEdit,
-                        // () {
-                        //   _edit(context);
-                        // },
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          context
-                              .read<ProductsReviewCubit>()
-                              .deleteProductItemReview(getReview.id!);
-                          GoRouter.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
-         */
           ],
         ),
       ),

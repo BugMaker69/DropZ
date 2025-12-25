@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/cart_items_model.dart';
@@ -97,18 +98,8 @@ class ProductItem extends StatelessWidget {
                                 ),
                                 child: AspectRatio(
                                   aspectRatio: 270 / 250,
-                                  child: CachedNetworkImage(
-                                    imageUrl: filteredProduct.image ?? "",
-                                    fit: BoxFit.scaleDown,
-                                    errorWidget: (context, error, stackTrace) =>
-                                        const Icon(
-                                          Icons.broken_image,
-                                          size: 48,
-                                          color: Colors.grey,
-                                        ),
-                                    placeholder: (context, url) => const Center(
-                                      child: CustomLoadingIndicator(),
-                                    ),
+                                  child: CustomCachedNetworkImage(
+                                    image: filteredProduct.image!,
                                   ),
                                 ),
                               ),

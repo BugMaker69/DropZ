@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/Validators%20.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
@@ -94,19 +95,8 @@ class ProfileViewBody extends StatelessWidget {
                                 )
                               : hasNetworkImage
                               ? ClipOval(
-                                  child: CachedNetworkImage(
-                                    imageUrl: cubit.profileImageUrl!,
-                                    fit: BoxFit.scaleDown,
-                                    errorWidget: (context, error, stackTrace) {
-                                      return const Icon(
-                                        Icons.person,
-                                        size: 30,
-                                        color: Colors.grey,
-                                      );
-                                    },
-                                    placeholder: (context, url) => const Center(
-                                      child: CustomLoadingIndicator(),
-                                    ),
+                                  child: CustomCachedNetworkImage(
+                                    image: cubit.profileImageUrl!,
                                   ),
                                 )
                               : Column(

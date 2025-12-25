@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/cart/data/model/add_item_to_cart_request.dart';
@@ -107,18 +108,9 @@ class ProductItemDetails extends StatelessWidget {
                       tag: 'product-hero-${filteredProduct.id}', // نفس الـ tag
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: CachedNetworkImage(
+                        child: CustomCachedNetworkImage(
                           height: 300,
-                          imageUrl: filteredProduct.image ?? "",
-                          fit: BoxFit.scaleDown,
-                          errorWidget: (context, error, stackTrace) =>
-                              const Icon(
-                                Icons.broken_image,
-                                size: 48,
-                                color: Colors.grey,
-                              ),
-                          placeholder: (context, url) =>
-                              CustomLoadingIndicator(),
+                          image: filteredProduct.image,
                         ),
                       ),
                     ),

@@ -168,8 +168,6 @@ class MyApp extends StatelessWidget {
           });
 
           return MaterialApp.router(
-            // showPerformanceOverlay: true,
-            // routerConfig: getIt.get<AppRouter>().router,
             routerConfig: AppRouter.router,
             title: AppLocalizations.of(context)?.appName ?? 'DropZ',
             useInheritedMediaQuery: true,
@@ -186,13 +184,6 @@ class MyApp extends StatelessWidget {
             theme: themeProvider.lightTheme,
             darkTheme: themeProvider.darkTheme,
             themeMode: themeProvider.themeMode,
-            /*theme: ThemeData(
-              textTheme: GoogleFonts.poppinsTextTheme(),
-              primaryColorLight: Colors.white,
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-              useMaterial3: true,
-            ),*/
-            // home: LoginView(),
           );
         },
       ),

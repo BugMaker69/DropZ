@@ -3,6 +3,7 @@ import 'package:drop_z_ecommerce_app/core/payment/payment_cubit/payment_cubit.da
 import 'package:drop_z_ecommerce_app/core/payment/payment_cubit/payment_state.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/model/address_response/address_response.dart';
@@ -45,7 +46,6 @@ class CheckoutForm extends StatelessWidget {
                       "orderId": paymentState.orderId,
                     },
                   );
-
                 } else if (paymentState is PaymentError) {
                   isPaymentLoading.value = false;
                   CustomSnakeBar(
@@ -114,24 +114,17 @@ class CheckoutForm extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final dynamic item = cartItems[index];
                           return ListTile(
-                            leading: CachedNetworkImage(
-                              imageUrl:
+                            leading: CustomCachedNetworkImage(
+                              image:
                                   "https://uncondemnable-brianna-hazelly.ngrok-free.dev/${item.product?.image}" ??
                                   "",
+
                               // imageUrl:
                               //     "http://10.0.2.2:8000/${item.product?.image}" ??
                               //     "",
                               width: 50,
                               height: 50,
                               fit: BoxFit.cover,
-                              errorWidget: (context, error, stackTrace) =>
-                                  const Icon(
-                                    Icons.broken_image,
-                                    size: 48,
-                                    color: Colors.grey,
-                                  ),
-                              placeholder: (context, url) =>
-                                  CustomLoadingIndicator(),
                             ),
                             title: Text(item.product!.title ?? ""),
                             subtitle: Text("Qty: ${item.quantity}"),
