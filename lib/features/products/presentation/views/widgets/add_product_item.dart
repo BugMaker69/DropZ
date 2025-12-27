@@ -5,6 +5,7 @@ import 'package:drop_z_ecommerce_app/core/utils/Validators%20.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_dropdown_button_form_field.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/add_product_request.dart';
@@ -120,14 +121,11 @@ class AddProductItem extends StatelessWidget {
 
                   Row(
                     children: [
-                      //! DropDown Menu Come From API then Map to Vlaues
                       Expanded(
-                        child: DropdownButtonFormField<int>(
-                          // dropdownColor: kPrimaryColor,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                          iconEnabledColor: Theme.of(
-                            context,
-                          ).colorScheme.onSurface,
+                        child: buildDropdown<int>(
+                          context: context,
+                          value: selectedCategoryId,
+                          label: "Select Category",
                           items: categories
                               .map(
                                 (cat) => DropdownMenuItem<int>(
@@ -141,15 +139,8 @@ class AddProductItem extends StatelessWidget {
                           },
                           validator: (value) =>
                               value == null ? "Please select a category" : null,
-                          initialValue: selectedCategoryId,
-                          decoration: InputDecoration(
-                            labelText: "Select Category",
-                          ),
-                          // decoration: _InputBoxDecoration(),
                         ),
                       ),
-
-                      // const SizedBox(width: 16),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -275,25 +266,6 @@ class AddProductItem extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  InputDecoration _InputBoxDecoration() {
-    return InputDecoration(
-      labelText: "Select Category",
-      labelStyle: Styles.textStyle18Regular.copyWith(color: Colors.white),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(color: Colors.white70, width: 2),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(color: Colors.white70, width: 2),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(color: Colors.white70, width: 2),
       ),
     );
   }

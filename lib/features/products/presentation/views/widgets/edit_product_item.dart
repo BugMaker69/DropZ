@@ -5,6 +5,7 @@ import 'package:drop_z_ecommerce_app/core/utils/Validators%20.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_dropdown_button_form_field.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/add_product_request.dart';
@@ -113,12 +114,10 @@ class EditProductItem extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: DropdownButtonFormField<int>(
-                        // dropdownColor: kPrimaryColor,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        iconEnabledColor: Theme.of(
-                          context,
-                        ).colorScheme.onSurface,
+                      child: buildDropdown<int>(
+                        context: context,
+                        label: "Select Category",
+                        value: selectedCategoryId,
                         items: categories
                             .map(
                               (cat) => DropdownMenuItem<int>(
@@ -132,33 +131,6 @@ class EditProductItem extends StatelessWidget {
                         },
                         validator: (value) =>
                             value == null ? "Please select a category" : null,
-                        initialValue: selectedCategoryId,
-                        decoration: InputDecoration(
-                          labelText: "Select Category",
-                          // labelText: "اختر الدولة",
-                          labelStyle: Theme.of(context).textTheme.bodyLarge,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              width: 2,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              width: 2,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            borderSide: BorderSide(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              width: 2,
-                            ),
-                          ),
-                        ),
                       ),
                     ),
 
@@ -167,7 +139,6 @@ class EditProductItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(width: 8),
                     Text(

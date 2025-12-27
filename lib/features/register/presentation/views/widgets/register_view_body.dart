@@ -3,6 +3,7 @@ import 'package:drop_z_ecommerce_app/core/utils/Validators%20.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_dropdown_button_form_field.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_app_logo_only.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
@@ -132,18 +133,14 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                         ),
                         const SizedBox(height: 16),
 
-                        DropdownButtonFormField(
-                          // dropdownColor: kPrimaryColor,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                          iconEnabledColor: Theme.of(
-                            context,
-                          ).colorScheme.onSurface,
+                        buildDropdown(
+                          context: context,
                           items: _userRole,
                           onChanged: (value) {
                             _selectedRole = value!;
                           },
-                          initialValue: _selectedRole,
-                          decoration: _inputDecoration(),
+                          label: "Select Role",
+                          value: _selectedRole,
                         ),
 
                         const SizedBox(height: 16),
@@ -240,31 +237,4 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
     );
   }
 
-  InputDecoration _inputDecoration() {
-    return InputDecoration(
-      labelText: "Select Role",
-      labelStyle: Theme.of(context).textTheme.bodyLarge,
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface,
-          width: 2,
-        ),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface,
-          width: 2,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface,
-          width: 2,
-        ),
-      ),
-    );
-  }
 }

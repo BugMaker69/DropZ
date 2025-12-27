@@ -2,6 +2,7 @@ import 'package:drop_z_ecommerce_app/core/utils/Validators%20.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/utils/styles.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_dropdown_button_form_field.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/address_service.dart';
@@ -81,18 +82,14 @@ class _AddAddressItemState extends State<AddAddressItem> {
                 Row(
                   children: [
                     Expanded(
-                      child: DropdownButtonFormField<String>(
-                        // dropdownColor: Theme.of(context).colorScheme.primary,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        iconEnabledColor: Theme.of(
-                          context,
-                        ).colorScheme.onSurface,
-                        initialValue: country,
+                      child: buildDropdown<String>(
+                        context: context,
+                        label: "Choose Country",
+                        value: country,
                         items: countries,
                         onChanged: (c) {
                           setState(() => country = c);
                         },
-                        decoration: _InputBoxDecoration("Choose Country"),
                       ),
                     ),
                   ],
@@ -103,16 +100,10 @@ class _AddAddressItemState extends State<AddAddressItem> {
                 Row(
                   children: [
                     Expanded(
-                      child: DropdownButtonFormField<Governorate>(
-                        initialValue: selectedGov,
-                        // dropdownColor: Theme.of(context).colorScheme.primary,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        isExpanded: true,
-                        iconEnabledColor: Theme.of(
-                          context,
-                        ).colorScheme.onSurface,
-                        // value: selectedGov,
-                        decoration: _InputBoxDecoration("Choose Governorate"),
+                      child: buildDropdown<Governorate>(
+                        context: context,
+                        value: selectedGov,
+                        label: "Choose Governorate",
                         items: governorates
                             .map(
                               (g) => DropdownMenuItem(
@@ -123,7 +114,6 @@ class _AddAddressItemState extends State<AddAddressItem> {
                             .toList(),
                         onChanged: (gov) {
                           setState(() {
-                            print(gov);
                             selectedGov = gov;
                             filteredCities = cities
                                 .where((c) => c.governorateId == gov!.id)
@@ -137,15 +127,10 @@ class _AddAddressItemState extends State<AddAddressItem> {
                     const SizedBox(width: 16),
 
                     Expanded(
-                      child: DropdownButtonFormField<City>(
-                        // dropdownColor: Theme.of(context).colorScheme.primary,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        isExpanded: true,
-                        iconEnabledColor: Theme.of(
-                          context,
-                        ).colorScheme.onSurface,
-                        initialValue: selectedCity,
-                        decoration: _InputBoxDecoration("Choose City"),
+                      child: buildDropdown<City>(
+                        context: context,
+                        value: selectedCity,
+                        label: "Choose City",
                         validator: (value) =>
                             value == null ? "Please select a City" : null,
                         items: filteredCities
@@ -161,8 +146,6 @@ class _AddAddressItemState extends State<AddAddressItem> {
                             )
                             .toList(),
                         onChanged: (city) {
-                          print(city);
-
                           setState(() => selectedCity = city);
                         },
                       ),
@@ -248,35 +231,6 @@ class _AddAddressItemState extends State<AddAddressItem> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  InputDecoration _InputBoxDecoration(labelText) {
-    return InputDecoration(
-      labelText: labelText,
-      // labelText: "اختر الدولة",
-      labelStyle: Theme.of(context).textTheme.bodyLarge,
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface,
-          width: 2,
-        ),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface,
-          width: 2,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface,
-          width: 2,
         ),
       ),
     );

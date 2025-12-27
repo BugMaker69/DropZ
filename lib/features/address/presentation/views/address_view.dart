@@ -63,28 +63,3 @@ class _AddressViewState extends State<AddressView> {
     );
   }
 }
-
-
-
-
-/*
-class AddressView extends StatelessWidget {
-  const AddressView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Address"), backgroundColor: kPrimaryColor),
-      body: AddressViewBody(),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          context.push(AppRouter.kCustomerAddAddress); // اللي هتعمله دلوقتي
-        },
-        label: const Text("Address"),
-        icon: const Icon(Icons.location_on_outlined),
-        backgroundColor: Colors.green,
-      ),
-    );
-  }
-}
-*/

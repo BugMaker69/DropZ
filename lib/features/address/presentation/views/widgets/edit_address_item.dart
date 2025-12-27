@@ -2,6 +2,7 @@ import 'package:drop_z_ecommerce_app/constants.dart';
 import 'package:drop_z_ecommerce_app/core/utils/Validators%20.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_dropdown_button_form_field.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/address_service.dart';
@@ -108,7 +109,8 @@ class _EditAddressItemState extends State<EditAddressItem> {
                 const SizedBox(height: 16),
 
                 // Country Dropdown
-                _buildDropdown<String>(
+                buildDropdown<String>(
+                  context: context,
                   label: "Choose Country",
                   value: country,
                   items: countries,
@@ -120,7 +122,8 @@ class _EditAddressItemState extends State<EditAddressItem> {
                 Row(
                   children: [
                     Expanded(
-                      child: _buildDropdown<Governorate>(
+                      child: buildDropdown<Governorate>(
+                        context: context,
                         label: "Choose Governorate",
                         value: selectedGov,
                         items: governorates
@@ -144,7 +147,8 @@ class _EditAddressItemState extends State<EditAddressItem> {
                     ),
                     const SizedBox(width: 16),
                     Expanded(
-                      child: _buildDropdown<City>(
+                      child: buildDropdown<City>(
+                        context: context,
                         label: "Choose City",
                         value: selectedCity,
                         items: filteredCities
@@ -249,53 +253,4 @@ class _EditAddressItemState extends State<EditAddressItem> {
   }
 
   // Helper for Dropdowns
-  Widget _buildDropdown<T>({
-    required String label,
-    required T? value,
-    required List<DropdownMenuItem<T>> items,
-    required void Function(T?)? onChanged,
-    String? Function(T?)? validator,
-  }) {
-    return DropdownButtonFormField<T>(
-      initialValue: value,
-      isExpanded: true,
-      items: items,
-      onChanged: onChanged,
-      validator: validator,
-      // dropdownColor: kPrimaryColor,
-      style: Theme.of(context).textTheme.bodyLarge,
-      iconEnabledColor: Theme.of(context).colorScheme.onSurface,
-      decoration: _inputDecoration(label),
-    );
-  }
-
-  InputDecoration _inputDecoration(String label) {
-    return InputDecoration(
-      labelText: label,
-      labelStyle: Theme.of(context).textTheme.bodyLarge,
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface,
-          width: 2,
-        ),
-      ),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface,
-          width: 2,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(6),
-        borderSide: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface,
-          width: 2,
-        ),
-      ),
-    );
-  }
 }
-
-
