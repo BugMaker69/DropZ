@@ -18,19 +18,7 @@ final class AddressFailure extends AddressState {
 }
 
 final class AddressSuccess extends AddressState {
-  final List<AddressResponse> allAddresses;
+  final List<AddressEntity> allAddresses;
 
   const AddressSuccess(this.allAddresses);
-}
-
-final class AddAddressSuccess extends AddressState {
-  final AddressResponse addresses;
-
-  const AddAddressSuccess(this.addresses);
-}
-
-final class DeleteAddressSuccess extends AddressState {
-  final String deletedAddress;
-
-  const DeleteAddressSuccess(this.deletedAddress);
 }

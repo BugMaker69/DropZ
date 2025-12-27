@@ -1,9 +1,9 @@
-import 'package:drop_z_ecommerce_app/features/address/data/model/address_response/address_response.dart';
+import 'package:drop_z_ecommerce_app/features/address/domain/entities/address_entity.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/views/widgets/address_item.dart';
 import 'package:flutter/material.dart';
 
 class AddressItemList extends StatelessWidget {
-  final List<AddressResponse> getAlladdresses;
+  final List<AddressEntity> getAlladdresses;
   const AddressItemList({super.key, required this.getAlladdresses});
 
   @override

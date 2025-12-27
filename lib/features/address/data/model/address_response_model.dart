@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class AddressResponse extends Equatable {
+class AddressResponseModel extends Equatable {
   final int? id;
   final String? street;
   final String? city;
@@ -10,7 +10,7 @@ class AddressResponse extends Equatable {
   final bool? isDefault;
   final int? user;
 
-  const AddressResponse({
+  const AddressResponseModel({
     this.id,
     this.street,
     this.city,
@@ -21,8 +21,8 @@ class AddressResponse extends Equatable {
     this.user,
   });
 
-  factory AddressResponse.fromJson(Map<String, dynamic> json) {
-    return AddressResponse(
+  factory AddressResponseModel.fromJson(Map<String, dynamic> json) {
+    return AddressResponseModel(
       id: json['id'] as int?,
       street: json['street'] as String?,
       city: json['city'] as String?,
@@ -34,28 +34,28 @@ class AddressResponse extends Equatable {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'street': street,
-    'city': city,
-    'governorate': governorate,
-    'postal_code': postalCode,
-    'country': country,
-    'is_default': isDefault,
-    'user': user,
-  };
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'street': street,
+      'city': city,
+      'governorate': governorate,
+      'postal_code': postalCode,
+      'country': country,
+      'is_default': isDefault,
+      'user': user,
+    };
+  }
 
   @override
-  List<Object?> get props {
-    return [
-      id,
-      street,
-      city,
-      governorate,
-      postalCode,
-      country,
-      isDefault,
-      user,
-    ];
-  }
+  List<Object?> get props => [
+    id,
+    street,
+    city,
+    governorate,
+    postalCode,
+    country,
+    isDefault,
+    user,
+  ];
 }

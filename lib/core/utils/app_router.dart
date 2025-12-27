@@ -1,6 +1,10 @@
 import 'package:drop_z_ecommerce_app/core/payment/payment_failed_page.dart';
 import 'package:drop_z_ecommerce_app/core/payment/payment_success_page.dart';
-import 'package:drop_z_ecommerce_app/features/address/data/model/address_response/address_response.dart';
+import 'package:drop_z_ecommerce_app/core/utils/service_locator.dart';
+import 'package:drop_z_ecommerce_app/features/address/data/repos/address_repo_imp.dart';
+import 'package:drop_z_ecommerce_app/features/address/domain/entities/address_entity.dart';
+import 'package:drop_z_ecommerce_app/features/address/presentation/manager/add_address_cubit/add_address_cubit.dart';
+import 'package:drop_z_ecommerce_app/features/address/presentation/manager/edit_address_cubit/edit_address_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/views/address_view.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/views/widgets/add_address_item.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/views/widgets/edit_address_item.dart';
@@ -146,7 +150,6 @@ abstract class AppRouter {
             path: kSellerSettingsView,
             builder: (_, __) => const SettingsView(userRole: "seller"),
           ),
-
         ],
       ),
       GoRoute(
@@ -210,14 +213,22 @@ abstract class AppRouter {
       GoRoute(
         path: kCustomerEditAddress,
         builder: (context, state) {
-          final addressData = state.extra as AddressResponse;
-          return EditAddressItem(addressResponse: addressData);
+          final addressData = state.extra as AddressEntity;
+          return BlocProvider(
+            create: (_) => EditAddressCubit(getIt.get<AddressRepoImp>()),
+
+            child: EditAddressItem(addressResponse: addressData),
+          );
         },
       ),
 
       GoRoute(
         path: kCustomerAddAddress,
-        builder: (context, state) => const AddAddressItem(),
+        builder: (context, state) => BlocProvider(
+          create: (_) => AddAddressCubit(getIt.get<AddressRepoImp>()),
+
+          child: const AddAddressItem(),
+        ),
       ),
       GoRoute(
         path: kCustomerChangePassword,

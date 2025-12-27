@@ -6,7 +6,7 @@ import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_cached_network_image.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
-import 'package:drop_z_ecommerce_app/features/address/data/model/address_response/address_response.dart';
+import 'package:drop_z_ecommerce_app/features/address/domain/entities/address_entity.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/manager/address_cubit/address_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/biometrics/presentation/manager/biometric_cubit/biometrics_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/biometrics/presentation/manager/biometric_cubit/biometrics_state.dart';
@@ -214,7 +214,7 @@ Widget _buildAddressSection(
     );
   }
 
-  List<AddressResponse> addresses = [];
+  List<AddressEntity> addresses = [];
   if (addressState is AddressSuccess) {
     addresses = addressState.allAddresses;
   }
@@ -304,7 +304,7 @@ Widget _buildAddressSection(
 
 void _openAddressSelector(
   BuildContext context,
-  List<AddressResponse> addresses,
+  List<AddressEntity> addresses,
   ValueNotifier<int?> selectedAddressId,
 ) {
   final checkoutCubit = context.read<CheckoutCubit>();

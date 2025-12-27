@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:drop_z_ecommerce_app/features/biometrics/data/model/biometrics_status.dart';
 import 'package:drop_z_ecommerce_app/features/biometrics/data/repos/biometrics_repo.dart';
 import 'package:local_auth/local_auth.dart';
@@ -33,7 +35,7 @@ class BiometricsRepoImp implements BiometricsRepo {
             false, // عدم استمرار المصادقة إذا خرج التطبيق للخلفية
       );
     } catch (e) {
-      print("Biometrics Error: $e");
+      log("Biometrics Error: $e");
       return false;
     }
   }

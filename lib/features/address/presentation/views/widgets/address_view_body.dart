@@ -12,32 +12,28 @@ class AddressViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          AddressCubit(getIt.get<AddressRepoImp>())..getAllAddresses(),
-      child: BlocBuilder<AddressCubit, AddressState>(
-        builder: (context, state) {
-          if (state is AddressLoading) {
-            return CustomLoadingIndicator();
+    return BlocBuilder<AddressCubit, AddressState>(
+      builder: (context, state) {
+        if (state is AddressLoading) {
+          return CustomLoadingIndicator();
+        }
+        if (state is AddressFailure) {
+          return CustomErrorWidget(errMessage: 'Error: ${state.errMessage}');
+        }
+        if (state is AddressSuccess) {
+          final addresses = state.allAddresses;
+          if (addresses.isEmpty) {
+            return CustomErrorWidget(errMessage: "There is No Addresses Yet");
           }
-          if (state is AddressFailure) {
-            return CustomErrorWidget(errMessage: 'Error: ${state.errMessage}');
-          }
-          if (state is AddressSuccess) {
-            final addresses = state.allAddresses;
-            if (addresses.isEmpty) {
-              return CustomErrorWidget(errMessage: "There is No Addresses Yet");
-            }
 
-            return Column(
-              children: [
-                Expanded(child: AddressItemList(getAlladdresses: addresses)),
-              ],
-            );
-          }
-          return CustomErrorWidget(errMessage: "There Is No data");
-        },
-      ),
+          return Column(
+            children: [
+              Expanded(child: AddressItemList(getAlladdresses: addresses)),
+            ],
+          );
+        }
+        return CustomErrorWidget(errMessage: "There Is No data");
+      },
     );
   }
 }

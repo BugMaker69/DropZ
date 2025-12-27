@@ -1,12 +1,13 @@
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
-import 'package:drop_z_ecommerce_app/features/address/data/model/address_response/address_response.dart';
+import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
+import 'package:drop_z_ecommerce_app/features/address/domain/entities/address_entity.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/manager/address_cubit/address_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AddressItem extends StatelessWidget {
-  final AddressResponse addressResponse;
+  final AddressEntity addressResponse;
   const AddressItem({super.key, required this.addressResponse});
 
   @override
@@ -131,6 +132,8 @@ class AddressItem extends StatelessWidget {
                       context.read<AddressCubit>().deleteAddress(
                         addressResponse.id!,
                       );
+                      context.go(AppRouter.kCustomerHome);
+                      CustomSnakeBar(context, "✅ Address Deleted successfully");
                     },
                     icon: const Icon(Icons.delete, size: 18),
                     label: const Text("حذف"),

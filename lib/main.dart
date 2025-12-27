@@ -138,9 +138,9 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               WishListCubit(getIt.get<WhishlistRepoImp>())..getAllWishList(),
         ),
-        BlocProvider(
-          create: (context) => AddressCubit(getIt.get<AddressRepoImp>()),
-        ),
+        // BlocProvider(
+        //   create: (context) => AddressCubit(getIt.get<AddressRepoImp>()),
+        // ),
         BlocProvider(create: (context) => DeepLinkCubit()),
         BlocProvider(
           //!

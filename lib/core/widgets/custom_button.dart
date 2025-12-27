@@ -27,7 +27,7 @@ class CustomButton extends StatelessWidget {
           backgroundColor: isDisable ? Colors.grey : backgroundColor,
           textStyle: Styles.textStyle16SemiBold,
         ),
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         child: Center(
           child: isLoading
               ? SizedBox(
