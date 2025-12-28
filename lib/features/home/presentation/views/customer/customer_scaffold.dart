@@ -1,4 +1,5 @@
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,16 +9,29 @@ class CustomerScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Scaffold(
       body: child,
       bottomNavigationBar: NavigationBar(
         selectedIndex: _getIndex(context),
         onDestinationSelected: (i) => _onTap(context, i),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-          NavigationDestination(icon: Icon(Icons.shopping_cart), label: "Cart"),
-          NavigationDestination(icon: Icon(Icons.favorite), label: "Wishlist"),
-          NavigationDestination(icon: Icon(Icons.settings), label: "Settings"),
+        destinations: [
+          NavigationDestination(
+            icon: Icon(Icons.home),
+            label: "${localizations.home}",
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.shopping_cart),
+            label: "${localizations.cart}",
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.favorite),
+            label: "${localizations.wishlist}",
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.settings),
+            label: "${localizations.settings}",
+          ),
         ],
       ),
     );

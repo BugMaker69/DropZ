@@ -11,6 +11,7 @@ import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/add_product_request.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/category_model/category_model.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -67,6 +68,8 @@ class AddProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: SafeArea(
@@ -81,16 +84,19 @@ class AddProductItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
+                    //!
                     "Add New Product",
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   const SizedBox(height: 16),
 
                   CustomTextEdit(
-                    labelText: "Title",
+                    labelText: "${localizations.title}",
                     textController: titleController,
-                    validator: (value) =>
-                        Validators.validateRequired(value, "Title"),
+                    validator: (value) => Validators.validateRequired(
+                      value,
+                      "${localizations.title}",
+                    ),
                   ),
                   const SizedBox(height: 16),
 
@@ -100,7 +106,7 @@ class AddProductItem extends StatelessWidget {
                     children: [
                       Expanded(
                         child: CustomTextEdit(
-                          labelText: "Price",
+                          labelText: "${localizations.price}",
                           textController: priceController,
                           validator: Validators.validatePrice,
                           keyboardType: TextInputType.number,
@@ -109,7 +115,7 @@ class AddProductItem extends StatelessWidget {
                       const SizedBox(width: 16),
                       Expanded(
                         child: CustomTextEdit(
-                          labelText: "StockQuantity",
+                          labelText: "${localizations.stockQuantity}",
                           textController: stockQuantityController,
                           validator: Validators.validateStock,
                           keyboardType: TextInputType.number,
@@ -125,7 +131,7 @@ class AddProductItem extends StatelessWidget {
                         child: buildDropdown<int>(
                           context: context,
                           value: selectedCategoryId,
-                          label: "Select Category",
+                          label: "${localizations.selectCategory}",
                           items: categories
                               .map(
                                 (cat) => DropdownMenuItem<int>(
@@ -137,8 +143,9 @@ class AddProductItem extends StatelessWidget {
                           onChanged: (value) {
                             selectedCategoryId = value;
                           },
-                          validator: (value) =>
-                              value == null ? "Please select a category" : null,
+                          validator: (value) => value == null
+                              ? "${localizations.pleaseSelectCategory}"
+                              : null,
                         ),
                       ),
                     ],
@@ -149,7 +156,7 @@ class AddProductItem extends StatelessWidget {
                     children: [
                       SizedBox(width: 8),
                       Text(
-                        "Active",
+                        "${localizations.active}",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       const SizedBox(width: 16),
@@ -195,7 +202,7 @@ class AddProductItem extends StatelessWidget {
                                 )
                               : Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Icon(
                                       Icons.image_outlined,
                                       size: 40,
@@ -203,7 +210,7 @@ class AddProductItem extends StatelessWidget {
                                     ),
                                     SizedBox(height: 8),
                                     Text(
-                                      "Tap to select an image",
+                                      "${localizations.tapToSelectImage}",
                                       style: TextStyle(color: Colors.grey),
                                     ),
                                   ],
@@ -215,10 +222,12 @@ class AddProductItem extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   CustomTextEdit(
-                    labelText: "Description",
+                    labelText: "${localizations.description}",
                     textController: descriptionController,
-                    validator: (value) =>
-                        Validators.validateRequired(value, "Description"),
+                    validator: (value) => Validators.validateRequired(
+                      value,
+                      "${localizations.description}",
+                    ),
                     keyboardType: TextInputType.multiline,
                     maxLines: 3,
                   ),
@@ -226,6 +235,7 @@ class AddProductItem extends StatelessWidget {
                   // Make It Image Picker and replace it with description
                   const SizedBox(height: 16),
                   CustomButton(
+                    //!
                     text: "Add Product",
                     onPressed: () {
                       FocusScope.of(context).unfocus();
@@ -234,7 +244,7 @@ class AddProductItem extends StatelessWidget {
                         if (image == null) {
                           CustomSnakeBar(
                             context,
-                            "⚠️ Please select a product image",
+                            "${localizations.selectProductImageWarning}",
                           );
                           return;
                         }
@@ -256,7 +266,7 @@ class AddProductItem extends StatelessWidget {
 
                         CustomSnakeBar(
                           context,
-                          "✅ Product validated successfully",
+                          "${localizations.productValidated}",
                         );
                       }
                     },

@@ -5,6 +5,7 @@ import 'package:drop_z_ecommerce_app/features/cart/data/model/add_item_to_cart_r
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/data/model/wish_list_data_response/item.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/presentation/manager/wish_list_cubit/wish_list_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -60,7 +61,7 @@ class WishListItem extends StatelessWidget {
                           );
                         },
                         child: Text(
-                          "Delete",
+                          "${AppLocalizations.of(context)!.delete}",
                           style: Theme.of(context).textTheme.bodyMedium!
                               .copyWith(
                                 color: Theme.of(context).colorScheme.error,
@@ -82,7 +83,7 @@ class WishListItem extends StatelessWidget {
                             );
                           },
                           child: Text(
-                            "Add To Cart",
+                            "${AppLocalizations.of(context)!.addToCart}",
                             style: Theme.of(context).textTheme.bodyMedium!
                                 .copyWith(
                                   fontWeight: FontWeight.w500,

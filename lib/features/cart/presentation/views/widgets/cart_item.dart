@@ -7,6 +7,7 @@ import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cub
 import 'package:drop_z_ecommerce_app/features/products/presentation/views/widgets/product_item_details.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/data/model/add_product_to_wish_list_request.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/presentation/manager/wish_list_cubit/wish_list_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,6 +17,8 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     final quantityNotifier = ValueNotifier<int>(cartItemsModel.quantity!);
 
     return Column(
@@ -60,7 +63,7 @@ class CartItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-
+                  //! Change Total Price To localized String
                   Text(
                     "Total Price \$${cartItemsModel.itemSubtotal}",
                     style: TextStyle(
@@ -112,7 +115,7 @@ class CartItem extends StatelessWidget {
                           );
                         },
                         child: Text(
-                          "Delete",
+                          "${localizations.delete}",
                           style: Theme.of(context).textTheme.bodyMedium!
                               .copyWith(
                                 color: Theme.of(context).colorScheme.error,
@@ -133,7 +136,7 @@ class CartItem extends StatelessWidget {
                             );
                           },
                           child: Text(
-                            "Add To WishList",
+                            "${localizations.addToWishlist}",
                             style: Theme.of(context).textTheme.bodyMedium!
                                 .copyWith(
                                   fontWeight: FontWeight.w500,

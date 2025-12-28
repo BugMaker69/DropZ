@@ -9,6 +9,7 @@ import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart'
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/models/get_user_data_success.dart';
 import 'package:drop_z_ecommerce_app/features/profile/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -35,6 +36,8 @@ class ProfileViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return SingleChildScrollView(
       padding: EdgeInsets.all(16),
       child: BlocConsumer<UserProfileCubit, UserProfileState>(
@@ -64,7 +67,7 @@ class ProfileViewBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Edit Your Profile",
+                  "${localizations.editProfile}",
                   style: Theme.of(context).textTheme.displayLarge,
                 ),
                 ValueListenableBuilder<File?>(
@@ -101,7 +104,7 @@ class ProfileViewBody extends StatelessWidget {
                                 )
                               : Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Icon(
                                       Icons.image_outlined,
                                       size: 40,
@@ -110,7 +113,7 @@ class ProfileViewBody extends StatelessWidget {
                                     SizedBox(height: 8),
                                     Center(
                                       child: Text(
-                                        "Tap to select an image",
+                                        "${localizations.tapToSelectImage}",
                                         style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
@@ -130,7 +133,7 @@ class ProfileViewBody extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomTextEdit(
-                        labelText: "First name",
+                        labelText: "${localizations.firstName}",
                         textController: cubit.firstNameController,
                         validator: Validators.validateFirstName,
                       ),
@@ -138,7 +141,7 @@ class ProfileViewBody extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: CustomTextEdit(
-                        labelText: "Last name",
+                        labelText: "${localizations.lastName}",
                         textController: cubit.lastNameController,
                         validator: Validators.validateLastName,
                       ),
@@ -150,7 +153,7 @@ class ProfileViewBody extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomTextEdit(
-                        labelText: "Email address",
+                        labelText: "${localizations.email}",
                         textController: cubit.emailController,
                         validator: Validators.validateEmail,
                       ),
@@ -158,7 +161,7 @@ class ProfileViewBody extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: CustomTextEdit(
-                        labelText: "Phone Number",
+                        labelText: "${localizations.phone}",
                         textController: cubit.phoneController,
                         validator: Validators.validatePhoneNumber,
                       ),
@@ -168,7 +171,7 @@ class ProfileViewBody extends StatelessWidget {
                 const SizedBox(height: 16),
 
                 CustomButton(
-                  text: "Save Changes",
+                  text: "${localizations.saveChanges}",
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       context.read<UserProfileCubit>().updateUserData(

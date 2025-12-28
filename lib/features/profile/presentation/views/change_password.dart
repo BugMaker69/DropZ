@@ -5,6 +5,7 @@ import 'package:drop_z_ecommerce_app/core/widgets/custom_button.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_edit_text.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/models/change_password_data_data.dart';
 import 'package:drop_z_ecommerce_app/features/profile/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -42,13 +43,15 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
 
       child: Scaffold(
         resizeToAvoidBottomInset: true, // ✅ يخلي الشاشة تطلع لفوق مع الكيبورد
 
-        appBar: AppBar(title: Text("Change Password")),
+        appBar: AppBar(title: Text("${localizations.changePassword}")),
         // backgroundColor: kPrimaryColor,
         body: Padding(
           padding: const EdgeInsets.all(16),
@@ -58,7 +61,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Column(
                 children: [
                   Text(
-                    "Password Changes",
+                    "${localizations.changePassword}",
                     style: Theme.of(
                       context,
                     ).textTheme.displayLarge!.copyWith(fontSize: 40),
@@ -66,7 +69,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   const SizedBox(height: 16),
 
                   CustomTextEdit(
-                    labelText: "Current Password",
+                    labelText: "${localizations.currentPassword}",
                     isPassword: true,
                     textController: currentPasswordController,
                     // validator: Validators.validatePassword,
@@ -74,7 +77,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   const SizedBox(height: 16),
 
                   CustomTextEdit(
-                    labelText: "New Password",
+                    labelText: "${localizations.newPassword}",
                     isPassword: true,
                     textController: newPasswordController,
                     validator: Validators.validatePassword,
@@ -82,7 +85,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
                   const SizedBox(height: 16),
                   CustomTextEdit(
-                    labelText: "Confirm New Password",
+                    labelText: "${localizations.confirmNewPassword}",
                     isPassword: true,
                     textController: newPassordConfirmationController,
                     validator: (value) => Validators.validateConfirmPassword(
@@ -92,7 +95,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   ),
                   const SizedBox(height: 16),
                   CustomButton(
-                    text: "Save New Password",
+                    text: "${localizations.saveNewPassword}",
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         context.read<UserProfileCubit>().changePassword(

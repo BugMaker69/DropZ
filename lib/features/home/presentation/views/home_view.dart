@@ -169,7 +169,7 @@ class HomeView extends StatelessWidget {
                                             16,
                                           ),
                                           alignLabelWithHint: false,
-                                          labelText: localizations.search,
+                                          labelText: localizations.searchHere,
                                           floatingLabelStyle: TextStyle(
                                             color: Theme.of(
                                               context,
@@ -271,8 +271,8 @@ class HomeView extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return const CustomErrorWidget(
-                    errMessage: "Waiting for data...",
+                  return CustomErrorWidget(
+                    errMessage: "${localizations.waitingForData}",
                   );
                 }
               },

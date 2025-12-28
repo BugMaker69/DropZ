@@ -4,6 +4,7 @@ import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart'
 import 'package:drop_z_ecommerce_app/features/address/data/repos/address_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/manager/address_cubit/address_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/views/widgets/address_item_list.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +13,7 @@ class AddressViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return BlocBuilder<AddressCubit, AddressState>(
       builder: (context, state) {
         if (state is AddressLoading) {
@@ -23,7 +25,7 @@ class AddressViewBody extends StatelessWidget {
         if (state is AddressSuccess) {
           final addresses = state.allAddresses;
           if (addresses.isEmpty) {
-            return CustomErrorWidget(errMessage: "There is No Addresses Yet");
+            return CustomErrorWidget(errMessage: "${localizations.noAddressesYet}");
           }
 
           return Column(
@@ -32,7 +34,7 @@ class AddressViewBody extends StatelessWidget {
             ],
           );
         }
-        return CustomErrorWidget(errMessage: "There Is No data");
+        return CustomErrorWidget(errMessage: "${localizations.noData}");
       },
     );
   }

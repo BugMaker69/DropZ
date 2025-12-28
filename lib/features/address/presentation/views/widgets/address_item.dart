@@ -2,6 +2,7 @@ import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/address/domain/entities/address_entity.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/manager/address_cubit/address_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,8 @@ class AddressItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
 
@@ -74,8 +77,8 @@ class AddressItem extends StatelessWidget {
                         const SizedBox(width: 6),
                         Text(
                           addressResponse.isDefault!
-                              ? "Default"
-                              : "Not Default",
+                              ? "${localizations.adefault}"
+                              : "${localizations.notDefault}",
                           style: theme.textTheme.bodySmall!.copyWith(
                             color: colors.onPrimary,
                           ),
@@ -96,25 +99,25 @@ class AddressItem extends StatelessWidget {
                   _infoItem(
                     context,
                     Icons.location_on,
-                    "Governorate",
+                    "${localizations.governorate}",
                     addressResponse.governorate,
                   ),
                   _infoItem(
                     context,
                     Icons.location_city,
-                    "City",
+                    "${localizations.city}",
                     addressResponse.city,
                   ),
                   _infoItem(
                     context,
                     Icons.streetview,
-                    "Street",
+                    "${localizations.street}",
                     addressResponse.street,
                   ),
                   _infoItem(
                     context,
                     Icons.markunread_mailbox,
-                    "Postal",
+                    "${localizations.postal}",
                     addressResponse.postalCode,
                   ),
                 ],
@@ -133,10 +136,13 @@ class AddressItem extends StatelessWidget {
                         addressResponse.id!,
                       );
                       context.go(AppRouter.kCustomerHome);
-                      CustomSnakeBar(context, "✅ Address Deleted successfully");
+                      CustomSnakeBar(
+                        context,
+                        "${localizations.addressDeletedSuccess}",
+                      );
                     },
                     icon: const Icon(Icons.delete, size: 18),
-                    label: const Text("حذف"),
+                    label: Text("${localizations.delete}"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: colors.error,
                       foregroundColor: colors.onError,
@@ -153,7 +159,7 @@ class AddressItem extends StatelessWidget {
                       );
                     },
                     icon: const Icon(Icons.edit, size: 18),
-                    label: const Text("تعديل"),
+                    label: Text("${localizations.edit}"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: colors.tertiaryFixed,
                       foregroundColor: colors.onPrimary,

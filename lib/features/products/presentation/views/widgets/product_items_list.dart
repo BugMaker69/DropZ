@@ -3,6 +3,7 @@ import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_d
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/views/widgets/product_item.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/views/widgets/staggered_product_item.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +22,9 @@ class ProductItemsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (filteredProducts.isEmpty) {
-      return CustomErrorWidget(errMessage: "No products available");
+      return CustomErrorWidget(
+        errMessage: "${AppLocalizations.of(context)!.noDataAvailable}",
+      );
     }
 
     if (roleId == 0) {

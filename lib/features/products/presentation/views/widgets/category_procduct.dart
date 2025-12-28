@@ -20,7 +20,7 @@ class CategoryProductsView extends StatelessWidget {
         ? products.results!
         : products.results!.where((p) => p.category == category).toList();
 
-    if (filteredProducts.isEmpty) {
+    if (filteredProducts.isEmpty) {//!
       return CustomErrorWidget(errMessage: "No products in $category category");
     }
 

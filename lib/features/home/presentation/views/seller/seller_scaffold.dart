@@ -3,6 +3,7 @@ import 'package:drop_z_ecommerce_app/core/providers/theme_provider.dart';
 import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -14,9 +15,11 @@ class SellerScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Seller Panel"),
+        title: Text("${localizations.sellerPanel}"),
         actions: [
           // 🌙 Theme Toggle
           IconButton(
@@ -41,14 +44,20 @@ class SellerScaffold extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _getIndex(context),
         onDestinationSelected: (i) => _onTap(context, i),
-        destinations: const [
+        destinations: [
           NavigationDestination(
             icon: Icon(Icons.dashboard),
-            label: "Dashboard",
+            label: "${localizations.dashboard}",
           ),
-          NavigationDestination(icon: Icon(Icons.add_box), label: "Add"),
+          NavigationDestination(
+            icon: Icon(Icons.add_box),
+            label: "${localizations.add}",
+          ),
           // NavigationDestination(icon: Icon(Icons.list), label: "Products"),
-          NavigationDestination(icon: Icon(Icons.settings), label: "Settings"),
+          NavigationDestination(
+            icon: Icon(Icons.settings),
+            label: "${localizations.settings}",
+          ),
 
           // NavigationDestination(
           //   icon: Icon(Icons.shopping_bag),

@@ -4,6 +4,7 @@ import 'package:drop_z_ecommerce_app/core/utils/service_locator.dart';
 import 'package:drop_z_ecommerce_app/features/address/data/repos/address_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/manager/address_cubit/address_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/views/widgets/address_view_body.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,8 @@ class _AddressViewState extends State<AddressView> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return BlocProvider(
       create: (_) =>
           AddressCubit(getIt.get<AddressRepoImp>())..getAllAddresses(),
@@ -31,7 +34,7 @@ class _AddressViewState extends State<AddressView> {
           }
         },
         child: Scaffold(
-          appBar: AppBar(title: const Text("Address")),
+          appBar: AppBar(title: Text("${localizations.address}")),
           body: NotificationListener<ScrollNotification>(
             onNotification: (scrollNotification) {
               if (scrollNotification is UserScrollNotification) {
@@ -58,7 +61,7 @@ class _AddressViewState extends State<AddressView> {
                 onPressed: () {
                   context.push(AppRouter.kCustomerAddAddress);
                 },
-                label: const Text("Address"),
+                label: Text("${localizations.address}"),
                 icon: const Icon(Icons.location_on_outlined),
                 // backgroundColor: Theme.of(context).colorScheme.tertiary,
               ),

@@ -4,6 +4,7 @@ import 'package:drop_z_ecommerce_app/core/utils/app_router.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,7 @@ class PaymentWebViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ValueNotifier<bool> isLoading = ValueNotifier(true);
+    final localizations = AppLocalizations.of(context)!;
 
     final controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -93,7 +95,7 @@ class PaymentWebViewPage extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text("Complete Payment")),
+        appBar: AppBar(title: Text("${localizations.completePayment}")),
         body: Stack(
           children: [
             WebViewWidget(controller: controller),

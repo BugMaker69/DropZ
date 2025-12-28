@@ -8,6 +8,7 @@ import 'package:drop_z_ecommerce_app/core/widgets/custom_app_logo_only.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/login/presentation/manager/login_cubit/login_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,6 +37,8 @@ class _LoginViewBodyState extends State<LoginViewBody> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) async {
         if (state is LoginSuccess) {
@@ -76,18 +79,18 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Welcome back,",
+                          "${localizations.welcomeBack}",
                           style: Theme.of(context).textTheme.displayLarge,
                         ),
                         Text(
-                          "Login To Continue",
+                          "${localizations.loginToContinue}",
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
 
                         const SizedBox(height: 16),
 
                         CustomTextEdit(
-                          labelText: "Email address",
+                          labelText: "${localizations.email}",
                           validator: Validators.validateEmail,
                           textController: _emailController,
                         ),
@@ -95,7 +98,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         const SizedBox(height: 16),
 
                         CustomTextEdit(
-                          labelText: "Password",
+                          labelText: "${localizations.password}",
                           isPassword: true,
                           textController: _passwordController,
                         ),
@@ -103,7 +106,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         const SizedBox(height: 16),
                         CustomButton(
                           isLoading: state is LoginLoading ? true : false,
-                          text: "Login",
+                          text: "${localizations.login}",
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               context
@@ -117,13 +120,13 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                         ),
                         Center(
                           child: Text(
-                            "OR",
+                            "${localizations.or}",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ),
                         CustomButton(
-                          text: "Login with Google",
+                          text: "${localizations.loginWithGoogle}",
                           onPressed: () {},
                           backgroundColor: Theme.of(
                             context,
@@ -133,7 +136,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Don’t have an account?",
+                              "${localizations.dontHaveAccount}",
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             TextButton(
@@ -143,7 +146,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                                 ).push(AppRouter.kRegisterView);
                               },
                               child: Text(
-                                "Sign up",
+                                "${localizations.signUp}",
                                 style: Styles.textStyle16SemiBold.copyWith(
                                   decorationStyle: TextDecorationStyle.solid,
                                   decoration: TextDecoration.underline,

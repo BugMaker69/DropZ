@@ -5,6 +5,7 @@ import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/offline_banner.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/presentation/manager/wish_list_cubit/wish_list_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/presentation/views/widgets/wish_list_item.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +21,9 @@ class WishListView extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: Text("Wishlist")),
+        appBar: AppBar(
+          title: Text("${AppLocalizations.of(context)!.wishlist}"),
+        ),
         body: Column(
           children: [
             const OfflineBanner(),
@@ -34,10 +37,16 @@ class WishListView extends StatelessWidget {
                       return const CustomLoadingIndicator();
                     }
                     if (state is AddItemToWishListSuccess) {
-                      CustomSnakeBar(context, "Added to wishlist!");
+                      CustomSnakeBar(
+                        context,
+                        "${AppLocalizations.of(context)!.addedToWishlist}",
+                      );
                     }
                     if (state is DeleteItemFromWishListSuccess) {
-                      CustomSnakeBar(context, "Removed from wishlist!");
+                      CustomSnakeBar(
+                        context,
+                        "${AppLocalizations.of(context)!.removedFromWishlist}",
+                      );
                     }
                     if (state is WishListFailure) {
                       return Center(
@@ -68,13 +77,15 @@ class WishListView extends StatelessWidget {
                           separatorBuilder: (context, index) => Divider(),
                         );
                       } else {
-                        return const CustomErrorWidget(
-                          errMessage: "Your wishlist is empty",
+                        return CustomErrorWidget(
+                          errMessage:
+                              "${AppLocalizations.of(context)!.wishlistEmpty}",
                         );
                       }
                     } else {
-                      return const CustomErrorWidget(
-                        errMessage: "No data available",
+                      return CustomErrorWidget(
+                        errMessage:
+                            "${AppLocalizations.of(context)!.noDataAvailable}",
                       );
                     }
                   },

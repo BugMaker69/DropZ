@@ -45,7 +45,6 @@ dependencies:
   dio_cookie_manager: ^3.1.1
   font_awesome_flutter: ^10.8.0
   # device_preview: ^1.0.0-alpha.15
-  device_preview: ^1.3.1
   bloc: ^9.0.0
   flutter_bloc: ^9.1.1
   shared_preferences: ^2.5.3
@@ -77,9 +76,6 @@ dependencies:
   skeletonizer: ^2.1.1
   flutter_dotenv: ^6.0.0
 
-
-
-
   flutter_localizations:
     sdk: flutter
   #flutter_localizations: ^0.3.3
@@ -92,6 +88,7 @@ dev_dependencies:
   flutter_native_splash: ^2.4.1
   hive_generator: ^2.0.1
   build_runner: ^2.4.13
+  device_preview: ^1.3.1
 
   flutter_test:
     sdk: flutter
@@ -104,7 +101,6 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
 #! Application Icon That Appears To User
-
 flutter_icons:
   android: true
   ios: true
@@ -113,7 +109,6 @@ flutter_icons:
   android_adaptive_icon_background: "#083947"
 
 #! Application Splash Screen Icon That Appears To User
-
 flutter_native_splash:
   color: "#083947" # لون الخلفية
   image: "assets/images/dropz_logo.png" # مسار صورة السبلاتش
@@ -131,7 +126,6 @@ flutter:
     - assets/images/
     - assets/data/
     - assets/animations/
-
   # fonts:
   #   - family: Schyler
   #     fonts:
@@ -143,3 +137,5 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+flutter_intl:
+  enabled: true

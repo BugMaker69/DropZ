@@ -6,6 +6,7 @@ import 'package:drop_z_ecommerce_app/features/reviews/data/model/add_review_requ
 import 'package:drop_z_ecommerce_app/features/reviews/data/model/get_all_reviews/get_all_reviews.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/presentation/manager/products_review_cubit/products_review_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/reviews/presentation/views/widgets/edit_review_bottom_sheet.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +17,7 @@ class AddReviewSection extends StatefulWidget {
   @override
   State<AddReviewSection> createState() => _AddReviewSectionState();
 }
-
+//!
 class _AddReviewSectionState extends State<AddReviewSection> {
   final _controller = TextEditingController();
   int _rating = 5;
@@ -34,6 +35,8 @@ class _AddReviewSectionState extends State<AddReviewSection> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return BlocListener<ProductsReviewCubit, ProductsReviewState>(
       listener: (context, state) {
         // لما ينجح الإضافة أو الحذف → نحدث القايمة

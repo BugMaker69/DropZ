@@ -14,6 +14,7 @@ import 'package:drop_z_ecommerce_app/features/address/data/repos/address_repo_im
 import 'package:drop_z_ecommerce_app/features/address/domain/entities/address_entity.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/manager/address_cubit/address_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/manager/edit_address_cubit/edit_address_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -93,12 +94,13 @@ class _EditAddressItemState extends State<EditAddressItem> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (_) => EditAddressCubit(getIt.get<AddressRepoImp>()),
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          appBar: AppBar(title: const Text("Edit Address")),
+          appBar: AppBar(title: Text("${localizations.editAddress}")),
           body: BlocListener<EditAddressCubit, EditAddressState>(
             listener: (context, state) {
               if (state is EditAddressLoading) {
@@ -109,7 +111,10 @@ class _EditAddressItemState extends State<EditAddressItem> {
               }
               if (state is EditAddressSuccess) {
                 context.go(AppRouter.kCustomerHome);
-                CustomSnakeBar(context, "✅ Address updated successfully");
+                CustomSnakeBar(
+                  context,
+                  "${localizations.addressUpdatedSuccess}",
+                );
               }
             },
             child: SingleChildScrollView(
@@ -120,7 +125,7 @@ class _EditAddressItemState extends State<EditAddressItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Edit Address",
+                      "${localizations.editAddress}",
                       style: Theme.of(context).textTheme.displayLarge,
                     ),
                     const SizedBox(height: 16),
@@ -128,7 +133,7 @@ class _EditAddressItemState extends State<EditAddressItem> {
                     // Country Dropdown
                     buildDropdown<String>(
                       context: context,
-                      label: "Choose Country",
+                      label: "${localizations.chooseCountry}",
                       value: country,
                       items: countries,
                       onChanged: (c) => setState(() => country = c),
@@ -141,7 +146,7 @@ class _EditAddressItemState extends State<EditAddressItem> {
                         Expanded(
                           child: buildDropdown<Governorate>(
                             context: context,
-                            label: "Choose Governorate",
+                            label: "${localizations.chooseGovernorate}",
                             value: selectedGov,
                             items: governorates
                                 .map(
@@ -166,7 +171,7 @@ class _EditAddressItemState extends State<EditAddressItem> {
                         Expanded(
                           child: buildDropdown<City>(
                             context: context,
-                            label: "Choose City",
+                            label: "${localizations.chooseCity}",
                             value: selectedCity,
                             items: filteredCities
                                 .map(
@@ -181,8 +186,9 @@ class _EditAddressItemState extends State<EditAddressItem> {
                                 .toList(),
                             onChanged: (city) =>
                                 setState(() => selectedCity = city),
-                            validator: (value) =>
-                                value == null ? "Please select a City" : null,
+                            validator: (value) => value == null
+                                ? "${localizations.pleaseSelectCity}"
+                                : null,
                           ),
                         ),
                       ],
@@ -191,10 +197,12 @@ class _EditAddressItemState extends State<EditAddressItem> {
 
                     // Street
                     CustomTextEdit(
-                      labelText: "Street",
+                      labelText: "${localizations.street}",
                       textController: streetController,
-                      validator: (value) =>
-                          Validators.validateRequired(value, "Street"),
+                      validator: (value) => Validators.validateRequired(
+                        value,
+                        "${localizations.street}",
+                      ),
                     ),
                     const SizedBox(height: 16),
 
@@ -203,7 +211,7 @@ class _EditAddressItemState extends State<EditAddressItem> {
                       children: [
                         Expanded(
                           child: CustomTextEdit(
-                            labelText: "Postal Code",
+                            labelText: "${localizations.postalCode}",
                             textController: postalCodeController,
                             validator: Validators.validatePostalCode,
                             keyboardType: TextInputType.number,
@@ -214,7 +222,7 @@ class _EditAddressItemState extends State<EditAddressItem> {
                           children: [
                             const SizedBox(width: 8),
                             Text(
-                              "Set Default",
+                              "${localizations.setDefault}",
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                             const SizedBox(width: 4),
@@ -244,7 +252,7 @@ class _EditAddressItemState extends State<EditAddressItem> {
                               is EditAddressLoading
                           ? true
                           : false,
-                      text: "Edit Address",
+                      text: "${localizations.editAddress}",
                       onPressed: () {
                         FocusScope.of(context).unfocus();
                         if (editAddressFormKey.currentState!.validate()) {

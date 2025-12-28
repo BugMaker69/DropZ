@@ -12,6 +12,7 @@ import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_d
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/data/model/add_product_to_wish_list_request.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/presentation/manager/wish_list_cubit/wish_list_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -31,6 +32,8 @@ class ProductItemDetails extends StatelessWidget {
     final cartCubit = context.read<CartCubit>();
 
     CartItemsModel? existingCartItem;
+
+    final localizations = AppLocalizations.of(context)!;
 
     if (cartCubit.state is CartSuccess) {
       final cartItems = (cartCubit.state as CartSuccess).cartItemsModel;
@@ -149,8 +152,8 @@ class ProductItemDetails extends StatelessWidget {
                     ),
                     Text(
                       (filteredProduct.stockQuantity! >= 0)
-                          ? "InStock"
-                          : "OutStock",
+                          ? "${localizations.inStock}"
+                          : "${localizations.outStock}",
                       style: Styles.textStyle16Medium.copyWith(
                         color: (filteredProduct.stockQuantity! >= 0)
                             ? Color(0xff009336)
@@ -207,7 +210,7 @@ class ProductItemDetails extends StatelessWidget {
                             } else {
                               CustomSnakeBar(
                                 context,
-                                "You reached the maximum available stock.",
+                                "${localizations.maxStockReached}",
                               );
                             }
                           },
@@ -251,7 +254,7 @@ class ProductItemDetails extends StatelessWidget {
                         GoRouter.of(context).push(AppRouter.kCustomerCheckout);
                       },
                       child: Text(
-                        "Buy Now",
+                        "${localizations.buyNow}",
                         style: Styles.textStyle16Regular.copyWith(
                           color: Colors.white,
                         ),
@@ -280,7 +283,7 @@ class ProductItemDetails extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "SubTotal: ",
+                    "${localizations.subTotal} ",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
 
@@ -311,7 +314,10 @@ class ProductItemDetails extends StatelessWidget {
                         },
                       );
                     },
-                    child: Text("Add Review", style: Styles.textStyle16Medium),
+                    child: Text(
+                      "${localizations.addReview}",
+                      style: Styles.textStyle16Medium,
+                    ),
                   ),
                 ],
               ),
@@ -320,14 +326,14 @@ class ProductItemDetails extends StatelessWidget {
               // ====== Free Delivery ======
               _buildInfoCard(
                 icon: Icons.local_shipping_outlined,
-                title: "Free Delivery",
-                subtitle: "Enter your postal code for Delivery Availability",
+                title: "${localizations.freeDelivery}",
+                subtitle: "${localizations.enterPostalForDelivery}",
               ),
               const SizedBox(height: 12),
               _buildInfoCard(
                 icon: Icons.refresh,
-                title: "Return Delivery",
-                subtitle: "Free 30 Days Delivery Returns. Details",
+                title: "${localizations.returnDelivery}",
+                subtitle: "${localizations.freeReturns}",
               ),
             ],
           ),

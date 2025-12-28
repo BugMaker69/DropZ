@@ -9,6 +9,7 @@ import 'package:drop_z_ecommerce_app/core/widgets/custom_app_logo_only.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/custom_snakebar_message.dart';
 import 'package:drop_z_ecommerce_app/features/register/presentation/manager/register_cubit/register_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -59,6 +60,8 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return BlocConsumer<RegisterCubit, RegisterState>(
       listener: (context, state) {
         if (state is RegisterSuccess) {
@@ -97,11 +100,11 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Join Dropz,",
+                          "${localizations.joinDropz}",
                           style: Theme.of(context).textTheme.displayLarge,
                         ),
                         Text(
-                          "Create an account",
+                          "${localizations.createAccount}",
                           style: Theme.of(context).textTheme.bodyLarge,
                           // style: Theme.of(context).textTheme.titleMedium,
                         ),
@@ -110,7 +113,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                           children: [
                             Expanded(
                               child: CustomTextEdit(
-                                labelText: "First name",
+                                labelText: "${localizations.firstName}",
                                 textController: _firstNameController,
                                 validator: Validators.validateFirstName,
                               ),
@@ -118,7 +121,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                             const SizedBox(width: 16),
                             Expanded(
                               child: CustomTextEdit(
-                                labelText: "Last name",
+                                labelText: "${localizations.lastName}",
                                 textController: _lastNameController,
                                 validator: Validators.validateLastName,
                               ),
@@ -127,7 +130,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                         ),
                         const SizedBox(height: 16),
                         CustomTextEdit(
-                          labelText: "Email address",
+                          labelText: "${localizations.email}",
                           textController: _emailController,
                           validator: Validators.validateEmail,
                         ),
@@ -139,19 +142,20 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                           onChanged: (value) {
                             _selectedRole = value!;
                           },
-                          label: "Select Role",
+                          label: "${localizations.selectRole}",
                           value: _selectedRole,
                         ),
 
                         const SizedBox(height: 16),
                         CustomTextEdit(
-                          labelText: "Password",
+                          labelText: "${localizations.password}",
                           isPassword: true,
                           textController: _passwordController,
                           validator: Validators.validatePassword,
                         ),
                         const SizedBox(height: 16),
                         CustomTextEdit(
+                          //!
                           labelText: "Confirm Password",
                           isPassword: true,
                           textController: _confirmPasswordController,
@@ -164,7 +168,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                         const SizedBox(height: 16),
                         CustomButton(
                           isLoading: state is RegisterLoading ? true : false,
-                          text: "Sign up",
+                          text: "${localizations.signUp}",
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               context
@@ -183,7 +187,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                         ),
                         Center(
                           child: Text(
-                            "OR",
+                            "${localizations.or}",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.titleSmall,
                             // style: TextStyle(
@@ -192,6 +196,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                           ),
                         ),
                         CustomButton(
+                          //!
                           text: "Sign up with Google",
                           onPressed: () {},
                           backgroundColor: Colors.white,
@@ -200,7 +205,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Already have an account ?",
+                              "${localizations.alreadyHaveAccount}",
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             TextButton(
@@ -208,7 +213,7 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                                 GoRouter.of(context).pop();
                               },
                               child: Text(
-                                "Login",
+                                "${localizations.login}",
                                 style: Styles.textStyle16SemiBold.copyWith(
                                   decorationStyle: TextDecorationStyle.solid,
                                   decoration: TextDecoration.underline,
@@ -236,5 +241,4 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
       },
     );
   }
-
 }

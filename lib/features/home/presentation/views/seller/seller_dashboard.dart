@@ -4,6 +4,7 @@ import 'package:drop_z_ecommerce_app/core/widgets/custom_loading_indicator.dart'
 import 'package:drop_z_ecommerce_app/features/products/data/repos/products_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/products/presentation/views/widgets/category_procduct.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,6 +24,8 @@ class _SellerDashboardState extends State<SellerDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return BlocBuilder<ProductsCubit, ProductsState>(
       builder: (context, state) {
         if (state is ProductsLoading) {
@@ -42,7 +45,9 @@ class _SellerDashboardState extends State<SellerDashboard> {
             (state.products == null ||
                 state.products!.results == null ||
                 state.products!.results!.isEmpty)) {
-          return const CustomErrorWidget(errMessage: "No products available");
+          return CustomErrorWidget(
+            errMessage: "${localizations.noDataAvailable}",
+          );
         }
         return Center(
           child: Column(
@@ -52,7 +57,7 @@ class _SellerDashboardState extends State<SellerDashboard> {
               ElevatedButton(
                 onPressed: () =>
                     context.read<ProductsCubit>().getAllSellerProducts(),
-                child: const Text("Retry"),
+                child: Text("${localizations.retry}"),
               ),
             ],
           ),

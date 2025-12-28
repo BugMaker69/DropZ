@@ -14,6 +14,7 @@ import 'package:drop_z_ecommerce_app/features/cart/data/model/cart_items_model/c
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/checkout/presentation/manager/checkout_cubit/checkout_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/checkout/presentation/manager/checkout_cubit/checkout_state.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -26,6 +27,7 @@ class CheckoutForm extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<AddressCubit>().getAllAddresses();
     });
+    final localizations = AppLocalizations.of(context)!;
 
     final ValueNotifier<int?> selectedAddressId = ValueNotifier(null);
     final ValueNotifier<bool> isPaymentLoading = ValueNotifier(false);
@@ -48,6 +50,7 @@ class CheckoutForm extends StatelessWidget {
                   );
                 } else if (paymentState is PaymentError) {
                   isPaymentLoading.value = false;
+                  //! Change To Localized String
                   CustomSnakeBar(
                     context,
                     "Payment failed: ${paymentState.message}",
@@ -61,7 +64,10 @@ class CheckoutForm extends StatelessWidget {
                   context.read<CheckoutCubit>().createCheckoutOrder();
                 }
                 if (state is BiometricsFailed) {
-                  CustomSnakeBar(context, "Authentication failed");
+                  CustomSnakeBar(
+                    context,
+                    "${localizations.authenticationFailed}",
+                  );
                 }
               },
             ),
@@ -107,7 +113,11 @@ class CheckoutForm extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    _buildAddressSection(context, selectedAddressId),
+                    _buildAddressSection(
+                      context,
+                      selectedAddressId,
+                      localizations,
+                    ),
                     Expanded(
                       child: ListView.builder(
                         itemCount: cartItems.length,
@@ -143,7 +153,7 @@ class CheckoutForm extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Total",
+                            "${localizations.total}",
                             style: Theme.of(context).textTheme.titleLarge!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
@@ -159,7 +169,7 @@ class CheckoutForm extends StatelessWidget {
                     ),
                     CustomButton(
                       isLoading: state is CheckoutLoading ? true : false,
-                      text: "Place Order",
+                      text: "${localizations.placeOrder}",
                       isDisable: cartItems.isEmpty,
                       onPressed: cartItems.isEmpty
                           ? () {}
@@ -199,6 +209,7 @@ class CheckoutForm extends StatelessWidget {
 Widget _buildAddressSection(
   BuildContext context,
   ValueNotifier<int?> selectedAddressId,
+  AppLocalizations localizations,
 ) {
   final addressState = context.watch<AddressCubit>().state;
   final checkoutCubit = context.read<CheckoutCubit>();
@@ -225,18 +236,18 @@ Widget _buildAddressSection(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Shipping Address",
+          "${localizations.authenticationFailed}",
           style: Theme.of(
             context,
           ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
-        const Text("No addresses found."),
+        Text("${localizations.noAddressesFound}"),
         const SizedBox(height: 10),
         ElevatedButton.icon(
           onPressed: () => context.push(AppRouter.kCustomerAddAddress),
           icon: Icon(Icons.add_location_alt),
-          label: Text("Add Address"),
+          label: Text("${localizations.addAddress}"),
         ),
       ],
     );
@@ -271,7 +282,7 @@ Widget _buildAddressSection(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Shipping Address",
+              "${localizations.shippingAddress}",
               style: Theme.of(
                 context,
               ).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
@@ -288,10 +299,14 @@ Widget _buildAddressSection(
             const SizedBox(height: 8),
 
             TextButton(
-              onPressed: () =>
-                  _openAddressSelector(context, addresses, selectedAddressId),
+              onPressed: () => _openAddressSelector(
+                context,
+                addresses,
+                selectedAddressId,
+                localizations,
+              ),
               child: Text(
-                "Change Address",
+                "${localizations.changeAddress}",
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ),
@@ -306,6 +321,7 @@ void _openAddressSelector(
   BuildContext context,
   List<AddressEntity> addresses,
   ValueNotifier<int?> selectedAddressId,
+  AppLocalizations localizations,
 ) {
   final checkoutCubit = context.read<CheckoutCubit>();
   // int? selected = checkoutCubit.selectedAddressId ?? addresses.first.id;
@@ -324,7 +340,7 @@ void _openAddressSelector(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Choose Address",
+                    "${localizations.chooseAddress}",
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -350,7 +366,7 @@ void _openAddressSelector(
 
                   ElevatedButton(
                     onPressed: () => Navigator.pop(context),
-                    child: Text("Confirm"),
+                    child: Text("${localizations.confirm}"),
                   ),
                 ],
               );

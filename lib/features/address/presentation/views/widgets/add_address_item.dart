@@ -14,6 +14,7 @@ import 'package:drop_z_ecommerce_app/features/address/data/repos/address_repo_im
 import 'package:drop_z_ecommerce_app/features/address/domain/entities/address_entity.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/manager/add_address_cubit/add_address_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/address/presentation/manager/address_cubit/address_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -66,10 +67,11 @@ class _AddAddressItemState extends State<AddAddressItem> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(title: Text("Add New Address")),
+        appBar: AppBar(title: Text("${localizations.addNewAddress}")),
         body: BlocListener<AddAddressCubit, AddAddressState>(
           listener: (context, state) {
             if (state is AddAddressLoading) {
@@ -80,7 +82,7 @@ class _AddAddressItemState extends State<AddAddressItem> {
             }
             if (state is AddAddressSuccess) {
               context.go(AppRouter.kCustomerHome);
-              CustomSnakeBar(context, "✅ Address added successfully");
+              CustomSnakeBar(context, "${localizations.addressAddedSuccess}");
             }
           },
           child: SingleChildScrollView(
@@ -92,7 +94,7 @@ class _AddAddressItemState extends State<AddAddressItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Add New Address",
+                    "${localizations.addNewAddress}",
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   const SizedBox(height: 16),
@@ -101,7 +103,7 @@ class _AddAddressItemState extends State<AddAddressItem> {
                       Expanded(
                         child: buildDropdown<String>(
                           context: context,
-                          label: "Choose Country",
+                          label: "${localizations.chooseCountry}",
                           value: country,
                           items: countries,
                           onChanged: (c) {
@@ -120,7 +122,7 @@ class _AddAddressItemState extends State<AddAddressItem> {
                         child: buildDropdown<Governorate>(
                           context: context,
                           value: selectedGov,
-                          label: "Choose Governorate",
+                          label: "${localizations.chooseGovernorate}",
                           items: governorates
                               .map(
                                 (g) => DropdownMenuItem(
@@ -147,9 +149,10 @@ class _AddAddressItemState extends State<AddAddressItem> {
                         child: buildDropdown<City>(
                           context: context,
                           value: selectedCity,
-                          label: "Choose City",
-                          validator: (value) =>
-                              value == null ? "Please select a City" : null,
+                          label: "${localizations.chooseCity}",
+                          validator: (value) => value == null
+                              ? "${localizations.pleaseSelectCity}"
+                              : null,
                           items: filteredCities
                               .map(
                                 (c) => DropdownMenuItem(
@@ -173,10 +176,12 @@ class _AddAddressItemState extends State<AddAddressItem> {
                   const SizedBox(height: 16),
 
                   CustomTextEdit(
-                    labelText: "Street",
+                    labelText: "${localizations.street}",
                     textController: streetController,
-                    validator: (value) =>
-                        Validators.validateRequired(value, "Street"),
+                    validator: (value) => Validators.validateRequired(
+                      value,
+                      "${localizations.street}",
+                    ),
                   ),
                   const SizedBox(height: 16),
 
@@ -186,7 +191,7 @@ class _AddAddressItemState extends State<AddAddressItem> {
                     children: [
                       Expanded(
                         child: CustomTextEdit(
-                          labelText: "Postal Code",
+                          labelText: "${localizations.postalCode}",
                           textController: postalCodeController,
                           validator: Validators.validatePostalCode,
                           keyboardType: TextInputType.number,
@@ -197,7 +202,7 @@ class _AddAddressItemState extends State<AddAddressItem> {
                         children: [
                           SizedBox(width: 8),
                           Text(
-                            "Set Default",
+                            "${localizations.setDefault}",
                             style: Theme.of(context).textTheme.bodyLarge,
                           ),
                           const SizedBox(width: 4),
@@ -227,7 +232,7 @@ class _AddAddressItemState extends State<AddAddressItem> {
                             is AddAddressLoading
                         ? true
                         : false,
-                    text: "Add Address",
+                    text: "${localizations.addAddress}",
                     onPressed: () {
                       FocusScope.of(context).unfocus();
                       if (addAddressFormKey.currentState!.validate()) {

@@ -1,4 +1,5 @@
 import 'package:drop_z_ecommerce_app/features/profile/presentation/views/widgets/profile_view_body.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class ProfileView extends StatelessWidget {
@@ -8,7 +9,9 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Theme.of(context).colorScheme.primary,
-      appBar: AppBar(title: Text("Edit Profile")),
+      appBar: AppBar(
+        title: Text("${AppLocalizations.of(context)!.editProfile}"),
+      ),
       body: ProfileViewBody(),
       // backgroundColor: kPrimaryColor,
     );

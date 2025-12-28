@@ -6,6 +6,7 @@ import 'package:drop_z_ecommerce_app/core/widgets/offline_banner.dart';
 import 'package:drop_z_ecommerce_app/core/widgets/staggered_animation.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/manager/cart_cubit/cart_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/cart/presentation/views/widgets/cart_item.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,8 @@ class CartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return BlocListener<NetworkCubit, NetworkState>(
       listener: (context, state) {
         if (state is NetworkConnected) {
@@ -25,7 +28,7 @@ class CartView extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text("My Cart")),
+        appBar: AppBar(title: Text("${localizations.myCart}")),
         body: NotificationListener<ScrollNotification>(
           onNotification: (notification) {
             if (notification is UserScrollNotification) {
@@ -63,13 +66,13 @@ class CartView extends StatelessWidget {
                             separatorBuilder: (context, index) => Divider(),
                           );
                         } else {
-                          return const CustomErrorWidget(
-                            errMessage: "No data available",
+                          return CustomErrorWidget(
+                            errMessage: "${localizations.noDataAvailable}",
                           );
                         }
                       } else {
-                        return const CustomErrorWidget(
-                          errMessage: "No data available",
+                        return CustomErrorWidget(
+                          errMessage: "${localizations.noDataAvailable}",
                         );
                       }
                     },
@@ -92,7 +95,7 @@ class CartView extends StatelessWidget {
                   onPressed: () {
                     context.push(AppRouter.kCustomerCheckout);
                   },
-                  label: const Text("Checkout"),
+                  label: Text("${localizations.checkout}"),
                   icon: const Icon(Icons.shopping_bag),
                   // backgroundColor: Theme.of(context).colorScheme.tertiary,
                 ),
@@ -104,4 +107,3 @@ class CartView extends StatelessWidget {
     );
   }
 }
-

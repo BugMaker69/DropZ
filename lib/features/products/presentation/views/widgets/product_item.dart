@@ -9,6 +9,7 @@ import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_d
 import 'package:drop_z_ecommerce_app/features/products/presentation/manager/products_cubit/products_cubit.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/data/model/wish_list_data_response/item.dart';
 import 'package:drop_z_ecommerce_app/features/whishlist/presentation/manager/wish_list_cubit/wish_list_cubit.dart';
+import 'package:drop_z_ecommerce_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -61,7 +62,10 @@ class ProductItem extends StatelessWidget {
                     final categories = cubit.categories;
 
                     if (categories == null || categories.isEmpty) {
-                      CustomSnakeBar(context, "Categories not loaded yet");
+                      CustomSnakeBar(
+                        context,
+                        "${AppLocalizations.of(context)!.categoriesNotLoaded}",
+                      );
                       return;
                     }
 
