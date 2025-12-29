@@ -75,6 +75,10 @@ dependencies:
   flutter_secure_storage: ^10.0.0
   skeletonizer: ^2.1.1
   flutter_dotenv: ^6.0.0
+  dots_indicator: ^4.0.1
+  # flutter_paypal_payment: ^1.0.6
+
+
 
   flutter_localizations:
     sdk: flutter

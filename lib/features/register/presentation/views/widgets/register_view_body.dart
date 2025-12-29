@@ -30,8 +30,6 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
 
   final _lastNameController = TextEditingController();
 
-  // final _userRoleController = TextEditingController();
-
   String _selectedRole = "customer";
 
   final _passwordController = TextEditingController();
@@ -52,7 +50,6 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
     _emailController.dispose();
     _firstNameController.dispose();
     _lastNameController.dispose();
-    // _userRoleController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -80,7 +77,6 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
           CustomLoadingIndicator();
         }
         return SingleChildScrollView(
-          // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: IntrinsicHeight(
             child: Column(
               children: [
@@ -106,7 +102,6 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                         Text(
                           "${localizations.createAccount}",
                           style: Theme.of(context).textTheme.bodyLarge,
-                          // style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 16),
                         Row(
@@ -190,9 +185,6 @@ class _RegisterViewBodyState extends State<RegisterViewBody> {
                             "${localizations.or}",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.titleSmall,
-                            // style: TextStyle(
-                            //   color: Theme.of(context).colorScheme.surface,
-                            // ),
                           ),
                         ),
                         CustomButton(

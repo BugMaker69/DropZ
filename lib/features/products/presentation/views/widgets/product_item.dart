@@ -40,10 +40,6 @@ class ProductItem extends StatelessWidget {
             cartItems = state.cartItemsModel.items!;
           }
 
-          // ✅ check if this product already exists in cart
-          bool isInCart = cartItems.any(
-            (item) => item.product!.id == filteredProduct.id,
-          );
           return BlocBuilder<WishListCubit, WishListState>(
             builder: (context, state) {
               bool isInWishList = false;
@@ -68,8 +64,6 @@ class ProductItem extends StatelessWidget {
                       );
                       return;
                     }
-
-                    //! Seller Edit Product Screen
                     GoRouter.of(context).push(
                       AppRouter.kSellerEditDeleteProductView,
                       extra: {
@@ -77,18 +71,12 @@ class ProductItem extends StatelessWidget {
                         "product": filteredProduct,
                       },
                     );
-                    // GoRouter.of(context).push(
-                    //   AppRouter.kProductDetailsView,
-                    //   extra: filteredProduct,
-                    // );
                   },
                   child: Column(
-                    // mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         width: 200,
-                        // height: height,
                         height: 190,
 
                         color: Color(0xffF5F5F5),
@@ -163,72 +151,6 @@ class ProductItem extends StatelessWidget {
             },
           );
         },
-      ),
-    );
-  }
-}
-
-class _AnimatedIconButton extends StatefulWidget {
-  final bool isActive;
-  final IconData activeIcon;
-  final IconData inactiveIcon;
-  final Color activeColor;
-  final Color inactiveColor;
-  final VoidCallback onPressed;
-
-  const _AnimatedIconButton({
-    required this.isActive,
-    required this.activeIcon,
-    required this.inactiveIcon,
-    required this.activeColor,
-    required this.inactiveColor,
-    required this.onPressed,
-  });
-
-  @override
-  __AnimatedIconButtonState createState() => __AnimatedIconButtonState();
-}
-
-class __AnimatedIconButtonState extends State<_AnimatedIconButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.3,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        _controller.forward().then((_) => _controller.reverse());
-        widget.onPressed();
-      },
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: IconButton(
-          icon: Icon(
-            widget.isActive ? widget.activeIcon : widget.inactiveIcon,
-            color: widget.isActive ? widget.activeColor : widget.inactiveColor,
-          ),
-          onPressed: null, // Handled by GestureDetector
-        ),
       ),
     );
   }

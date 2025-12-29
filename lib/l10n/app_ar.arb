@@ -196,6 +196,35 @@
   "onboardingDesc2": "حدد عنوانك واستلم طلبك في أسرع وقت ممكن",
 
   "onboardingTitle3": "دفع آمن وسهل",
-  "onboardingDesc3": "ادفع بأمان باستخدام بطاقتك"
+  "onboardingDesc3": "ادفع بأمان باستخدام بطاقتك",
+
+  "aboutMeTitle": "نبذة عني",
+  "aboutMeName": "عمر",
+  "aboutMeRole": "مطوّر تطبيقات موبايل",
+
+  "aboutMeSummary":
+      "أنا مطوّر تطبيقات موبايل متخصص في Flutter و Android Native. أركز على بناء تطبيقات قوية وقابلة للتوسّع باستخدام Clean Architecture مع اهتمام كبير بالأداء وتجربة المستخدم.",
+
+  "aboutMeSkillsTitle": "المهارات",
+
+  "aboutMeSkills":
+      "• Flutter و Dart\n• Android (Kotlin, Jetpack Compose)\n• إدارة الحالة (Cubit, Bloc, MVI)\n• Clean Architecture\n• REST APIs و Firebase\n• التخزين المحلي (SQLite, Hive)\n• Git و GitHub",
+
+  "aboutMeExperienceTitle": "الخبرة",
+
+  "aboutMeExperience":
+      "عملت على عدة مشاريع عملية تحاكي تطبيقات السوق الحقيقي، مع التركيز على تنظيم الكود، الأداء، وسهولة الاستخدام.",
+
+  "aboutMeProjectsTitle": "المشاريع",
+
+  "aboutMeProjects":
+      "• DropZ – تطبيق تجارة إلكترونية مع دعم العمل بدون إنترنت\n• Fit Track – تطبيق لتتبع اللياقة البدنية\n• Cinema App – تطبيق لحجز الأفلام وإدارة المشاهدة",
+
+  "aboutMeFooter":
+      "التعلّم المستمر هو سر التطور.",
+      
+        "github": "جيت هاب",
+  "linkedin": "لينكدإن",
+  "downloadCV": "تحميل السيرة الذاتية"
 
 }

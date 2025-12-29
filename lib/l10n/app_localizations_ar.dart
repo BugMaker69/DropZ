@@ -505,4 +505,46 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onboardingDesc3 => 'ادفع بأمان باستخدام بطاقتك';
+
+  @override
+  String get aboutMeTitle => 'نبذة عني';
+
+  @override
+  String get aboutMeName => 'عمر';
+
+  @override
+  String get aboutMeRole => 'مطوّر تطبيقات موبايل';
+
+  @override
+  String get aboutMeSummary => 'أنا مطوّر تطبيقات موبايل متخصص في Flutter و Android Native. أركز على بناء تطبيقات قوية وقابلة للتوسّع باستخدام Clean Architecture مع اهتمام كبير بالأداء وتجربة المستخدم.';
+
+  @override
+  String get aboutMeSkillsTitle => 'المهارات';
+
+  @override
+  String get aboutMeSkills => '• Flutter و Dart\n• Android (Kotlin, Jetpack Compose)\n• إدارة الحالة (Cubit, Bloc, MVI)\n• Clean Architecture\n• REST APIs و Firebase\n• التخزين المحلي (SQLite, Hive)\n• Git و GitHub';
+
+  @override
+  String get aboutMeExperienceTitle => 'الخبرة';
+
+  @override
+  String get aboutMeExperience => 'عملت على عدة مشاريع عملية تحاكي تطبيقات السوق الحقيقي، مع التركيز على تنظيم الكود، الأداء، وسهولة الاستخدام.';
+
+  @override
+  String get aboutMeProjectsTitle => 'المشاريع';
+
+  @override
+  String get aboutMeProjects => '• DropZ – تطبيق تجارة إلكترونية مع دعم العمل بدون إنترنت\n• Fit Track – تطبيق لتتبع اللياقة البدنية\n• Cinema App – تطبيق لحجز الأفلام وإدارة المشاهدة';
+
+  @override
+  String get aboutMeFooter => 'التعلّم المستمر هو سر التطور.';
+
+  @override
+  String get github => 'جيت هاب';
+
+  @override
+  String get linkedin => 'لينكدإن';
+
+  @override
+  String get downloadCV => 'تحميل السيرة الذاتية';
 }

@@ -8,12 +8,10 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         title: Text("${AppLocalizations.of(context)!.editProfile}"),
       ),
       body: ProfileViewBody(),
-      // backgroundColor: kPrimaryColor,
     );
   }
 }

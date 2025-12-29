@@ -5,6 +5,7 @@ import 'package:drop_z_ecommerce_app/features/biometrics/data/repos/biometrics_r
 import 'package:drop_z_ecommerce_app/features/cart/data/repos/cart_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/login/data/repos/login_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/checkout/data/repos/checkout_repo_imp.dart';
+import 'package:drop_z_ecommerce_app/features/orders/data/repos/orders_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/repos/products_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/profile/data/repos/user_profile_repo_imp.dart';
 import 'package:drop_z_ecommerce_app/features/register/data/repos/register_repo_imp.dart';
@@ -49,6 +50,9 @@ Future<void> setupServiceLocator() async {
   );
   getIt.registerSingleton<CheckoutRepoImp>(
     CheckoutRepoImp(getIt.get<ApiService>()),
+  );
+  getIt.registerSingleton<OrdersRepoImpl>(
+    OrdersRepoImpl(getIt.get<ApiService>()),
   );
   getIt.registerSingleton<BiometricsRepoImp>(BiometricsRepoImp());
   getIt.registerSingleton<TicketRepoImp>(

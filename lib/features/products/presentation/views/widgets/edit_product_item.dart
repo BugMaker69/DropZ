@@ -239,7 +239,6 @@ class EditProductItem extends StatelessWidget {
                   maxLines: 3,
                 ),
 
-                // Make It Image Picker and replace it with description
                 const SizedBox(height: 16),
                 CustomButton(
                   text: "${localizations.editProduct}",

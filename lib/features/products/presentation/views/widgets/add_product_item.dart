@@ -37,16 +37,6 @@ class AddProductItem extends StatelessWidget {
 
   int? selectedCategoryId;
 
-  // final _userRole = [
-  //   DropdownMenuItem<String>(value: 'customer', child: Text('Customer')),
-  //   DropdownMenuItem<String>(value: 'seller', child: Text('Seller')),
-  //   DropdownMenuItem<String>(
-  //     value: 'shipping_company',
-  //     child: Text('Shipping Company'),
-  //   ),
-  // ];
-  // String _selectedRole = "customer";
-
   final ImagePicker picker = ImagePicker();
 
   Future<void> pickImage(BuildContext context) async {
@@ -59,13 +49,6 @@ class AddProductItem extends StatelessWidget {
     }
   }
 
-  // Future<void> pickImage(ImageSource source) async {
-  //   final pickedFile = await picker.pickImage(source: source, imageQuality: 85);
-  //   if (pickedFile != null) {
-  //     selectedImage.value = File(pickedFile.path);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -74,7 +57,6 @@ class AddProductItem extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: SafeArea(
         child: Scaffold(
-          // backgroundColor: kPrimaryColor,
           body: SingleChildScrollView(
             padding: EdgeInsets.all(16),
             physics: const AlwaysScrollableScrollPhysics(),
@@ -152,7 +134,6 @@ class AddProductItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(width: 8),
                       Text(
@@ -231,8 +212,6 @@ class AddProductItem extends StatelessWidget {
                     keyboardType: TextInputType.multiline,
                     maxLines: 3,
                   ),
-
-                  // Make It Image Picker and replace it with description
                   const SizedBox(height: 16),
                   CustomButton(
                     //!

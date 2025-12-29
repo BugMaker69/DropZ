@@ -86,7 +86,6 @@ class ProfileViewBody extends StatelessWidget {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle, // أهم سطر
                             border: Border.all(color: Colors.grey.shade400),
-                            // borderRadius: BorderRadius.circular(12),
                             color: Colors.white,
                           ),
                           child: image != null

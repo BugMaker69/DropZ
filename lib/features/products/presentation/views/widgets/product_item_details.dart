@@ -27,8 +27,6 @@ class ProductItemDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final quantityNotifier = ValueNotifier<int>(1); // 👈 تبدأ بـ 1
-
     final cartCubit = context.read<CartCubit>();
 
     CartItemsModel? existingCartItem;
@@ -42,24 +40,15 @@ class ProductItemDetails extends StatelessWidget {
           (item) => item.product!.id == filteredProduct.id,
         );
       } catch (e) {
-        existingCartItem = null; // 👈 لو مش موجود
+        existingCartItem = null;
       }
     } else {
       existingCartItem = null;
     }
 
-    // ✅ نبدأ بالكمية الصح
     final quantityNotifier = ValueNotifier<int>(
       existingCartItem != null ? existingCartItem.quantity! : 1,
     );
-
-    // ✅ نحاول نجيب المنتج لو موجود في الكارت
-    // final existingCartItem = cartCubit.state is CartSuccess
-    //     ? (cartCubit.state as CartSuccess).cartItemsModel.firstWhere(
-    //         (item) => item.product!.id == filteredProduct.id,
-    //         orElse: () => null,
-    //       )
-    //     : null;
 
     if (id != null &&
         (filteredProduct.id!.isNaN ||
@@ -77,7 +66,7 @@ class ProductItemDetails extends StatelessWidget {
           productById = productItem!.firstWhere((item) => item.id == id);
           filteredProduct = productById;
         } catch (e) {
-          productById = null; // 👈 لو مش موجود
+          productById = null;
         }
       } else {
         productById = null;
@@ -108,7 +97,7 @@ class ProductItemDetails extends StatelessWidget {
                   ),
                   Center(
                     child: Hero(
-                      tag: 'product-hero-${filteredProduct.id}', // نفس الـ tag
+                      tag: 'product-hero-${filteredProduct.id}',
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: CustomCachedNetworkImage(
@@ -141,7 +130,7 @@ class ProductItemDetails extends StatelessWidget {
                       itemBuilder: (context, index) =>
                           const Icon(Icons.star, color: Colors.amber),
                       itemCount: 5,
-                      itemSize: 40.0, // حجم النجمة
+                      itemSize: 40.0,
                       direction: Axis.horizontal,
                     ),
                     Text(
@@ -295,7 +284,6 @@ class ProductItemDetails extends StatelessWidget {
                       final subtotal = price * quantity;
                       return Text(
                         "\$${subtotal.toStringAsFixed(2)}",
-                        // " \$${existingCartItem != null ? existingCartItem.itemSubtotal : filteredProduct.price}",
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -398,7 +386,6 @@ class IncrementDecrementButtonWidget extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // زرار ناقص
           InkWell(
             onTap: onDecrement,
             child: Container(
@@ -411,7 +398,6 @@ class IncrementDecrementButtonWidget extends StatelessWidget {
               ),
             ),
           ),
-          // الرقم
           Container(
             width: 50,
             height: 45,
@@ -427,7 +413,6 @@ class IncrementDecrementButtonWidget extends StatelessWidget {
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-          // زرار زائد (ملون)
           InkWell(
             onTap: onIncrement,
             child: Container(

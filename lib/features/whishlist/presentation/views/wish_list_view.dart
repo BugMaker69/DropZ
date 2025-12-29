@@ -57,13 +57,6 @@ class WishListView extends StatelessWidget {
                               errMessage: "Error: ${state.errMessage}",
                             ),
                             const SizedBox(height: 16),
-                            /*  ElevatedButton(
-                              onPressed: () => context
-                                  .read<WishListCubit>()
-                                  .refreshWishlist(context),
-                              child: const Text("Retry"),
-                            ),
-                          */
                           ],
                         ),
                       );

@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 class SettingsItem extends StatelessWidget {
   const SettingsItem({super.key, required this.itemData});
   final SettingsItemData itemData;
-  // final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {

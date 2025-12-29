@@ -8,10 +8,6 @@ class RegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // resizeToAvoidBottomInset: true, // ✅ يخلي الشاشة تطلع لفوق مع الكيبورد
-
-        // appBar: AppBar(leading: Image.asset(AssetsData.logo)),
-        // backgroundColor: kPrimaryColor,
         body: const RegisterViewBody(),
       ),
     );

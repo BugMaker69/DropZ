@@ -16,6 +16,8 @@ import 'package:drop_z_ecommerce_app/features/home/presentation/views/seller/sel
 import 'package:drop_z_ecommerce_app/features/login/presentation/views/login_view.dart';
 import 'package:drop_z_ecommerce_app/features/checkout/presentation/views/checkout_view.dart';
 import 'package:drop_z_ecommerce_app/features/checkout/presentation/views/widgets/payment_web_view_page.dart';
+import 'package:drop_z_ecommerce_app/features/orders/presentation/views/orders_view.dart';
+import 'package:drop_z_ecommerce_app/features/orders/presentation/views/widgets/orders_view_body.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/category_model/category_model.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/product_item_data_model.dart';
 import 'package:drop_z_ecommerce_app/features/products/data/model/product_item_data_model/result.dart';
@@ -29,6 +31,7 @@ import 'package:drop_z_ecommerce_app/features/reviews/presentation/views/widgets
 import 'package:drop_z_ecommerce_app/features/search/presentation/views/search_results_view.dart';
 import 'package:drop_z_ecommerce_app/features/search/presentation/views/search_view.dart';
 import 'package:drop_z_ecommerce_app/features/settings/presentation/views/settings_view.dart';
+import 'package:drop_z_ecommerce_app/features/settings/presentation/views/widgets/about_me_view.dart';
 import 'package:drop_z_ecommerce_app/features/splash/presentation/views/on_boarding_view.dart';
 import 'package:drop_z_ecommerce_app/features/splash/presentation/views/splash_view.dart';
 import 'package:drop_z_ecommerce_app/features/support/data/model/show_tickets/show_tickets.dart';
@@ -72,6 +75,9 @@ abstract class AppRouter {
   static const kCustomerPaymentWebView = '/customer/paymentWebView';
   static const kCustomerPaymentSuccess = '/customer/paymentSuccess';
   static const kCustomerPaymentFailed = '/customer/paymentFailed';
+  static const kCustomerAboutMe = '/customer/aboutMe';
+  static const kCustomerOrders = '/customer/orders';
+  static const kSellerAboutMe = '/seller/aboutMe';
 
   static final router = GoRouter(
     initialLocation: kSplashView,
@@ -253,6 +259,18 @@ abstract class AppRouter {
       GoRoute(
         path: kCustomerProfileView,
         builder: (context, state) => ProfileView(),
+      ),
+      GoRoute(
+        path: kCustomerAboutMe,
+        builder: (context, state) => AboutMeView(),
+      ),
+      GoRoute(
+        path: kSellerAboutMe,
+        builder: (context, state) => AboutMeView(),
+      ),
+      GoRoute(
+        path: kCustomerOrders,
+        builder: (context, state) => OrdersView(),
       ),
 
       GoRoute(

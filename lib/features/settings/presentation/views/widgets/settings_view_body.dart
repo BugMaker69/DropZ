@@ -38,7 +38,16 @@ class SettingsViewBody extends StatelessWidget {
         icon: Icons.contact_support_outlined,
         pathRoute: AppRouter.kCustomerSupport,
       ),
-      //! Add Orders
+      SettingsItemData(
+        title: "Orders",
+        icon: Icons.shopping_basket_outlined,
+        pathRoute: AppRouter.kCustomerOrders,
+      ),
+      SettingsItemData(
+        title: "About Me",
+        icon: Icons.supervised_user_circle_rounded,
+        pathRoute: AppRouter.kCustomerAboutMe,
+      ),
     ];
 
     final List<SettingsItemData> sellerItemsData = [
@@ -51,6 +60,11 @@ class SettingsViewBody extends StatelessWidget {
         title: "Change Password",
         icon: Icons.lock_outlined,
         pathRoute: AppRouter.kSellerChangePassword,
+      ),
+      SettingsItemData(
+        title: "About Me",
+        icon: Icons.supervised_user_circle_rounded,
+        pathRoute: AppRouter.kSellerAboutMe,
       ),
     ];
 
@@ -102,56 +116,5 @@ class SettingsViewBody extends StatelessWidget {
         );
       },
     );
-
-    /*    return BlocConsumer<UserProfileCubit, UserProfileState>(
-      listener: (context, state) {
-        if (state is AuthLoggedOut) {
-          return context.go(AppRouter.kloginView);
-        }
-      },
-      builder: (context, state) {
-        final themeProvider = Provider.of<ThemeProvider>(context);
-
-        return Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                itemBuilder: (context, index) =>
-                    SettingsItem(itemData: itemsData[index]),
-                itemCount: itemsData.length,
-                separatorBuilder: (context, index) => Divider(),
-              ),
-            ),
-
-            ListTile(
-              leading: Icon(
-                themeProvider.isDarkMode
-                    ? Icons.dark_mode_outlined
-                    : Icons.light_mode_outlined,
-              ),
-              title: const Text("Dark Mode"),
-              trailing: Switch(
-                value: themeProvider.isDarkMode,
-                onChanged: (val) {
-                  themeProvider.toggleTheme(val);
-                },
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                context.read<UserProfileCubit>().logOut();
-              },
-              iconColor: Colors.red,
-              leading: Icon(Icons.logout_outlined),
-              title: Text(
-                "LogOut",
-                style: Styles.textStyle16Medium.copyWith(color: Colors.red),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  */
   }
 }

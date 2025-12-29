@@ -505,4 +505,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingDesc3 => 'Pay securely using your card';
+
+  @override
+  String get aboutMeTitle => 'About Me';
+
+  @override
+  String get aboutMeName => 'Omar';
+
+  @override
+  String get aboutMeRole => 'Mobile Application Developer';
+
+  @override
+  String get aboutMeSummary => 'I am a passionate Mobile Application Developer specialized in Flutter and Android Native development. I focus on building scalable, high-performance applications with clean architecture and great user experience.';
+
+  @override
+  String get aboutMeSkillsTitle => 'Skills';
+
+  @override
+  String get aboutMeSkills => '• Flutter & Dart\n• Android (Kotlin, Jetpack Compose)\n• State Management (Cubit, Bloc, MVI)\n• Clean Architecture\n• REST APIs & Firebase\n• Local Storage (SQLite, Hive)\n• Git & GitHub';
+
+  @override
+  String get aboutMeExperienceTitle => 'Experience';
+
+  @override
+  String get aboutMeExperience => 'I have worked on several real-world projects that simulate market-level applications, focusing on maintainable code, performance, and user-friendly interfaces.';
+
+  @override
+  String get aboutMeProjectsTitle => 'Projects';
+
+  @override
+  String get aboutMeProjects => '• DropZ – E-Commerce mobile app with offline support\n• Fit Track – Fitness tracking app\n• Cinema App – Movie booking and watchlist app';
+
+  @override
+  String get aboutMeFooter => 'Always learning, always improving.';
+
+  @override
+  String get github => 'GitHub';
+
+  @override
+  String get linkedin => 'LinkedIn';
+
+  @override
+  String get downloadCV => 'Download CV';
 }

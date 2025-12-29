@@ -34,7 +34,6 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   void dispose() {
-    // 👈 تفريغ + تنظيف الذاكرة
     currentPasswordController.dispose();
     newPasswordController.dispose();
     newPassordConfirmationController.dispose();
@@ -49,8 +48,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       onTap: () => FocusScope.of(context).unfocus(),
 
       child: Scaffold(
-        resizeToAvoidBottomInset: true, // ✅ يخلي الشاشة تطلع لفوق مع الكيبورد
-
+        resizeToAvoidBottomInset: true, 
         appBar: AppBar(title: Text("${localizations.changePassword}")),
         // backgroundColor: kPrimaryColor,
         body: Padding(

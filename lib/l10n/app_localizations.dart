@@ -1078,6 +1078,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pay securely using your card'**
   String get onboardingDesc3;
+
+  /// No description provided for @aboutMeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About Me'**
+  String get aboutMeTitle;
+
+  /// No description provided for @aboutMeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Omar'**
+  String get aboutMeName;
+
+  /// No description provided for @aboutMeRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile Application Developer'**
+  String get aboutMeRole;
+
+  /// No description provided for @aboutMeSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'I am a passionate Mobile Application Developer specialized in Flutter and Android Native development. I focus on building scalable, high-performance applications with clean architecture and great user experience.'**
+  String get aboutMeSummary;
+
+  /// No description provided for @aboutMeSkillsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills'**
+  String get aboutMeSkillsTitle;
+
+  /// No description provided for @aboutMeSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'• Flutter & Dart\n• Android (Kotlin, Jetpack Compose)\n• State Management (Cubit, Bloc, MVI)\n• Clean Architecture\n• REST APIs & Firebase\n• Local Storage (SQLite, Hive)\n• Git & GitHub'**
+  String get aboutMeSkills;
+
+  /// No description provided for @aboutMeExperienceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience'**
+  String get aboutMeExperienceTitle;
+
+  /// No description provided for @aboutMeExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'I have worked on several real-world projects that simulate market-level applications, focusing on maintainable code, performance, and user-friendly interfaces.'**
+  String get aboutMeExperience;
+
+  /// No description provided for @aboutMeProjectsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects'**
+  String get aboutMeProjectsTitle;
+
+  /// No description provided for @aboutMeProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'• DropZ – E-Commerce mobile app with offline support\n• Fit Track – Fitness tracking app\n• Cinema App – Movie booking and watchlist app'**
+  String get aboutMeProjects;
+
+  /// No description provided for @aboutMeFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'Always learning, always improving.'**
+  String get aboutMeFooter;
+
+  /// No description provided for @github.
+  ///
+  /// In en, this message translates to:
+  /// **'GitHub'**
+  String get github;
+
+  /// No description provided for @linkedin.
+  ///
+  /// In en, this message translates to:
+  /// **'LinkedIn'**
+  String get linkedin;
+
+  /// No description provided for @downloadCV.
+  ///
+  /// In en, this message translates to:
+  /// **'Download CV'**
+  String get downloadCV;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

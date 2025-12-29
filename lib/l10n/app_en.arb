@@ -197,6 +197,35 @@
   "onboardingDesc2": "Set your address and receive your order as fast as possible",
 
   "onboardingTitle3": "Secure & Easy Payments",
-  "onboardingDesc3": "Pay securely using your card"
+  "onboardingDesc3": "Pay securely using your card",
+
+  "aboutMeTitle": "About Me",
+  "aboutMeName": "Omar",
+  "aboutMeRole": "Mobile Application Developer",
+
+  "aboutMeSummary":
+      "I am a passionate Mobile Application Developer specialized in Flutter and Android Native development. I focus on building scalable, high-performance applications with clean architecture and great user experience.",
+
+  "aboutMeSkillsTitle": "Skills",
+
+  "aboutMeSkills":
+      "• Flutter & Dart\n• Android (Kotlin, Jetpack Compose)\n• State Management (Cubit, Bloc, MVI)\n• Clean Architecture\n• REST APIs & Firebase\n• Local Storage (SQLite, Hive)\n• Git & GitHub",
+
+  "aboutMeExperienceTitle": "Experience",
+
+  "aboutMeExperience":
+      "I have worked on several real-world projects that simulate market-level applications, focusing on maintainable code, performance, and user-friendly interfaces.",
+
+  "aboutMeProjectsTitle": "Projects",
+
+  "aboutMeProjects":
+      "• DropZ – E-Commerce mobile app with offline support\n• Fit Track – Fitness tracking app\n• Cinema App – Movie booking and watchlist app",
+
+  "aboutMeFooter":
+      "Always learning, always improving.",
+
+        "github": "GitHub",
+  "linkedin": "LinkedIn",
+  "downloadCV": "Download CV"
 
 }

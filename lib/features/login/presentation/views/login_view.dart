@@ -7,9 +7,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true, // ✅ يخلي الشاشة تطلع لفوق مع الكيبورد
-      // appBar: AppBar(leading: Image.asset(AssetsData.logo)),
-      // backgroundColor: kPrimaryColor,
+      resizeToAvoidBottomInset: true, 
       body: SafeArea(child: LoginViewBody()),
     );
   }
